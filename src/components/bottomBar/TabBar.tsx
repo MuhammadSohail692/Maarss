@@ -6,7 +6,7 @@ import {mainBottomContainer,mainItemContainer,bottomBarPressView} from '@theme/v
 import {$bottomNavFocuesLabel,$bottomNavLabel} from '@theme/text'
 
 import icNavSetting from '@assets/images/ic_nav_settings.png'
-import icFav from '@assets/images/ic_nav_favourite.png.png'
+import icFav from '@assets/images/ic_nav_favourite.png'
 import icNavHome from '@assets/images/ic_nav_home.png'
 
 const tabItems = [
@@ -42,7 +42,7 @@ const TabBar = ({ state, descriptors, navigation}: any) =>{
         const tabItem = tabItems[index];
 
         return (
-          <View key = {index} style = {[mainItemContainer, {borderRightWidth: label=="notes"? 3:0}]}>
+          <View key = {index} style = {[mainItemContainer]}>
             <Pressable
               onPress = {onPress}>
               <View style = {bottomBarPressView}>

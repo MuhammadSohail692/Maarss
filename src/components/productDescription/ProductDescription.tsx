@@ -16,7 +16,7 @@ import { fetchfavouriteData } from '@reducers/favourite/favourite-slice'
 import icFavourite from '@assets/images/ic_favourite.png'
 import icFavouriteFilled from '@assets/images/ic_favourite_filled.png'
 import { useDispatch } from 'react-redux';
-import { FavouriteNavigator } from '@constants/navigator/navigation-stack';
+import { FavouriteTabNavigator } from '@constants/navigator/navigation-stack';
 
 const RowItem = ({ id, colorName }: IProductColors) => {
 
@@ -226,7 +226,7 @@ const ProductDescription = ({ data, navigation }) => {
             </View>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate(FavouriteNavigator);
+                    navigation.navigate(FavouriteTabNavigator);
                 }}
             >
                 <View style={addToCartBtn}>

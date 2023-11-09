@@ -54,6 +54,11 @@ export const $favouriteLabelContainer: TextStyle = {
   fontWeight: '700',
 }
 
+export const $noRecordContainer: TextStyle = {
+  color: "#000000",
+  fontSize: 12,
+  fontWeight: '500',
+}
 export const $loaderContainer:TextStyle={
   color:"#0000ff",
 }

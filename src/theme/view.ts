@@ -5,7 +5,7 @@ import {
 
 export const homeContainer: ViewStyle = {
     flexDirection: 'column',
-    padding: 20
+    padding: 20,
 };
 export const favouriteContainer: ViewStyle = {
   flexDirection: 'column',
@@ -167,4 +167,11 @@ export const bestfavoriteRowItem: ViewStyle = {
   backgroundColor:'#ffffff',
   borderRadius: 10,
   marginBottom:12,
+};
+
+
+export const noRecordParentView: ViewStyle = {
+  justifyContent:'center',
+  alignItems:'center',
+  height:'100%',
 };

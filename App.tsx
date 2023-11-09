@@ -20,8 +20,7 @@ import HomeScreen from '@screens/home/HomeScreen'
 import ProductDetailScreen from '@screens/ProductDetail/ProductDetailScreen'
 import FullScreenImageView from '@screens/FullScreenImageViewerScreen/FullScreenImageView'
 import FavouriteScreen from '@screens/Favourite/FavouriteScreen'
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-import 'react-native-gesture-handler';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 
 const persistor = persistStore(store)
@@ -30,17 +29,17 @@ const persistor = persistStore(store)
 function App(): JSX.Element {
 
 
-  // const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator();
 
-  // function HomeTabs() {
-  //   return (
-  //     <Tab.Navigator initialRouteName={HomeTabNavigator} tabBar={props => <TabBar {...props} />} screenOptions={{ headerShown: false }} >
-  //       <Tab.Screen name={HomeTabNavigator} component={HomeScreen} />
-  //       <Tab.Screen name={FavouriteTabNavigator} component={FavouriteScreen} />
-  //       <Tab.Screen name={SettingTabNavigator} component={SettingScreen} />
-  //     </Tab.Navigator>
-  //   );
-  // }
+  function HomeTabs() {
+    return (
+      <Tab.Navigator initialRouteName={HomeTabNavigator} tabBar={props => <TabBar {...props} />} screenOptions={{ headerShown: false }} >
+        <Tab.Screen name={HomeTabNavigator} component={HomeScreen} />
+        <Tab.Screen name={FavouriteTabNavigator} component={FavouriteScreen} />
+        <Tab.Screen name={SettingTabNavigator} component={SettingScreen} />
+      </Tab.Navigator>
+    );
+  }
   // const Drawer = createDrawerNavigator(); // Create a drawer navigator
   const Stack = createStackNavigator();
 
@@ -48,19 +47,17 @@ function App(): JSX.Element {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          {/* <Stack.Navigator initialRouteName={DashboardNavigator} > */}
-
           {/* <Drawer.Navigator >
             <Drawer.Screen name={SettingTabNavigator} component={SettingScreen} />
             <Drawer.Screen name={FavouriteNavigator} component={FavouriteScreen} />
           </Drawer.Navigator> */}
 
           <Stack.Navigator initialRouteName={DashboardNavigator} >
-            {/* <Stack.Screen name={DashboardNavigator} component={HomeTabs} options={{ headerShown: false }} /> */}
-            <Stack.Screen name={DashboardNavigator} component={HomeScreen} options={{ headerShown: false }} />
+            <Stack.Screen name={DashboardNavigator} component={HomeTabs} options={{ headerShown: false }} />
+            {/* <Stack.Screen name={DashboardNavigator} component={HomeScreen} options={{ headerShown: false }} /> */}
             <Stack.Screen name={ProductDetailNavigator} component={ProductDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name={FullScreenImageViewerNavigator} component={FullScreenImageView} options={{ headerShown: false }} />
-            <Stack.Screen name={FavouriteNavigator} component={FavouriteScreen} options={{ headerShown: false }} /> 
+            {/* <Stack.Screen name={FavouriteNavigator} component={FavouriteScreen} options={{ headerShown: false }} />  */}
            </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>

@@ -10,10 +10,10 @@ import {
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import { bestfavoriteRowItem } from "@theme/view"
-import { $favouriteLabelContainer } from '@theme/text'
+import { bestfavoriteRowItem, noRecordView,noRecordParentView } from "@theme/view"
+import { $favouriteLabelContainer, $noRecordContainer } from '@theme/text'
 import { IBestSellingProductCard } from '@types/type';
-import { LABEL_IMAGE_NOT_FOUND, FAVOURITE_LABEL } from '@constants/app-constants'
+import { LABEL_IMAGE_NOT_FOUND, FAVOURITE_LABEL, LABEL_NO_RECORD_FOUND } from '@constants/app-constants'
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
 import { ProductDetailNavigator } from '@constants/navigator/navigation-stack';
 
@@ -51,18 +51,18 @@ const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSe
             }}
         >
             <View style={bestfavoriteRowItem}>
-                <View style={{flex:1}}>
+                <View style={{ flex: 1 }}>
                     <Image source={{ uri: productImg }} style={{
-                         height: 100, resizeMode: 'contain',
+                        height: 100, resizeMode: 'contain',
 
                         borderTopLeftRadius: 10, borderBottomLeftRadius: 10
                     }} alt={LABEL_IMAGE_NOT_FOUND} />
                 </View>
-                <View style={{flex:2}}>
+                <View style={{ flex: 2 }}>
                     {
                         categoriesList.length > 0 ? (
-                            <View  style={{marginStart:12}}>
-                            {categoriesList}
+                            <View style={{ marginStart: 12 }}>
+                                {categoriesList}
                             </View>
                         ) : (<View></View>)
                     }
@@ -90,14 +90,23 @@ const FavouriteListing = ({ favouriteList, navigation }) => {
         <View>
             <Text
                 style={$favouriteLabelContainer}>{FAVOURITE_LABEL}</Text>
-            <View style={{ marginTop: 15 }}>
-                <FlatList
-                    data={favouriteList ?? []}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                    showsVerticalScrollIndicator={false}
-                />
-            </View>
+            {
+                favouriteList.length > 0 ? (
+                    <View style={{ marginTop: 15 }}>
+                        <FlatList
+                            data={favouriteList ?? []}
+                            renderItem={renderItem}
+                            keyExtractor={(item) => item.id}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    </View>
+
+                ) : (
+                <View style={[ noRecordParentView]}>
+                <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
+                </View>)
+            }
+
         </View>
 
     );

@@ -14,7 +14,7 @@ const SettingScreen = () => {
                 screenContainer,
             ]}
         >
-            <Text style={$cardTextTitle}>About Screen</Text>
+            <Text style={$cardTextTitle}>Setting Screen</Text>
         </View>
     );
 };

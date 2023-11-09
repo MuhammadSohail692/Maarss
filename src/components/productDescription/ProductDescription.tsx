@@ -4,48 +4,30 @@ import {
     Text,
     Image,
     FlatList,
-    ActivityIndicator,
     TouchableOpacity
 } from 'react-native';
+import {
+    Colors,
+} from 'react-native/Libraries/NewAppScreen';
 import HTML from 'react-native-render-html';
 import { productDescContainer, productDescViewContainer, productDescViewColumnContainer, addToCartBtn } from '@theme/view'
-import { productDescViewRowContainer, productNameViewRowContainer } from "@theme/view"
-import { $productNameDetail, $productPrice, $productLabel, $productLabelValues } from '@theme/text'
+import { productDescViewRowContainer, productNameViewRowContainer, productQuantityContainer, plusMinusContainer, quantityConatiner } from "@theme/view"
+import { $productNameDetail, $productPrice, $productLabel, $productLabelValues, $plusMinusLabel, $quantityContainer } from '@theme/text'
 import { IProductColors, IProductDetailColors, IProductDetailSize } from '@types/type';
 import { fetchfavouriteData } from '@reducers/favourite/favourite-slice'
+import {fetchCartData} from '@reducers/cart/cart-slice'
 import icFavourite from '@assets/images/ic_favourite.png'
 import icFavouriteFilled from '@assets/images/ic_favourite_filled.png'
 import { useDispatch } from 'react-redux';
-import { FavouriteTabNavigator } from '@constants/navigator/navigation-stack';
-
-const RowItem = ({ id, colorName }: IProductColors) => {
-
-    return (
-        <TouchableOpacity
-            onPress={() => {
-            }}
-        >
-            <Text style={{ color: '#000000', fontSize: 12, marginEnd: 8, fontWeight: '600', padding: 10, backgroundColor: "#ffffff" }}>{colorName}</Text>
-        </TouchableOpacity>
-    );
-}
-
-const RowSizeItem = ({ id, size }: IProductDetailSize) => {
-
-    return (
-        <TouchableOpacity
-            onPress={() => {
-            }}
-        >
-            <Text style={{ color: '#000000', fontSize: 12, fontWeight: '600', marginEnd: 8, padding: 10, backgroundColor: "#ffffff" }}>{size}</Text>
-        </TouchableOpacity>
-    );
-}
+import {showShortToast} from '@utils/Utilities'
 
 const ProductDescription = ({ data, navigation }) => {
 
     const dispatch = useDispatch();
     const [setFavourite, setFavouriteSelected] = useState(false);
+    const [setQuantity, setQuantityValue] = useState(1);
+    const [selectedColorItem, setSelectedColorItem] = useState(0);
+    const [selectedSizeItem, setSelectedSizeItem] = useState(0);
 
     var colorList: IProductDetailColors[] = [];
     var sizeList: IProductDetailSize[] = [];
@@ -126,14 +108,42 @@ const ProductDescription = ({ data, navigation }) => {
         sizeList.push(newItem);
     });
 
-    const renderItem = ({ item }) => (
-        <RowItem id={item.id} colorName={item.color} />
+    const RowColorItem = ({ id, colorName }: IProductColors) => {
+        const isSelected = id === selectedColorItem;
+
+        return (
+            <TouchableOpacity
+                onPress={() => {
+                    setSelectedColorItem(id)
+                }}
+            >
+                <Text style={{ color: isSelected ? Colors.white : Colors.black, fontSize: 12, marginEnd: 8, fontWeight: '600', padding: 10, backgroundColor: isSelected ? '#3BB54A' : '#ffffff' }}>{colorName}</Text>
+            </TouchableOpacity>
+        );
+    }
+    
+    const RowSizeItem = ({ id, size }: IProductDetailSize) => {
+        const isSelected = id === selectedSizeItem;
+
+        return (
+            <TouchableOpacity
+                onPress={() => {
+                    setSelectedSizeItem(id)
+                }}
+            >
+                <Text style={{ color: isSelected ? Colors.white : Colors.black, fontSize: 12, fontWeight: '600', marginEnd: 8, padding: 10, backgroundColor: isSelected ? '#3BB54A' : '#ffffff' }}>{size}</Text>
+            </TouchableOpacity>
+        );
+    }
+
+    const renderColorItem = ({ item }) => (
+        <RowColorItem id={item.id} colorName={item.color} />
     );
 
     const renderSizeItem = ({ item }) => (
         <RowSizeItem id={item.id} size={item.size} />
     );
-
+  
     return (
         <View style={productDescContainer}>
 
@@ -144,7 +154,6 @@ const ProductDescription = ({ data, navigation }) => {
                 <TouchableOpacity
                     onPress={() => {
                         dispatch(fetchfavouriteData({ favoriteItem: data })).then(() => {
-                            console.log("dispatch favourite")
                             setFavouriteSelected(true);
                         });
                     }}
@@ -195,7 +204,7 @@ const ProductDescription = ({ data, navigation }) => {
                         <View style={{ marginTop: 10 }}>
                             <FlatList
                                 data={colorList ?? []}
-                                renderItem={renderItem}
+                                renderItem={renderColorItem}
                                 keyExtractor={(item) => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
@@ -220,13 +229,44 @@ const ProductDescription = ({ data, navigation }) => {
                     </View>) : <View></View>
 
             }
+            <View style={quantityConatiner}>
+                <Text style={[$productLabel]}>Quantity: </Text>
+                <View style={[productQuantityContainer]}>
+                    <TouchableOpacity
+                        onPress={() => {
+                            if (setQuantity >= 2)
+                                setQuantityValue(setQuantity - 1)
+                            else
+                                setQuantityValue(1)
+                        }}
+                    >
+                        <View style={[plusMinusContainer]}>
+                            <Text style={[$plusMinusLabel]}>-</Text>
+                        </View>
+                    </TouchableOpacity>
+
+                    <Text style={[$quantityContainer]}>{setQuantity}</Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            setQuantityValue(setQuantity + 1)
+                        }}
+                    >
+                        <View style={[plusMinusContainer]}>
+                            <Text style={[$plusMinusLabel]}>+</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+            </View>
+
             <View style={[productDescViewContainer]}>
                 <Text style={[$productLabel]}>Description:</Text>
                 <HTML source={{ html: data.description }} />
             </View>
             <TouchableOpacity
                 onPress={() => {
-                    navigation.navigate(FavouriteTabNavigator);
+                    dispatch(fetchCartData({ cartItem: data })).then(() => {
+                        showShortToast("Item added to cart.")
+                    });
                 }}
             >
                 <View style={addToCartBtn}>

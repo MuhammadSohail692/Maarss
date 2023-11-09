@@ -20,16 +20,23 @@ export const $cardTextTitle: TextStyle = {
 export const $bottomNavLabel: TextStyle = {
   fontSize: 11,
   marginTop: 4,
-  color: '#A0A0A0',
+  color: '#000000',
   fontWeight: '700'
 }
 
 export const $bottomNavFocuesLabel: TextStyle = {
   fontSize: 11,
   marginTop: 4,
-  color: '#000000',
+  color: '#477AB6',
   fontWeight: '700'
 }
+
+export const $cartCountText: TextStyle = {
+  color: 'white',
+  fontSize: 11,
+  fontWeight: '500',
+}
+
 
 export const $newArrivalContainer: TextStyle = {
   color: "#54595F",
@@ -47,7 +54,7 @@ export const $bestSellingProductContainer: TextStyle = {
   marginStart: 10,
   marginEnd: 5
 }
-
+ 
 export const $favouriteLabelContainer: TextStyle = {
   color: "#54595F",
   fontSize: 17,
@@ -93,6 +100,25 @@ export const $productLabel: TextStyle = {
   color: '#000000',
   fontSize: 13,
   fontWeight: '500',
+}
+
+export const $plusMinusLabel: TextStyle = {
+  color: '#000000',
+  fontSize: 13,
+  fontWeight: '500',
+  height:30,
+  textAlign:'center',
+  textAlignVertical:'center',
+  alignContent:'center',
+  alignItems:'center'
+}
+
+export const $quantityContainer: TextStyle = {
+  color: '#808080',
+  fontSize: 14,
+  fontWeight: '500',
+  marginStart:10,
+  marginEnd:10
 }
 
 export const $productLabelValues: TextStyle = {

@@ -12,8 +12,9 @@ import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { LABEL_IMAGE_NOT_FOUND } from '@constants/app-constants'
+import { ProductNavigator} from '@constants/navigator/navigation-stack';
 
-const RowItem = ({ id, title, desc, bgImage }: IShopNowCard) => {
+const RowItem = ({ id, title, desc, bgImage,navigation }: IShopNowCard) => {
     return (
         <View style={item}>
             <Image
@@ -28,6 +29,7 @@ const RowItem = ({ id, title, desc, bgImage }: IShopNowCard) => {
                     style={{ color: "#FFFFEF", fontSize: 12, fontWeight: '500', }}>{desc}</Text>
                 <TouchableOpacity
                     onPress={() => {
+                        navigation.navigate(ProductNavigator,{ categoryId: id });
                     }}
                 >
                     <View style={shopNowBtn}>
@@ -41,23 +43,23 @@ const RowItem = ({ id, title, desc, bgImage }: IShopNowCard) => {
     );
 }
 
-const ShopNow = () => {
+const ShopNow = ({navigation}) => {
 
     var shopNowList = [
         {
-            "id": "1",
+            "id": "668",
             "title": "For Her",
             "desc": "Stitched For Modern Women",
             "bgImage": "https://maarss.com/wp-content/uploads/2021/04/dbb6ea843810b8da5de8bb2fa146254c.jpg"
         },
         {
-            "id": "2",
+            "id": "661",
             "title": "For Him",
             "desc": "Stretch In Soft And DurableFibers",
             "bgImage": "https://maarss.com/wp-content/uploads/2021/04/afbb1c2170df1c2523c3649eadb161fc.jpg"
         },
         {
-            "id": "3",
+            "id": "332",
             "title": "For Kids",
             "desc": "A delightfull collection for the little one",
             "bgImage": "https://maarss.com/wp-content/uploads/2021/04/28a37a680294383c7fee744f54059973.jpg"
@@ -65,7 +67,7 @@ const ShopNow = () => {
     ];
 
     const renderItem = ({item}) => (
-        <RowItem id={item.id} title={item.title} desc={item.desc} bgImage={item.bgImage} />
+        <RowItem id={item.id} title={item.title} desc={item.desc} bgImage={item.bgImage} navigation={navigation} />
     );
     return (
         <FlatList

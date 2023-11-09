@@ -9,7 +9,6 @@ import {
     ActivityIndicator,
     Alert
 } from 'react-native';
-import { homeContainer } from "@theme/view"
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';

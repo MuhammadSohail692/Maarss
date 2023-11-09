@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }) => {
 
                 <View style={homeContainer}>
                     {/* Shop Now */}
-                    <ShopNow />
+                    <ShopNow navigation={navigation} />
 
                     {/* Best selling products */}
                     <BestSellingProducts navigation={navigation} />

@@ -12,7 +12,7 @@ import {
 import { bestfavoriteRowItem,noRecordParentView,headerContiner } from "@theme/view"
 import { $favouriteLabelContainer, $noRecordContainer } from '@theme/text'
 import { IBestSellingProductCard } from '@types/type';
-import { LABEL_IMAGE_NOT_FOUND, FAVOURITE_LABEL, LABEL_NO_RECORD_FOUND } from '@constants/app-constants'
+import { LABEL_IMAGE_NOT_FOUND, CART_LABEL, LABEL_NO_RECORD_FOUND } from '@constants/app-constants'
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
 import { ProductDetailNavigator } from '@constants/navigator/navigation-stack';
 
@@ -79,7 +79,7 @@ const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSe
 }
 
 
-const FavouriteListing = ({ favouriteList, navigation }) => {
+const CartListing = ({ cartList, navigation }) => {
 
     const renderItem = ({ item }
         : IBestSellingProductRespose) => (
@@ -88,13 +88,13 @@ const FavouriteListing = ({ favouriteList, navigation }) => {
     return (
         <View>
             <View style={[headerContiner]}>
-            <Text style={$favouriteLabelContainer}>{FAVOURITE_LABEL}</Text>
+            <Text style={$favouriteLabelContainer}>{CART_LABEL}</Text>
             </View>
             {
-                favouriteList.length > 0 ? (
+                cartList.length > 0 ? (
                     <View style={{ marginTop: 15 }}>
                         <FlatList
-                            data={favouriteList ?? []}
+                            data={cartList ?? []}
                             renderItem={renderItem}
                             keyExtractor={(item) => item.id}
                             showsVerticalScrollIndicator={false}
@@ -102,7 +102,7 @@ const FavouriteListing = ({ favouriteList, navigation }) => {
                     </View>
 
                 ) : (
-                <View style={[ noRecordParentView]}>
+                <View style={[noRecordParentView]}>
                 <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
                 </View>)
             }
@@ -112,4 +112,4 @@ const FavouriteListing = ({ favouriteList, navigation }) => {
     );
 };
 
-export default FavouriteListing;
+export default CartListing;

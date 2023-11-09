@@ -1,21 +1,25 @@
 import React from 'react'; 
 
 import {View, Pressable, Dimensions, StyleSheet,Image,Text} from 'react-native'
-import {mainBottomContainer,mainItemContainer,bottomBarPressView} from '@theme/view'
+import {mainBottomContainer,mainItemContainer,bottomBarPressView,cartCountContainer,cartCountIsFocusedContainer} from '@theme/view'
+import { useSelector } from 'react-redux';
+import {$bottomNavFocuesLabel,$bottomNavLabel,$cartCountText} from '@theme/text'
 
-import {$bottomNavFocuesLabel,$bottomNavLabel} from '@theme/text'
-
-import icNavSetting from '@assets/images/ic_nav_settings.png'
-import icFav from '@assets/images/ic_nav_favourite.png'
 import icNavHome from '@assets/images/ic_nav_home.png'
+import icCart from '@assets/images/ic_nav_cart.png'
+import icFav from '@assets/images/ic_nav_favourite.png'
+import icNavSetting from '@assets/images/ic_nav_settings.png'
 
 const tabItems = [
     { label: 'Home', imageSource: icNavHome},
+    { label: 'Cart', imageSource: icCart },
     { label: 'Favourite', imageSource: icFav },
     { label: 'Setting', imageSource: icNavSetting },
   ];
 
 const TabBar = ({ state, descriptors, navigation}: any) =>{
+  const cartScreenState = useSelector((state) => state.cartData)
+
   return (
     <View style={mainBottomContainer}>
       {state.routes.map((route: any , index: number) => {
@@ -47,6 +51,11 @@ const TabBar = ({ state, descriptors, navigation}: any) =>{
               onPress = {onPress}>
               <View style = {bottomBarPressView}>
                 <Image source={tabItem.imageSource} style={isFocused ? styles.iconTint:styles.icon} />
+                {tabItem.label === 'Cart' && cartScreenState.data.length > 0 && (
+                  <View style={isFocused? cartCountIsFocusedContainer:cartCountContainer}>
+                    <Text style={$cartCountText}>{cartScreenState.data.length}</Text>
+                  </View>
+                )}
                 <Text style={isFocused ? $bottomNavFocuesLabel :$bottomNavLabel}>{tabItem.label}</Text>
               </View>
             </Pressable>
@@ -65,7 +74,7 @@ const styles = StyleSheet.create({
       iconTint: {
         width: 20,
         height: 20,
-        tintColor:'#000000'
+        tintColor:'#477AB6'
       }
   });
   

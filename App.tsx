@@ -12,7 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist'
-import { DashboardNavigator,ProductDetailNavigator,FullScreenImageViewerNavigator,FavouriteNavigator,HomeTabNavigator,FavouriteTabNavigator ,SettingTabNavigator} from '@constants/navigator/navigation-stack';
+import { DashboardNavigator,ProductDetailNavigator,FullScreenImageViewerNavigator,CartNavigator,ProductNavigator,FavouriteNavigator,HomeTabNavigator,FavouriteTabNavigator ,SettingTabNavigator} from '@constants/navigator/navigation-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBar from '@components/bottomBar/TabBar'
 import SettingScreen from '@screens/Setting/SettingScreen'
@@ -20,6 +20,8 @@ import HomeScreen from '@screens/home/HomeScreen'
 import ProductDetailScreen from '@screens/ProductDetail/ProductDetailScreen'
 import FullScreenImageView from '@screens/FullScreenImageViewerScreen/FullScreenImageView'
 import FavouriteScreen from '@screens/Favourite/FavouriteScreen'
+import CartScreen from '@screens/Cart/CartScreen'
+import ProductScreen from '@screens/Products/ProductScreen'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 
@@ -35,6 +37,7 @@ function App(): JSX.Element {
     return (
       <Tab.Navigator initialRouteName={HomeTabNavigator} tabBar={props => <TabBar {...props} />} screenOptions={{ headerShown: false }} >
         <Tab.Screen name={HomeTabNavigator} component={HomeScreen} />
+        <Tab.Screen name={CartNavigator} component={CartScreen} />
         <Tab.Screen name={FavouriteTabNavigator} component={FavouriteScreen} />
         <Tab.Screen name={SettingTabNavigator} component={SettingScreen} />
       </Tab.Navigator>
@@ -55,6 +58,7 @@ function App(): JSX.Element {
           <Stack.Navigator initialRouteName={DashboardNavigator} >
             <Stack.Screen name={DashboardNavigator} component={HomeTabs} options={{ headerShown: false }} />
             {/* <Stack.Screen name={DashboardNavigator} component={HomeScreen} options={{ headerShown: false }} /> */}
+            <Stack.Screen name={ProductNavigator} component={ProductScreen} options={{ headerShown: false }} />
             <Stack.Screen name={ProductDetailNavigator} component={ProductDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name={FullScreenImageViewerNavigator} component={FullScreenImageView} options={{ headerShown: false }} />
             {/* <Stack.Screen name={FavouriteNavigator} component={FavouriteScreen} options={{ headerShown: false }} />  */}

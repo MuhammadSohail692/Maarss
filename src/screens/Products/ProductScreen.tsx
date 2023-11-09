@@ -1,20 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
+    SafeAreaView,
+    StatusBar,
+    useColorScheme,
     View,
+    ActivityIndicator,
     Text,
-    Image,
     FlatList,
-    TouchableOpacity
+    TouchableOpacity,
+    Image
 } from 'react-native';
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import { bestfavoriteRowItem,noRecordParentView,headerContiner } from "@theme/view"
-import { $favouriteLabelContainer, $noRecordContainer } from '@theme/text'
+import { useSelector, useDispatch } from 'react-redux';
+import { bestfavoriteRowItem,noRecordParentView,textPrompt,productsContainer } from "@theme/view"
+import { $noRecordContainer, } from '@theme/text'
 import { IBestSellingProductCard } from '@types/type';
-import { LABEL_IMAGE_NOT_FOUND, FAVOURITE_LABEL, LABEL_NO_RECORD_FOUND } from '@constants/app-constants'
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
+import { fetchProductData,clearProductData } from '@reducers/product/product-slice';
 import { ProductDetailNavigator } from '@constants/navigator/navigation-stack';
+import { LABEL_IMAGE_NOT_FOUND, LABEL_NO_RECORD_FOUND, LoaderColor } from '@constants/app-constants'
 
 const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSellingProductCard) => {
     var categoriesList = [];
@@ -25,12 +31,13 @@ const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSe
 
         for (let i = 0; i < categories.length; i++) {
             categoriesStr += categories[i].name;
+
             if (categories.length - 1 != i) {
                 categoriesStr += ", ";
             }
         }
         categoriesList.push(
-            <View style={{ marginRight: 3, marginTop: 12 }}>
+            <View style={{ marginRight: 3, marginTop: 10 }}>
                 <Text
                     style={{ color: "#A9A9A9", fontSize: 12, fontWeight: '600' }}>{categoriesStr}</Text>
             </View>
@@ -79,26 +86,62 @@ const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSe
 }
 
 
-const FavouriteListing = ({ favouriteList, navigation }) => {
+const ProductScreen = ({route , navigation }) => {
+
+
+    const isDarkMode = useColorScheme() === 'dark';
+    const backgroundStyle = {
+        backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    };
+
+    const productScreenState = useSelector((state) => state.productData)
+
+    const [initialLoading, setInitialLoading] = useState(true);
+    const dispatch = useDispatch();
+    
+    const { categoryId } = route.params; 
+    console.log("cateory id "+ categoryId)
+
+    useEffect(() => {
+        dispatch(clearProductData());
+        
+        dispatch(fetchProductData({categoryId:categoryId})).then(() => {
+            setInitialLoading(false);
+        });
+
+    }, []);
+
+    if (initialLoading) {
+        // Show the initial loader in the center
+        return (
+            <View style={[textPrompt, { height: 260 }]}>
+                <ActivityIndicator size="large" color={LoaderColor} />
+            </View>
+        );
+    }
 
     const renderItem = ({ item }
         : IBestSellingProductRespose) => (
         <RowItem prodId={item.id} name={item.name} price={item.price} categories={item.categories} image={item.images} navigation={navigation} />
     );
+
+
     return (
-        <View>
-            <View style={[headerContiner]}>
-            <Text style={$favouriteLabelContainer}>{FAVOURITE_LABEL}</Text>
-            </View>
+        <SafeAreaView style={backgroundStyle} >
+            <StatusBar
+                barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+                backgroundColor={backgroundStyle.backgroundColor}
+            />
+            <View style={productsContainer}>
             {
-                favouriteList.length > 0 ? (
-                    <View style={{ marginTop: 15 }}>
-                        <FlatList
-                            data={favouriteList ?? []}
-                            renderItem={renderItem}
-                            keyExtractor={(item) => item.id}
-                            showsVerticalScrollIndicator={false}
-                        />
+                productScreenState.data.length > 0 ? (
+                    <View >
+                       <FlatList
+                    data={productScreenState.data ?? []}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id}
+                    showsVerticalScrollIndicator={false}
+                />
                     </View>
 
                 ) : (
@@ -106,10 +149,9 @@ const FavouriteListing = ({ favouriteList, navigation }) => {
                 <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
                 </View>)
             }
-
-        </View>
-
+</View>
+        </SafeAreaView>
     );
 };
 
-export default FavouriteListing;
+export default ProductScreen;

@@ -12,7 +12,8 @@ export interface IShopNowCard {
     id:string,
     title: string;
     desc:string,
-    bgImage:any
+    bgImage:any,
+    navigation:any
 }
 
 
@@ -51,4 +52,9 @@ export interface IProductDetailColors{
 export interface IProductDetailSize{
     id:number,
     size:string
+}
+
+
+export interface ICartMessage{
+    message:string
 }

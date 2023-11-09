@@ -1,0 +1,22 @@
+{
+  "extends": "@tsconfig/react-native/tsconfig.json",
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig.json to read more about this file */
+
+    /* Completeness */
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+    "@assets/*": ["./assets/*"],
+    "@screens/*": ["./src/screens/*"],
+    "@theme/*": ["./src/theme/*"],
+    "@types/*": ["./src/types/*"],
+    "@constants/*": ["./src/constants/*"],
+    "@reducers/*": ["./src/reducers/*"],
+    "@service/*": ["./src/service/*"],
+    "@store/*": ["./src/store/*"],
+    "@components/*": ["./src/components/*"],
+    "@model/*": ["./src/model/*"],
+    }
+  }
+}

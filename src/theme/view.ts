@@ -19,7 +19,10 @@ export const favouriteContainer: ViewStyle = {
 
 export const productsContainer: ViewStyle = {
   flexDirection: 'column',
-  padding: 15,
+  paddingStart: 18,
+  paddingEnd: 18,
+  paddingTop: 15,
+  paddingBottom:110
 };
 
 
@@ -67,25 +70,25 @@ export const mainItemContainer: ViewStyle = {
 export const bottomBarPressView: ViewStyle = {
   justifyContent: 'center', alignItems: 'center', flex: 1, padding: 10
 }
-export const cartCountContainer:ViewStyle = {
-    position: 'absolute',
-    top: 5,
-    right: 0,
-    backgroundColor: '#1A1E37',
-    borderRadius: 10,
-    minWidth: 20,
-    padding:2,
-    alignItems: 'center',
-    justifyContent: 'center',
+export const cartCountContainer: ViewStyle = {
+  position: 'absolute',
+  top: 5,
+  right: 0,
+  backgroundColor: '#1A1E37',
+  borderRadius: 10,
+  minWidth: 20,
+  padding: 2,
+  alignItems: 'center',
+  justifyContent: 'center',
 }
-export const cartCountIsFocusedContainer:ViewStyle = {
+export const cartCountIsFocusedContainer: ViewStyle = {
   position: 'absolute',
   top: 5,
   right: 0,
   backgroundColor: '#477AB6',
   borderRadius: 10,
   minWidth: 20,
-  padding:2,
+  padding: 2,
   alignItems: 'center',
   justifyContent: 'center',
 }
@@ -179,23 +182,22 @@ export const productDescViewRowContainer: ViewStyle = {
 
 export const productQuantityContainer: ViewStyle = {
   flexDirection: 'row',
-  justifyContent:'center',
-  alignContent:'center',
-  alignItems:'center',
-  height:30,
+  justifyContent: 'center',
+  alignContent: 'center',
+  alignItems: 'center',
+  height: 30,
 
 }
- export const plusMinusContainer: ViewStyle = {
-  backgroundColor:'#ffffff',
-  width:30,
-  height:30,
+export const plusMinusContainer: ViewStyle = {
+  backgroundColor: '#ffffff',
   borderRadius: 5,
   borderWidth: 1,
+  padding:10,
   borderColor: "#D3D3D3",
- }
- export const quantityConatiner: ViewStyle = {
-marginTop:15
- }
+}
+export const quantityConatiner: ViewStyle = {
+  marginTop: 15
+}
 
 export const productNameViewRowContainer: ViewStyle = {
   marginTop: 10,
@@ -224,7 +226,7 @@ export const bestfavoriteRowItem: ViewStyle = {
   flexDirection: 'row',
   alignContent: 'space-between',
   alignItems: 'center',
-  marginEnd: 10,
+  marginEnd: 0,
   backgroundColor: '#ffffff',
   borderRadius: 10,
   marginBottom: 12,
@@ -237,12 +239,52 @@ export const noRecordParentView: ViewStyle = {
   height: '100%',
 };
 
-export const tabBarIcon:ViewStyle={
+export const tabBarIcon: ViewStyle = {
   width: 20,
   height: 20,
 }
 
-export const headerContiner:ViewStyle={
-  flexDirection : 'row',
-  justifyContent:'center'
+export const headerContiner: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'center'
+}
+
+export const productsHeaderContainer:ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginEnd:2,
+  alignItems:'center',
+  alignContent:'center'
+}
+
+export const productListContainer:ViewStyle={
+  marginTop:15,
+}
+
+export const filterContainer:ViewStyle = {
+  borderColor: '#745D8A',
+  borderWidth: 1,
+  padding:5,
+  paddingHorizontal:5,
+  backgroundColor: '#745D8A',
+  borderRadius:5
+}
+
+export const rowFilterContainer:ViewStyle={
+marginBottom:6
+}
+
+export const filterBottomContent:ViewStyle={
+  backgroundColor: 'white',
+  padding: 0,
+  justifyContent: 'center',
+  alignItems: 'center',
+  borderTopLeftRadius: 10,
+  borderTopRightRadius: 10,
+  height: 160,
+}
+
+export const filterBottomContainer:ViewStyle={
+  justifyContent: 'flex-end',
+  margin: 0,
 }

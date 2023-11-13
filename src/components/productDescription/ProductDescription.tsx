@@ -17,6 +17,8 @@ import { IProductColors, IProductDetailColors, IProductDetailSize } from '@types
 import { fetchfavouriteData } from '@reducers/favourite/favourite-slice'
 import {fetchCartData} from '@reducers/cart/cart-slice'
 import icFavourite from '@assets/images/ic_favourite.png'
+import icPlus from '@assets/images/ic_plus.png'
+import icMinus from '@assets/images/ic_minus.png'
 import icFavouriteFilled from '@assets/images/ic_favourite_filled.png'
 import { useDispatch } from 'react-redux';
 import {showShortToast} from '@utils/Utilities'
@@ -241,7 +243,7 @@ const ProductDescription = ({ data, navigation }) => {
                         }}
                     >
                         <View style={[plusMinusContainer]}>
-                            <Text style={[$plusMinusLabel]}>-</Text>
+                        <Image source={ icMinus} style={{ width: 10, height: 10, resizeMode: 'contain'}} />
                         </View>
                     </TouchableOpacity>
 
@@ -252,7 +254,7 @@ const ProductDescription = ({ data, navigation }) => {
                         }}
                     >
                         <View style={[plusMinusContainer]}>
-                            <Text style={[$plusMinusLabel]}>+</Text>
+                        <Image source={ icPlus} style={{ width: 10, height: 10, resizeMode: 'contain'}} />
                         </View>
                     </TouchableOpacity>
                 </View>

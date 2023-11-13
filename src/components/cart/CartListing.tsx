@@ -30,7 +30,7 @@ const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSe
             }
         }
         categoriesList.push(
-            <View style={{ marginRight: 3, marginTop: 12 }}>
+            <View style={{ marginRight: 3, marginTop: 0 }}>
                 <Text
                     style={{ color: "#A9A9A9", fontSize: 12, fontWeight: '600' }}>{categoriesStr}</Text>
             </View>

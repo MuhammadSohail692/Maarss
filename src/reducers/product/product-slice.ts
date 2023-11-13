@@ -11,16 +11,21 @@ const initialState: BestSellingProductRespose = {
   error: ""
 };
 
-export const fetchProductData = createAsyncThunk('product-slice/fetchProductData', async ({categoryId}) => {
+export const fetchProductData = createAsyncThunk('product-slice/fetchProductData', async ({categoryId,pageNo,selectedOrderBy,order}) => {
   try {
+    console.log("orderby " + selectedOrderBy)
+    console.log("order " + order)
+    console.log("page " + pageNo)
+
     const queryParams = {
       'consumer_key': CONSUMER_KEY,
       'consumer_secret': CONSUMER_SECRET,
       'category':categoryId,
-      'orderby': 'date',
-      'order': 'desc',
-      'page':'1',
+      'orderby': selectedOrderBy,
+      'order': order,
+      'page':pageNo,
       'per_page':'20',
+      'stock_status':'instock'
     };
     var response
     response = await axios.get(BASE_URL + PRODUCT_END_POINT,{

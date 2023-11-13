@@ -60,6 +60,17 @@ export const $favouriteLabelContainer: TextStyle = {
   fontSize: 17,
   fontWeight: '700',
 }
+export const $productsLabelContainer: TextStyle = {
+  color: "#54595F",
+  fontSize: 17,
+  fontWeight: '700',
+}
+
+export const $filterLabel: TextStyle = {
+  color: "#ffffff",
+  fontSize: 13,
+  fontWeight: '400',
+}
 
 export const $noRecordContainer: TextStyle = {
   color: "#000000",
@@ -114,8 +125,8 @@ export const $plusMinusLabel: TextStyle = {
 }
 
 export const $quantityContainer: TextStyle = {
-  color: '#808080',
-  fontSize: 14,
+  color: '#000000',
+  fontSize: 13,
   fontWeight: '500',
   marginStart:10,
   marginEnd:10

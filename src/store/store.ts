@@ -6,6 +6,9 @@ import productDetailScreenReducer from '@reducers/productDetail/product-detail-s
 import favouriteReducer from '@reducers/favourite/favourite-slice'
 import cartReducer from '@reducers/cart/cart-slice'
 import productReducer from '@reducers/product/product-slice'
+import registerReducer from '@reducers/register/register-slice'
+import loginReducer from '@reducers/login/login-slice'
+import shippingMethodReducer from '@reducers/shipping/shipping-slice'
 
 import { combineReducers } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,7 +19,10 @@ const rootReducer = combineReducers({
   productDetail:productDetailScreenReducer,
   favouriteData:favouriteReducer,
   cartData:cartReducer,
-  productData: productReducer
+  productData: productReducer,
+  registerData:registerReducer,
+  loginData:loginReducer,
+  shippingMethod:shippingMethodReducer
 });
 
 const persistConfig = {

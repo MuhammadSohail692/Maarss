@@ -7,6 +7,10 @@ export interface IProgramCard {
     dataTime:string,
 }
 
+export interface ISettingUrl{
+    url:string
+}
+
 
 export interface IShopNowCard {
     id:string,
@@ -24,6 +28,11 @@ export interface IBestSellingProductCard {
     categories:Category[],
     image:Image[],
     navigation:any
+}
+export interface IShippingTypeCard {
+    id:number,
+    title:string,
+    price: string;
 }
 
 export interface IProductDetailImage{

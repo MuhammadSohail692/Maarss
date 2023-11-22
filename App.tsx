@@ -12,7 +12,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist'
-import { DashboardNavigator,ProductDetailNavigator,FullScreenImageViewerNavigator,CartNavigator,ProductNavigator,FavouriteNavigator,HomeTabNavigator,FavouriteTabNavigator ,SettingTabNavigator} from '@constants/navigator/navigation-stack';
+import { DashboardNavigator,ProductDetailNavigator,FullScreenImageViewerNavigator,CartNavigator,ProductNavigator,FavouriteNavigator,HomeTabNavigator,FavouriteTabNavigator ,SettingTabNavigator,RegisterNavigator,LoginNavigator,BillingInfoNavigator} from '@constants/navigator/navigation-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import TabBar from '@components/bottomBar/TabBar'
 import SettingScreen from '@screens/Setting/SettingScreen'
@@ -22,11 +22,11 @@ import FullScreenImageView from '@screens/FullScreenImageViewerScreen/FullScreen
 import FavouriteScreen from '@screens/Favourite/FavouriteScreen'
 import CartScreen from '@screens/Cart/CartScreen'
 import ProductScreen from '@screens/Products/ProductScreen'
+import RegisterScreen from '@screens/Register/RegisterScreen'
+import LoginScreen from '@screens/login/LoginScreen'
+import BillingInfoScreen from '@screens/BillingInfo/BillingInfoScreen'
 import { createDrawerNavigator } from '@react-navigation/drawer';
-
-
 const persistor = persistStore(store)
-
 
 function App(): JSX.Element {
 
@@ -61,6 +61,9 @@ function App(): JSX.Element {
             <Stack.Screen name={ProductNavigator} component={ProductScreen} options={{ headerShown: false }} />
             <Stack.Screen name={ProductDetailNavigator} component={ProductDetailScreen} options={{ headerShown: false }} />
             <Stack.Screen name={FullScreenImageViewerNavigator} component={FullScreenImageView} options={{ headerShown: false }} />
+            <Stack.Screen name={RegisterNavigator} component={RegisterScreen} options={{ headerShown: false }} />
+            <Stack.Screen name={LoginNavigator} component={LoginScreen} options={{ headerShown: false }} />
+            <Stack.Screen name={BillingInfoNavigator} component={BillingInfoScreen} options={{ headerShown: false }} />
             {/* <Stack.Screen name={FavouriteNavigator} component={FavouriteScreen} options={{ headerShown: false }} />  */}
            </Stack.Navigator>
         </NavigationContainer>

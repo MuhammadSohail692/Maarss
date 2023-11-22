@@ -22,7 +22,7 @@ export const productsContainer: ViewStyle = {
   paddingStart: 18,
   paddingEnd: 18,
   paddingTop: 15,
-  paddingBottom:110
+  paddingBottom: 110
 };
 
 
@@ -169,6 +169,10 @@ export const productDescContainer: ViewStyle = {
   padding: 20
 }
 
+export const billingInfoContainer: ViewStyle = {
+  padding: 20
+}
+
 export const productDescViewContainer: ViewStyle = {
   marginTop: 10
 }
@@ -192,7 +196,7 @@ export const plusMinusContainer: ViewStyle = {
   backgroundColor: '#ffffff',
   borderRadius: 5,
   borderWidth: 1,
-  padding:10,
+  padding: 10,
   borderColor: "#D3D3D3",
 }
 export const quantityConatiner: ViewStyle = {
@@ -249,32 +253,41 @@ export const headerContiner: ViewStyle = {
   justifyContent: 'center'
 }
 
-export const productsHeaderContainer:ViewStyle = {
+export const productsHeaderContainer: ViewStyle = {
   flexDirection: 'row',
   justifyContent: 'space-between',
-  marginEnd:2,
-  alignItems:'center',
-  alignContent:'center'
+  marginEnd: 2,
+  alignItems: 'center',
+  alignContent: 'center',
 }
 
-export const productListContainer:ViewStyle={
-  marginTop:15,
+
+export const settingItemContainer: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  marginEnd: 2,
+  alignItems: 'center',
+  alignContent: 'center',
+  marginBottom: 15
+}
+export const productListContainer: ViewStyle = {
+  marginTop: 15,
 }
 
-export const filterContainer:ViewStyle = {
+export const filterContainer: ViewStyle = {
   borderColor: '#745D8A',
   borderWidth: 1,
-  padding:5,
-  paddingHorizontal:5,
+  padding: 5,
+  paddingHorizontal: 5,
   backgroundColor: '#745D8A',
-  borderRadius:5
+  borderRadius: 5
 }
 
-export const rowFilterContainer:ViewStyle={
-marginBottom:6
+export const rowFilterContainer: ViewStyle = {
+  marginBottom: 6
 }
 
-export const filterBottomContent:ViewStyle={
+export const filterBottomContent: ViewStyle = {
   backgroundColor: 'white',
   padding: 0,
   justifyContent: 'center',
@@ -284,7 +297,156 @@ export const filterBottomContent:ViewStyle={
   height: 160,
 }
 
-export const filterBottomContainer:ViewStyle={
+export const filterBottomContainer: ViewStyle = {
   justifyContent: 'flex-end',
   margin: 0,
+}
+
+export const settingContainer: ViewStyle = {
+  flexDirection: 'column',
+  padding: 20,
+  paddingBottom: 75,
+};
+
+export const forwardContainer: ViewStyle = {
+  borderColor: '#745D8A',
+  borderWidth: 1,
+  padding: 5,
+  paddingHorizontal: 5,
+  backgroundColor: '#745D8A',
+  borderRadius: 5
+}
+
+
+export const settingHeaderContainer: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  alignContent: 'center',
+  marginBottom: 20
+}
+
+export const socialIconContainer: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'center',
+  alignItems: 'center',
+  alignContent: 'center',
+  marginTop: 5
+}
+export const instagramIconContainer: ViewStyle = {
+  marginStart: 10
+}
+
+
+export const registerContainer: ViewStyle = {
+  flexDirection: 'column',
+  padding: 20,
+  height: Dimensions.get('window').height,
+  alignContent:'center',
+  alignItems:'center'
+};
+
+export const registerFildsContainer: ViewStyle = {
+  height: Dimensions.get('window').height*0.8,
+  flexDirection: 'column',
+  justifyContent:'center',
+  alignContent:'center',
+  alignItems:'center'
+};
+
+
+export const inuputBoxContainer: ViewStyle =
+{
+  flexDirection: 'row',
+  alignItems: 'center',
+  borderWidth: 1,
+  backgroundColor: '#ffffff',
+  borderRadius: 10,
+  borderColor: '#ffffff',
+  paddingHorizontal: 10,
+  marginTop: 10
+}
+
+export const orderNotesContainer: ViewStyle =
+{
+  flexDirection: 'row',
+  alignItems: 'flex-start',
+  borderWidth: 1,
+  backgroundColor: '#ffffff',
+  borderRadius: 10,
+  borderColor: '#ffffff',
+  paddingHorizontal: 10,
+  height:150,
+  marginTop: 10
+}
+export const userInputBox: ViewStyle = {
+  flex: 1,
+  paddingVertical: 8,
+  marginStart:10
+}
+
+
+export const registrationLoginContainer: ViewStyle = {
+ flexDirection:'row',
+ marginTop:20,
+ justifyContent:'center',
+ alignContent:'center',
+ alignItems:'center'
+};
+
+
+export const alreadyAccountContainer: ViewStyle = {
+  flexDirection:'row',
+  justifyContent:'flex-start',
+  alignContent:'center',
+  alignItems:'center',
+  marginBottom:15
+ };
+
+export const registrationLoginBtn: ViewStyle = {
+  padding: 12,
+  backgroundColor: '#3BB54A',
+  width: 80,
+  borderWidth: 1,
+  borderRadius:10,
+  borderColor:'#3BB54A',
+  alignContent:'center',
+ alignItems:'center'
+};
+
+export const instructionContainer: ViewStyle = {
+  marginTop:15
+};
+
+
+export const checkoutBtn: ViewStyle = {
+  padding: 8,
+  backgroundColor: '#3BB54A',
+  width: 80,
+  borderRadius: 8,  
+};
+
+
+export const headerCartContiner: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between'
+}
+
+export const billingContiner: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between'
+}
+
+export const shipmentType:ViewStyle = {
+  padding:12,
+  backgroundColor:'#ffffff',
+  borderRadius:10
+}
+
+export const billingDetailsType:ViewStyle = {
+  marginTop:10,
+}
+
+export const subTotalContainer:ViewStyle ={
+  flexDirection: 'row',
 }

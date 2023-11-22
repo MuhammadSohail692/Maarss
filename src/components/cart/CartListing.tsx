@@ -9,12 +9,12 @@ import {
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import { bestfavoriteRowItem,noRecordParentView,headerContiner } from "@theme/view"
+import { bestfavoriteRowItem, noRecordParentView, headerContiner,checkoutBtn ,headerCartContiner} from "@theme/view"
 import { $favouriteLabelContainer, $noRecordContainer } from '@theme/text'
 import { IBestSellingProductCard } from '@types/type';
 import { LABEL_IMAGE_NOT_FOUND, CART_LABEL, LABEL_NO_RECORD_FOUND } from '@constants/app-constants'
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
-import { ProductDetailNavigator } from '@constants/navigator/navigation-stack';
+import { ProductDetailNavigator,LoginNavigator,BillingInfoNavigator } from '@constants/navigator/navigation-stack';
 
 const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSellingProductCard) => {
     var categoriesList = [];
@@ -87,9 +87,21 @@ const CartListing = ({ cartList, navigation }) => {
     );
     return (
         <View>
-            <View style={[headerContiner]}>
-            <Text style={$favouriteLabelContainer}>{CART_LABEL}</Text>
-            </View>
+                <View style={[headerCartContiner]}>
+                    <Text style={$favouriteLabelContainer}>{CART_LABEL}</Text>
+
+                    <TouchableOpacity
+                        onPress={() => {
+                            navigation.navigate(BillingInfoNavigator);
+                        }}
+                    >
+                        <View style={checkoutBtn}>
+                            <Text
+                                style={{ color: '#ffffff', fontSize: 12, fontWeight: '700',textAlign:'center' }}>Checkout</Text>
+                        </View>
+                    </TouchableOpacity>
+                </View>
+
             {
                 cartList.length > 0 ? (
                     <View style={{ marginTop: 15 }}>
@@ -102,9 +114,9 @@ const CartListing = ({ cartList, navigation }) => {
                     </View>
 
                 ) : (
-                <View style={[noRecordParentView]}>
-                <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
-                </View>)
+                    <View style={[noRecordParentView]}>
+                        <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
+                    </View>)
             }
 
         </View>

@@ -27,7 +27,7 @@ export const $bottomNavLabel: TextStyle = {
 export const $bottomNavFocuesLabel: TextStyle = {
   fontSize: 11,
   marginTop: 4,
-  color: '#477AB6',
+  color: '#745D8A',
   fontWeight: '700'
 }
 
@@ -61,6 +61,11 @@ export const $favouriteLabelContainer: TextStyle = {
   fontWeight: '700',
 }
 export const $productsLabelContainer: TextStyle = {
+  color: "#54595F",
+  fontSize: 17,
+  fontWeight: '700',
+}
+export const $LabelContainer: TextStyle = {
   color: "#54595F",
   fontSize: 17,
   fontWeight: '700',
@@ -136,4 +141,52 @@ export const $productLabelValues: TextStyle = {
   color: '#808080',
   fontSize: 13,
   fontWeight: '500',
+}
+
+export const $labelContainer: TextStyle = {
+  color: "#54595F",
+  fontSize: 14,
+  fontWeight: '500',
+}
+
+export const $contactUsHeaderContainer: TextStyle = {
+  color: "#54595F",
+  fontSize: 17,
+  fontWeight: '700',
+}
+
+export const $followUsContainer: TextStyle = {
+  color: "#000000",
+  fontSize: 14,
+  fontWeight: '600',
+}
+
+export const $userInputContainer: TextStyle = {
+  color: "#000000",
+  fontSize: 12,
+  fontWeight: '500',
+}
+
+
+export const $privacyPolicyText:TextStyle = {
+  color: 'blue',
+  textDecorationLine: 'underline', 
+}
+export const $registerText:TextStyle = {
+  color: 'blue',
+  textDecorationLine: 'underline', 
+}
+
+
+export const $billingInfoLabelContainer: TextStyle = {
+  color: "#000000",
+  fontSize: 13,
+  fontWeight: '700',
+}
+
+
+export const $billingDetailLabel: TextStyle = {
+  color: "#000000",
+  fontSize: 16,
+  fontWeight: '700',
 }

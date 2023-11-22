@@ -4,6 +4,9 @@ export const ProductNavigator = "Product"
 export const ProductDetailNavigator = "ProductDetail"
 export const FullScreenImageViewerNavigator = "FullScreenImageViewer"
 export const FavouriteNavigator = "Favourite"
+export const RegisterNavigator = "Register"
+export const LoginNavigator = "Login"
+export const BillingInfoNavigator = "BillingInfo"
 
 //Bottom bar navigator
 export const HomeTabNavigator = "Home"

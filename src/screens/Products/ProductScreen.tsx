@@ -98,15 +98,11 @@ const ProductScreen = ({ route, navigation }) => {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
     const dispatch = useDispatch();
-    // const bottomSheetRef = useRef(null);
 
     const productScreenState = useSelector((state) => state.productData)
     const [page, setPage] = useState(1);
     const [initialLoading, setInitialLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
-    // const [selectedValue, setSelectedValue] = useState(null);
-    // const [isBottomSheetVisible, setBottomSheetVisible] = useState(false);
-
 
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedFilterValue, setSelectedValue] = useState({
@@ -114,7 +110,6 @@ const ProductScreen = ({ route, navigation }) => {
         order:'desc',
         title: 'Sort by latest',
     },);
-    // const [selectedOrderValue, setSelectedOrderValue] = useState("desc");
 
     const { categoryId } = route.params;
 

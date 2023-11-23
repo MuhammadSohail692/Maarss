@@ -11,47 +11,44 @@ const initialState: RegisterResponse = {
   error: ""
 };
 
-export const registerData = createAsyncThunk('register-slice/registerData', async ({email,password},{ rejectWithValue }) => {
+export const fetchLoginUserInfoData = createAsyncThunk('login-user-Info-slice/fetchLoginUserInfoData', async ({email}) => {
   try {
     const queryParams = {
       'consumer_key': CONSUMER_KEY,
       'consumer_secret': CONSUMER_SECRET,
+      'email':email
     };
-    const data = {
-        email: email,
-        password: password,
-      };
-      
     var response
-    response = await axios.post(BASE_URL + _USER_INFO_REGISTER_CUSTOMER_END_POINT,data,{
+    response = await axios.get(BASE_URL + _USER_INFO_REGISTER_CUSTOMER_END_POINT,{
       params: queryParams,
     });
+
     return response.data as IRegisterResponse;
   } catch (error) {
-return rejectWithValue(error.response?.data ?? { message: 'An error occurred' });
+    throw error;
   }
 });
 
-const registerDataSlice = createSlice({
-  name: 'registerData',
+const loginUserInfoDataSlice = createSlice({
+  name: 'loginUserInfo',
   initialState,
   reducers: {
   },
   extraReducers: (builder) => {
     builder
-      .addCase(registerData.pending, (state) => {
+      .addCase(fetchLoginUserInfoData.pending, (state) => {
         state.loading = true;
         state.error = "";
       })
-      .addCase(registerData.fulfilled, (state, action) => {
+      .addCase(fetchLoginUserInfoData.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loading = false;
       })
-      .addCase(registerData.rejected, (state, action) => {
+      .addCase(fetchLoginUserInfoData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Unable to server at the moment";
       });
   },
 });
 
-export default registerDataSlice.reducer;
+export default loginUserInfoDataSlice.reducer;

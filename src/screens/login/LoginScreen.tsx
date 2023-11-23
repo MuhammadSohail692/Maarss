@@ -22,6 +22,7 @@ import icPassword from '@assets/images/ic_password.png'
 import { ISettingUrl } from '@types/type'
 import { useSelector, useDispatch } from 'react-redux';
 import { loginData } from '@reducers/login/login-slice';
+import {fetchLoginUserInfoData} from '@reducers/loginUserInfo/login-user-Info-slice'
 import { showShortToast } from '@utils/Utilities'
 import Loader from '@utils/components/loader/Loader'
 import { RegisterNavigator,BillingInfoNavigator } from '@constants/navigator/navigation-stack';
@@ -33,47 +34,50 @@ const LoginScreen = ({ navigation }) => {
     };
 
     const registerScreenState = useSelector((state) => state.registerData)
+
     const [initialLoading, setInitialLoading] = useState(false);
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState('dawd333d@gmail.com');
-    const [password, setPassword] = useState('test123');
-
+    const [email, setEmail] = useState('user12@gmail.com');
+    const [password, setPassword] = useState('test122');
 
     const loginButtonClick = () => {
         console.log('Password:', password);
         console.log('Email:', email);
+        dispatch(fetchLoginUserInfoData({email:email})).then(() => {
+            setInitialLoading(false);
+        });
+        // if (email.length == 0) {
+        //     showShortToast("Email field is required")
+        // }
+        // else if (password.length == 0) {
+        //     showShortToast("Password field is required")
+        // }
+        // else {
+        //     setInitialLoading(true);
+        //     dispatch(loginData({ email: "dawd333d@gmail.com", password: "test123" })).then((responseOrError) => {
 
-        if (email.length == 0) {
-            showShortToast("Email field is required")
-        }
-        else if (password.length == 0) {
-            showShortToast("Password field is required")
-        }
-        else {
-            setInitialLoading(true);
-            dispatch(loginData({ email: "dawd333d@gmail.com", password: "test123" })).then((responseOrError) => {
+        //         const response = responseOrError;
 
-                const response = responseOrError;
+        //         if (response != null && response.payload != null && response.payload.data != null && response.payload.data.status != null && response.payload.data.status == 400) {
+        //             console.log("status", response.payload.data.status);
+        //             console.log("Message", response.payload.message);
+        //             showShortToast(response.payload.message)
+        //             setInitialLoading(false);
+        //         } else {
+        //             setInitialLoading(false);
+        //             showShortToast("User Login")
+        //             navigation.goBack();
+        //             navigation.navigate(BillingInfoNavigator);
 
-                if (response != null && response.payload != null && response.payload.data != null && response.payload.data.status != null && response.payload.data.status == 400) {
-                    console.log("status", response.payload.data.status);
-                    console.log("Message", response.payload.message);
-                    showShortToast(response.payload.message)
-                    setInitialLoading(false);
-                } else {
-                    setInitialLoading(false);
-                    showShortToast("User Login")
-                    navigation.goBack();
-                    navigation.navigate(BillingInfoNavigator);
+        //             console.log('Login successful:', responseOrError);
+        //         }
+        //     }).catch((error) => {
+        //         // Handle the error here
+        //         console.error('Registration error:', error);
+        //     });
 
-                    console.log('Login successful:', responseOrError);
-                }
-            }).catch((error) => {
-                // Handle the error here
-                console.error('Registration error:', error);
-            });
-        }
+        // }
     };
 
     return (

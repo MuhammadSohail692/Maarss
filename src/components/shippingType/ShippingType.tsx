@@ -34,7 +34,7 @@ const ShippingType = ({ navigation }) => {
     const cartScreenState = useSelector((state) => state.cartData)
 
     const [deliverySelectedValue, setDeliverySelectedValue] = useState("Cash on delivery");
-    const [selectedShippingMethod, setSelectedShippingMethod] = useState(shippingMethodScreenState.data[0].id == null ? "" : shippingMethodScreenState.data[0].id);
+    const [selectedShippingMethod, setSelectedShippingMethod] = useState("");
     const [selectedShippingPrice, setSelectedShippingPrice] = useState(0);
 
     var [totalAmount, setTotalAmount] = useState(0);
@@ -62,6 +62,13 @@ const ShippingType = ({ navigation }) => {
         }
     }, [cartScreenState,selectedShippingPrice]);
 
+    useEffect(() => {
+        if(shippingMethodScreenState.data!=null && shippingMethodScreenState.data.length>0){
+        setSelectedShippingMethod(shippingMethodScreenState.data[0].id)
+        }
+    }, [shippingMethodScreenState]);
+
+    
     useEffect(() => {
         dispatch(fetchShippingMethodData({ countryId: COUNTRY_ID })).then(() => {
             setInitialLoading(false);

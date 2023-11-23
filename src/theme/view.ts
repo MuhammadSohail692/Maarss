@@ -363,7 +363,7 @@ export const inuputBoxContainer: ViewStyle =
   backgroundColor: '#ffffff',
   borderRadius: 10,
   borderColor: '#ffffff',
-  paddingHorizontal: 10,
+  paddingHorizontal: 2,
   marginTop: 10
 }
 

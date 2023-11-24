@@ -46,11 +46,9 @@ const BillingDetails = ({ navigation }) => {
         }
     }, [loginUserInfoScreenState]);
 
-
     return (
         <View>
             <View style={billingDetailsType}>
-
             <View style={alreadyAccountContainer}>
                             <Text style={instructionContainer}>Already have an account? </Text>
                             <Text style={instructionContainer}><TouchableOpacity onPress={() => {

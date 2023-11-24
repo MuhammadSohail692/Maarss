@@ -112,6 +112,7 @@ const ProductScreen = ({ route, navigation }) => {
     },);
 
     const { categoryId } = route.params;
+    console.log("prodcts "+categoryId)
 
     const filterList = [
         {

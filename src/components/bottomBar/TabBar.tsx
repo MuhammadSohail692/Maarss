@@ -6,12 +6,14 @@ import { useSelector } from 'react-redux';
 import {$bottomNavFocuesLabel,$bottomNavLabel,$cartCountText} from '@theme/text'
 
 import icNavHome from '@assets/images/ic_nav_home.png'
+import icNavCategory from '@assets/images/ic_nav_category.png'
 import icCart from '@assets/images/ic_nav_cart.png'
 import icFav from '@assets/images/ic_nav_favourite.png'
 import icNavSetting from '@assets/images/ic_nav_settings.png'
 
 const tabItems = [
     { label: 'Home', imageSource: icNavHome},
+    { label: 'Category', imageSource: icNavCategory },
     { label: 'Cart', imageSource: icCart },
     { label: 'Favourite', imageSource: icFav },
     { label: 'Setting', imageSource: icNavSetting },

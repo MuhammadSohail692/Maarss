@@ -10,6 +10,9 @@ import registerReducer from '@reducers/register/register-slice'
 import loginReducer from '@reducers/login/login-slice'
 import shippingMethodReducer from '@reducers/shipping/shipping-slice'
 import loginUserInfoReducer from '@reducers/loginUserInfo/login-user-Info-slice'
+import categoriesDataReducer from '@reducers/categories/categories-slice'
+import subCategoriesDataReducer from '@reducers/subCategories/subcategories-slice'
+import subCategoriesMoreDataReducer from '@reducers/subCategories/subCategories-more-slice'
 
 import { combineReducers } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,7 +27,10 @@ const rootReducer = combineReducers({
   registerData:registerReducer,
   loginData:loginReducer,
   shippingMethod:shippingMethodReducer,
-  loginUserInfo: loginUserInfoReducer
+  loginUserInfo: loginUserInfoReducer,
+  categoriesData:categoriesDataReducer,
+  subCategoriesData:subCategoriesDataReducer,
+  subCategoriesMoreData: subCategoriesMoreDataReducer
 });
 
 const persistConfig = {

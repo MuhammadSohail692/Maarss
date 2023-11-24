@@ -236,6 +236,24 @@ export const bestfavoriteRowItem: ViewStyle = {
   marginBottom: 12,
 };
 
+export const categiryRowItem: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignContent: 'center',
+  alignItems: 'center',
+  // justifyContent: 'space-between',
+
+  // alignItems: 'center',
+  // alignContent: 'center',
+
+  marginEnd: 0,
+  padding:8,
+  backgroundColor: '#ffffff',
+  borderRadius: 10,
+  
+  marginBottom: 8,
+};
+
 
 export const noRecordParentView: ViewStyle = {
   justifyContent: 'center',
@@ -272,6 +290,10 @@ export const settingItemContainer: ViewStyle = {
 }
 export const productListContainer: ViewStyle = {
   marginTop: 15,
+}
+
+export const categoryListContainer: ViewStyle = {
+  marginTop: 10,
 }
 
 export const filterContainer: ViewStyle = {
@@ -317,6 +339,17 @@ export const forwardContainer: ViewStyle = {
   borderRadius: 5
 }
 
+export const forwardCategoryContainer: ViewStyle = {
+  borderColor: '#745D8A',
+  borderWidth: 1,
+  padding: 5,
+  paddingHorizontal: 5,
+  backgroundColor: '#745D8A',
+  borderRadius: 5,
+  marginEnd: 3,
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+}
 
 export const settingHeaderContainer: ViewStyle = {
   flexDirection: 'row',

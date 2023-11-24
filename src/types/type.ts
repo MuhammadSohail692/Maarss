@@ -29,6 +29,11 @@ export interface IBestSellingProductCard {
     image:Image[],
     navigation:any
 }
+export interface ICategoryCard {
+    categoryId:number,
+    name:string,
+    navigation:any
+}
 export interface IShippingTypeCard {
     id:number,
     title:string,

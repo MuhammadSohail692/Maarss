@@ -1,7 +1,7 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { BASE_URL, _USER_INFO_REGISTER_CUSTOMER_END_POINT,CONSUMER_KEY,CONSUMER_SECRET } from '@service/constants';
+import { BASE_URL, USER_INFO_REGISTER_CUSTOMER_END_POINT,CONSUMER_KEY,CONSUMER_SECRET } from '@service/constants';
 import { RegisterResponse } from '@types/Register';
 import { IRegisterResponse } from '@model/register/RegisterModel';
 
@@ -19,7 +19,7 @@ export const fetchLoginUserInfoData = createAsyncThunk('login-user-Info-slice/fe
       'email':email
     };
     var response
-    response = await axios.get(BASE_URL + _USER_INFO_REGISTER_CUSTOMER_END_POINT,{
+    response = await axios.get(BASE_URL + USER_INFO_REGISTER_CUSTOMER_END_POINT,{
       params: queryParams,
     });
 
@@ -33,6 +33,11 @@ const loginUserInfoDataSlice = createSlice({
   name: 'loginUserInfo',
   initialState,
   reducers: {
+    clearUserInfoData: (state) => {
+      state.data = [];
+      state.loading = false;
+      state.error = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -51,4 +56,5 @@ const loginUserInfoDataSlice = createSlice({
   },
 });
 
+export const { clearUserInfoData } = loginUserInfoDataSlice.actions;
 export default loginUserInfoDataSlice.reducer;

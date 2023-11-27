@@ -34,6 +34,13 @@ export interface ICategoryCard {
     name:string,
     navigation:any
 }
+
+export interface IOrderHistoryCard {
+    orderId:number,
+    status:string,
+    total:string,
+    navigation:any
+}
 export interface IShippingTypeCard {
     id:number,
     title:string,

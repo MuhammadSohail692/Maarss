@@ -254,6 +254,17 @@ export const categiryRowItem: ViewStyle = {
   marginBottom: 8,
 };
 
+export const historyRowItem: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignContent: 'center',
+  alignItems: 'center',
+  padding:12,
+  backgroundColor: '#ffffff',
+  borderRadius: 10,
+  marginBottom: 8,
+};
+
 
 export const noRecordParentView: ViewStyle = {
   justifyContent: 'center',
@@ -351,6 +362,16 @@ export const forwardCategoryContainer: ViewStyle = {
   alignItems: 'center',
 }
 
+export const orderStatusContainer: ViewStyle = {
+  padding: 5,
+  paddingHorizontal: 5,
+  backgroundColor: '#FF0000',
+  borderRadius: 5,
+  marginEnd: 3,
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+}
+
 export const settingHeaderContainer: ViewStyle = {
   flexDirection: 'row',
   justifyContent: 'center',
@@ -397,6 +418,18 @@ export const inuputBoxContainer: ViewStyle =
   borderRadius: 10,
   borderColor: '#ffffff',
   paddingHorizontal: 2,
+  marginTop: 10
+}
+
+export const inuputBoxLoginRegisterContainer: ViewStyle =
+{
+  flexDirection: 'row',
+  alignItems: 'center',
+  borderWidth: 1,
+  backgroundColor: '#ffffff',
+  borderRadius: 10,
+  borderColor: '#ffffff',
+  paddingHorizontal: 10,
   marginTop: 10
 }
 

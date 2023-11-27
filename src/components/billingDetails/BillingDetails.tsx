@@ -24,6 +24,7 @@ import { useSelector } from 'react-redux';
 const BillingDetails = ({ navigation }) => {
 
     const loginUserInfoScreenState = useSelector((state) => state.loginUserInfo)
+    // const loginInfoScreenState = useSelector((state) => state.loginData)
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -33,6 +34,7 @@ const BillingDetails = ({ navigation }) => {
     const [city, setCity] = useState('');
     const [orderNotes, setOrderNotes] = useState('');
     
+    // console.log("token "+loginInfoScreenState.data.token)
     useEffect(() => {
 
         if(loginUserInfoScreenState.data!=null && loginUserInfoScreenState.data.length>0){

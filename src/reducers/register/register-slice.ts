@@ -1,7 +1,7 @@
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { BASE_URL, _USER_INFO_REGISTER_CUSTOMER_END_POINT,CONSUMER_KEY,CONSUMER_SECRET } from '@service/constants';
+import { BASE_URL, USER_INFO_REGISTER_CUSTOMER_END_POINT,CONSUMER_KEY,CONSUMER_SECRET } from '@service/constants';
 import { RegisterResponse } from '@types/Register';
 import { IRegisterResponse } from '@model/register/RegisterModel';
 
@@ -23,7 +23,7 @@ export const registerData = createAsyncThunk('register-slice/registerData', asyn
       };
       
     var response
-    response = await axios.post(BASE_URL + _USER_INFO_REGISTER_CUSTOMER_END_POINT,data,{
+    response = await axios.post(BASE_URL + USER_INFO_REGISTER_CUSTOMER_END_POINT,data,{
       params: queryParams,
     });
     return response.data as IRegisterResponse;

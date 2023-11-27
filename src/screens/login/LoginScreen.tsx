@@ -14,18 +14,18 @@ import {
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import { registerContainer, inuputBoxContainer, userInputBox, settingHeaderContainer, registerFildsContainer, registrationLoginBtn, registrationLoginContainer, instructionContainer } from "@theme/view"
+import { registerContainer, inuputBoxLoginRegisterContainer, userInputBox, settingHeaderContainer, registerFildsContainer, registrationLoginBtn, registrationLoginContainer, instructionContainer } from "@theme/view"
 import { $labelContainer, $userInputContainer, $contactUsHeaderContainer, $privacyPolicyText, $registerText } from '@theme/text'
 import { LOGIN_SCREEN_LABEL, LOGIN_LABEL, PRIVACY_POLICY_URL } from '@constants/app-constants'
 import icEmail from '@assets/images/ic_email.png'
 import icPassword from '@assets/images/ic_password.png'
-import { ISettingUrl } from '@types/type'
 import { useSelector, useDispatch } from 'react-redux';
 import { loginData } from '@reducers/login/login-slice';
 import {fetchLoginUserInfoData} from '@reducers/loginUserInfo/login-user-Info-slice'
 import { showShortToast } from '@utils/Utilities'
 import Loader from '@utils/components/loader/Loader'
 import { RegisterNavigator,BillingInfoNavigator } from '@constants/navigator/navigation-stack';
+import  AlertMessageDialog  from '@utils/components/AlertMessageDialog';
 
 const LoginScreen = ({ navigation }) => {
     const isDarkMode = useColorScheme() === 'dark';
@@ -33,51 +33,60 @@ const LoginScreen = ({ navigation }) => {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
 
-    const registerScreenState = useSelector((state) => state.registerData)
-
     const [initialLoading, setInitialLoading] = useState(false);
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState('user12@gmail.com');
-    const [password, setPassword] = useState('test122');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [infoMessage, setInfoMessage] = useState('');
+    const [modalVisible, setModalVisible] = useState(false);
 
+    const openModal = (isClicked:boolean,message:string) => {
+        setInfoMessage(message)
+        setModalVisible(true);
+      };
+    
+      const closeModal = () => {
+        setModalVisible(false);
+      };
     const loginButtonClick = () => {
-        console.log('Password:', password);
-        console.log('Email:', email);
-        dispatch(fetchLoginUserInfoData({email:email})).then(() => {
-            setInitialLoading(false);
-        });
-        // if (email.length == 0) {
-        //     showShortToast("Email field is required")
-        // }
-        // else if (password.length == 0) {
-        //     showShortToast("Password field is required")
-        // }
-        // else {
-        //     setInitialLoading(true);
-        //     dispatch(loginData({ email: "dawd333d@gmail.com", password: "test123" })).then((responseOrError) => {
+        
+        if (email.length == 0) {
+            showShortToast("Email field is required")
+        }
+        else if (password.length == 0) {
+            showShortToast("Password field is required")
+        }
+        else {
+            setInitialLoading(true);
+            dispatch(loginData({ email: email, password: password })).then((responseOrError) => {
 
-        //         const response = responseOrError;
+                const response = responseOrError;
 
-        //         if (response != null && response.payload != null && response.payload.data != null && response.payload.data.status != null && response.payload.data.status == 400) {
-        //             console.log("status", response.payload.data.status);
-        //             console.log("Message", response.payload.message);
-        //             showShortToast(response.payload.message)
-        //             setInitialLoading(false);
-        //         } else {
-        //             setInitialLoading(false);
-        //             showShortToast("User Login")
-        //             navigation.goBack();
-        //             navigation.navigate(BillingInfoNavigator);
+                if (response != null && response.payload != null && response.payload.data != null && response.payload.data.status != null && response.payload.data.status == 403) {
+                    console.log("status", response.payload.data.status);
+                    console.log("Message", response.payload.message);
+                    openModal(true,response.payload.message)
+                    setInitialLoading(false);
 
-        //             console.log('Login successful:', responseOrError);
-        //         }
-        //     }).catch((error) => {
-        //         // Handle the error here
-        //         console.error('Registration error:', error);
-        //     });
+                } else {
+                    // console.log('Login successful:', responseOrError);
+                    console.log('Login successful:', responseOrError.payload.token);
 
-        // }
+                    dispatch(fetchLoginUserInfoData({email:email})).then((response) => {
+                        setInitialLoading(false);
+                        navigation.goBack();
+                        // navigation.navigate(BillingInfoNavigator);    
+                        console.log("login res :"+JSON.stringify(response))
+                    });
+                }
+            }).catch((error) => {
+                console.error('Registration error:', error);
+                setInitialLoading(false);
+                showShortToast("Failed to login user")
+            });
+
+        }
     };
 
     return (
@@ -99,7 +108,7 @@ const LoginScreen = ({ navigation }) => {
                     </View>
 
                     <View style={registerFildsContainer}>
-                        <View style={inuputBoxContainer}>
+                        <View style={inuputBoxLoginRegisterContainer}>
                             <Image
                                 source={icEmail}
                                 style={{
@@ -114,7 +123,7 @@ const LoginScreen = ({ navigation }) => {
                             />
                         </View>
 
-                        <View style={inuputBoxContainer}>
+                        <View style={inuputBoxLoginRegisterContainer}>
                             <Image
                                 source={icPassword}
                                 style={{
@@ -147,6 +156,7 @@ const LoginScreen = ({ navigation }) => {
                             }}><Text style={$registerText}>Register</Text></TouchableOpacity></Text>
                         </View>
                     </View>
+                    <AlertMessageDialog visible={modalVisible} closeModal={closeModal} message={infoMessage} />
                 </View>
             </ScrollView>
         </SafeAreaView>

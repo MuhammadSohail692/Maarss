@@ -15,17 +15,28 @@ const initialState: OrderResponse = {
 export const fetchOrderHistoryData = createAsyncThunk('order-history-slice/fetchOrderHistoryData', async ({customerId,pageNo,status}) => {
   try {
     console.log("customer " + customerId)
-    console.log("status " + status)
-    console.log("page " + pageNo)
+    
 
-    const queryParams = {
-      'consumer_key': CONSUMER_KEY,
-      'consumer_secret': CONSUMER_SECRET,
-      'customer': customerId,
-      'page':pageNo,
-      'per_page':'20',
-      'status': status,
-    };
+    var queryParams = {}
+    if(status=="all"){
+       queryParams = {
+        'consumer_key': CONSUMER_KEY,
+        'consumer_secret': CONSUMER_SECRET,
+        'customer': customerId,
+        'page':pageNo,
+        'per_page':'20',
+      };
+    }else{
+       queryParams = {
+        'consumer_key': CONSUMER_KEY,
+        'consumer_secret': CONSUMER_SECRET,
+        'customer': customerId,
+        'page':pageNo,
+        'per_page':'20',
+        'status': status,
+      };
+    }
+  
     var response
     response = await axios.get(BASE_URL + ORDER_HISTORY_END_POINT,{
       params: queryParams,
@@ -45,6 +56,7 @@ const orderHistoryDataDataSlice = createSlice({
         state.data = [];
         state.loading = false;
         state.error = "";
+        state.data = [];
       },
   },
   extraReducers: (builder) => {

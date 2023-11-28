@@ -17,13 +17,13 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import Modal from 'react-native-modal';
 import { useSelector, useDispatch } from 'react-redux';
-import { bestfavoriteRowItem, noRecordParentView, textPrompt,filterContainer,rowFilterContainer,filtersBox,filterBottomContainer,filterBottomContent, productsContainer ,productsHeaderContainer,productListContainer } from "@theme/view"
-import { $noRecordContainer,$productsLabelContainer,$filterLabel } from '@theme/text'
+import { bestfavoriteRowItem, noRecordParentView, textPrompt, filterContainer, rowFilterContainer, filtersBox, filterBottomContainer, filterBottomContent, productsContainer, productsHeaderContainer, productListContainer } from "@theme/view"
+import { $noRecordContainer, $productsLabelContainer, $filterLabel } from '@theme/text'
 import { IBestSellingProductCard } from '@types/type';
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
 import { fetchProductData, clearProductData } from '@reducers/product/product-slice';
 import { ProductDetailNavigator } from '@constants/navigator/navigation-stack';
-import { LABEL_IMAGE_NOT_FOUND, LABEL_NO_RECORD_FOUND, LoaderColor,PRODUCTS_LABEL } from '@constants/app-constants'
+import { LABEL_IMAGE_NOT_FOUND, LABEL_NO_RECORD_FOUND, LoaderColor, PRODUCTS_LABEL } from '@constants/app-constants'
 import icFilter from '@assets/images/ic_filter.png'
 
 const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSellingProductCard) => {
@@ -107,37 +107,38 @@ const ProductScreen = ({ route, navigation }) => {
     const [isModalVisible, setModalVisible] = useState(false);
     const [selectedFilterValue, setSelectedValue] = useState({
         id: 'date',
-        order:'desc',
+        order: 'desc',
         title: 'Sort by latest',
     },);
 
-    const { categoryId } = route.params;
-    console.log("prodcts "+categoryId)
+    const { categoryId, searchText } = route.params;
+    console.log("prodcts " + categoryId)
+    console.log("searchText " + searchText)
 
     const filterList = [
         {
             id: 'date',
-            order:'desc',
+            order: 'desc',
             title: 'Sort by latest',
         },
         {
             id: 'popularity',
-            order:'desc',
+            order: 'desc',
             title: 'Sort by poularity',
         },
         {
             id: 'rating',
-            order:'desc',
+            order: 'desc',
             title: 'Sort by average rating',
         },
         {
             id: 'price',
-            order:'asc',
+            order: 'asc',
             title: 'Sort by price: low to high',
         },
         {
             id: 'price',
-            order:'desc',
+            order: 'desc',
             title: 'Sort by price: high to low',
         },
     ];
@@ -145,15 +146,15 @@ const ProductScreen = ({ route, navigation }) => {
     useEffect(() => {
         if (initialLoading) {
             dispatch(clearProductData());
-            dispatch(fetchProductData({ categoryId: categoryId, pageNo: page,selectedOrderBy: selectedFilterValue.id,order:selectedFilterValue.order})).then(() => {
+            dispatch(fetchProductData({ categoryId: categoryId, pageNo: page, selectedOrderBy: selectedFilterValue.id, order: selectedFilterValue.order, searchText: searchText })).then(() => {
                 setInitialLoading(false);
             });
         }
         else if (!productScreenState.loading) {
-            dispatch(fetchProductData({ categoryId: categoryId, pageNo: page,selectedOrderBy:selectedFilterValue.id,order: selectedFilterValue.order}));
+            dispatch(fetchProductData({ categoryId: categoryId, pageNo: page, selectedOrderBy: selectedFilterValue.id, order: selectedFilterValue.order, searchText: searchText }));
         }
 
-    }, [dispatch,page]);
+    }, [dispatch, page]);
 
 
     const handleLoadMore = () => {
@@ -169,18 +170,20 @@ const ProductScreen = ({ route, navigation }) => {
     };
 
     const handleSelect = (value) => {
-    dispatch(clearProductData());
-    setPage(1);
-    setSelectedValue(value);
-    toggleModal();
-    setInitialLoading(true);
-    dispatch(fetchProductData({ 
-        categoryId: categoryId,
-        pageNo: 1,
-        selectedOrderBy: value.id,
-        order: value.order})).then(() => {
-        setInitialLoading(false);
-    });
+        dispatch(clearProductData());
+        setPage(1);
+        setSelectedValue(value);
+        toggleModal();
+        setInitialLoading(true);
+        dispatch(fetchProductData({
+            categoryId: categoryId,
+            pageNo: 1,
+            selectedOrderBy: value.id,
+            order: value.order,
+            searchText: searchText
+        })).then(() => {
+            setInitialLoading(false);
+        });
     };
 
     if (initialLoading) {
@@ -209,16 +212,18 @@ const ProductScreen = ({ route, navigation }) => {
                     productScreenState.data.length > 0 ? (
                         <View>
                             <View style={productsHeaderContainer}>
-                            <Text style={$productsLabelContainer}>{PRODUCTS_LABEL}</Text>
+                                <Text style={$productsLabelContainer}>{PRODUCTS_LABEL}</Text>
 
-                            <TouchableOpacity onPress={toggleModal}>
-                            <View style={filterContainer}>
-                                <Image source={ icFilter} style={{ width: 20, height: 20, resizeMode: 'contain' ,tintColor:'white'}} />
-                            </View>
-                            </TouchableOpacity>
+                                <TouchableOpacity onPress={toggleModal}>
+                                    <View style={filterContainer}>
+                                        <Image source={icFilter} style={{ width: 20, height: 20, resizeMode: 'contain', tintColor: 'white' }} />
+                                    </View>
+                                </TouchableOpacity>
+
+
                             </View>
                             <Modal isVisible={isModalVisible} onBackdropPress={toggleModal} style={filterBottomContainer}>
-                            <View style={filterBottomContent}>
+                                <View style={filterBottomContent}>
                                     {filterList.map((item) => (
                                         <TouchableOpacity key={item.id} onPress={() => handleSelect(item)}>
                                             <Text style={rowFilterContainer}>{item.title}</Text>
@@ -227,22 +232,22 @@ const ProductScreen = ({ route, navigation }) => {
                                 </View>
                             </Modal>
                             <View style={productListContainer}>
-                            <FlatList
-                                data={productScreenState.data ?? []}
-                                renderItem={renderItem}
-                                keyExtractor={(item) => item.id}
-                                showsVerticalScrollIndicator={false}
-                                nestedScrollEnabled={true}
-                                onEndReached={handleLoadMore}
-                                onEndReachedThreshold={0.1} // Adjust as needed
-                                ListFooterComponent={() => (
-                                    <View style={{ paddingVertical: 10 }}>
-                                        {loadingMore ? (
-                                            <ActivityIndicator size="large" color={LoaderColor} />
-                                        ) : null}
-                                    </View>
-                                )}
-                            />
+                                <FlatList
+                                    data={productScreenState.data ?? []}
+                                    renderItem={renderItem}
+                                    keyExtractor={(item) => item.id}
+                                    showsVerticalScrollIndicator={false}
+                                    nestedScrollEnabled={true}
+                                    onEndReached={handleLoadMore}
+                                    onEndReachedThreshold={0.1} // Adjust as needed
+                                    ListFooterComponent={() => (
+                                        <View style={{ paddingVertical: 10 }}>
+                                            {loadingMore ? (
+                                                <ActivityIndicator size="large" color={LoaderColor} />
+                                            ) : null}
+                                        </View>
+                                    )}
+                                />
                             </View>
                         </View>
 

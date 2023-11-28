@@ -9,14 +9,14 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-    Linking
+    Alert
 } from 'react-native';
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { registerContainer, inuputBoxLoginRegisterContainer, userInputBox, settingHeaderContainer, registerFildsContainer, registrationLoginBtn, registrationLoginContainer, instructionContainer } from "@theme/view"
-import { $labelContainer, $userInputContainer, $contactUsHeaderContainer, $privacyPolicyText, $registerText } from '@theme/text'
-import { LOGIN_SCREEN_LABEL, LOGIN_LABEL, PRIVACY_POLICY_URL } from '@constants/app-constants'
+import { $labelContainer, $userInputContainer, $contactUsHeaderContainer, $registerText } from '@theme/text'
+import { LOGIN_SCREEN_LABEL, LOGIN_LABEL, NO_INTENRT_CONNECTION,CHECK_YOUR_INTERNET,OK } from '@constants/app-constants'
 import icEmail from '@assets/images/ic_email.png'
 import icPassword from '@assets/images/ic_password.png'
 import { useSelector, useDispatch } from 'react-redux';
@@ -26,6 +26,7 @@ import { showShortToast } from '@utils/Utilities'
 import Loader from '@utils/components/loader/Loader'
 import { RegisterNavigator,BillingInfoNavigator } from '@constants/navigator/navigation-stack';
 import  AlertMessageDialog  from '@utils/components/AlertMessageDialog';
+import NetInfo from '@react-native-community/netinfo';
 
 const LoginScreen = ({ navigation }) => {
     const isDarkMode = useColorScheme() === 'dark';
@@ -58,34 +59,53 @@ const LoginScreen = ({ navigation }) => {
             showShortToast("Password field is required")
         }
         else {
-            setInitialLoading(true);
-            dispatch(loginData({ email: email, password: password })).then((responseOrError) => {
-
-                const response = responseOrError;
-
-                if (response != null && response.payload != null && response.payload.data != null && response.payload.data.status != null && response.payload.data.status == 403) {
-                    console.log("status", response.payload.data.status);
-                    console.log("Message", response.payload.message);
-                    openModal(true,response.payload.message)
-                    setInitialLoading(false);
-
-                } else {
-                    // console.log('Login successful:', responseOrError);
-                    console.log('Login successful:', responseOrError.payload.token);
-
-                    dispatch(fetchLoginUserInfoData({email:email})).then((response) => {
+            NetInfo.fetch().then((state) => {
+                if (state.isConnected) {
+                    // Internet is connected, make API call
+                    setInitialLoading(true);
+                    dispatch(loginData({ email: email, password: password })).then((responseOrError) => {
+        
+                        const response = responseOrError;
+        
+                        if (response != null && response.payload != null && response.payload.message != null && response.payload.message =="Network error") 
+                          {
+                            console.log("Message", response.payload.message);
+                            openModal(true,response.payload.message)
+                            setInitialLoading(false);
+        
+                         }
+                       else if (response != null && response.payload != null && response.payload.data != null && response.payload.data.status != null && response.payload.data.status == 403) {
+                            console.log("status", response.payload.data.status);
+                            console.log("Message", response.payload.message);
+                            openModal(true,response.payload.message)
+                            setInitialLoading(false);
+        
+                        } else {
+                            // console.log('Login successful:', responseOrError);
+                            console.log('Login successful:', responseOrError.payload.token);
+        
+                            dispatch(fetchLoginUserInfoData({email:email})).then((response) => {
+                                setInitialLoading(false);
+                                navigation.goBack();
+                                // navigation.navigate(BillingInfoNavigator);    
+                                console.log("login res :"+JSON.stringify(response))
+                            });
+                        }
+                    }).catch((error) => {
+                        console.error('Registration error:', error);
                         setInitialLoading(false);
-                        navigation.goBack();
-                        // navigation.navigate(BillingInfoNavigator);    
-                        console.log("login res :"+JSON.stringify(response))
+                        showShortToast("Failed to login user")
                     });
+                } else {
+                    // No internet connection, show a popup
+                    Alert.alert(
+                        NO_INTENRT_CONNECTION,
+                        CHECK_YOUR_INTERNET,
+                        [{ text: OK, onPress: () => console.log('OK Pressed') }]
+                    );
+                    setInitialLoading(false);
                 }
-            }).catch((error) => {
-                console.error('Registration error:', error);
-                setInitialLoading(false);
-                showShortToast("Failed to login user")
             });
-
         }
     };
 

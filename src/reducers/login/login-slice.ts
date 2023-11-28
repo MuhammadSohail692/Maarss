@@ -23,7 +23,7 @@ export const loginData = createAsyncThunk('login-slice/loginData', async ({email
     response = await axios.post(BASE_URL + LOGIN_CUSTOMER_END_POINT,data);
     return response.data as ILoginResponse;
   } catch (error) {
-return rejectWithValue(error.response?.data ?? { message: 'An error occurred' });
+return rejectWithValue(error.response?.data ?? { message: error.message === 'Network Error'? "Network error": 'An error occurred' });
   }
 });
 
@@ -50,6 +50,7 @@ const loginDataSlice = createSlice({
       .addCase(loginData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message ?? "Unable to server at the moment";
+
       });
   },
 });

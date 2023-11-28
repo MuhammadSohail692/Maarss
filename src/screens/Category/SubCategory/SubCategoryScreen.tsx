@@ -42,7 +42,6 @@ const SubCategoryScreen = ({ route, navigation }) => {
     const [page, setPage] = useState(1);
     const [initialLoading, setInitialLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
-    const [subCategoryData, setSubCategoryData] = useState(-1);
 
     useEffect(() => {
         console.log("categoryId "+categoryId)
@@ -60,19 +59,17 @@ const SubCategoryScreen = ({ route, navigation }) => {
 
     }, [dispatch,page]);
 
-    useEffect(() => {
-        if (subCategoryData>0) {
-            console.log("subCategorymoreDataid "+subCategoryData)
-            dispatch(fetchSubCategoriesMoreData({categoryId: subCategoryData, pageNo: 1})).then((response) => {
-                if(response.payload!=null && response.payload.length>0){                    
-                    navigation.navigate(SubCategoryMoreNavigator, { categoryId: subCategoryData });
-                }else{
-                    navigation.navigate(ProductNavigator,{ categoryId: subCategoryData });
-                }
-            });
-        }
 
-    }, [subCategoryData]);
+    const handleTapClicked = (value) => {
+        console.log("subCategorymoreDataid "+value)
+        dispatch(fetchSubCategoriesMoreData({categoryId: value, pageNo: 1})).then((response) => {
+            if(response.payload!=null && response.payload.length>0){                    
+                navigation.navigate(SubCategoryMoreNavigator, { categoryId: value });
+            }else{
+                navigation.navigate(ProductNavigator,{ categoryId: value,searchText: "" });
+            }
+        });
+    };
 
     const handleLoadMore = () => {
         if (!subCategoriesScreenState.loading && subCategoriesScreenState.pageData.length > 0) {
@@ -87,8 +84,7 @@ const SubCategoryScreen = ({ route, navigation }) => {
         return (
             <TouchableOpacity
                 onPress={() => {
-                    setSubCategoryData(categoryId)
-                    // navigation.navigate(SubCategoryMoreNavigator, { categoryId: categoryId });
+                    handleTapClicked(categoryId)
                 }}
             >
                 <View style={categiryRowItem}>

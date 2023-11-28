@@ -42,8 +42,6 @@ const CategoryScreen = ({ route, navigation }) => {
     const [page, setPage] = useState(1);
     const [initialLoading, setInitialLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
-    const [subCategoryData, setSubCategoryData] = useState(-1);
-
 
     const categoryId = 0
 
@@ -62,25 +60,21 @@ const CategoryScreen = ({ route, navigation }) => {
 
     }, [dispatch,page]);
 
-    
-    useEffect(() => {
-        if (subCategoryData>0) {
-            // setInitialLoading(true);
-            console.log("subCategoryDataid "+subCategoryData)
-            dispatch(fetchSubCategoriesData({categoryId: subCategoryData, pageNo: 1}))
-            .then((response) => {
-                // console.log("respnse +"+ JSON.stringify(response.payload))
-                // setInitialLoading(false);
-                // console.log("data dd"+subCategoriesScreenState.pageData)
-                if(response.payload!=null && response.payload.length>0){
-                    navigation.navigate(SubCategoryNavigator, { categoryId: subCategoryData });
-                }else{
-                    navigation.navigate(ProductNavigator,{ categoryId: subCategoryData });
-                }
-            });
-        }
 
-    }, [subCategoryData]);
+    const handleTapClicked = (value) => {
+        console.log("subCategoryDataid "+value)
+        dispatch(fetchSubCategoriesData({categoryId: value, pageNo: 1}))
+        .then((response) => {
+            // console.log("respnse data +"+ JSON.stringify(response.payload))
+            // setInitialLoading(false);
+            // console.log("data dd"+subCategoriesScreenState.pageData)
+            if(response.payload!=null && response.payload.length>0){
+                navigation.navigate(SubCategoryNavigator, { categoryId: value });
+            }else{
+                navigation.navigate(ProductNavigator,{ categoryId: value,searchText: "" });
+            }
+        });
+    };
 
 
     const handleLoadMore = () => {
@@ -96,9 +90,9 @@ const CategoryScreen = ({ route, navigation }) => {
         return (
             <TouchableOpacity
                 onPress={() => {
-                    setSubCategoryData(categoryId)
-                    // navigation.navigate(SubCategoryNavigator, { categoryId: categoryId });
-                }}
+                    handleTapClicked(categoryId)
+                }
+                }
             >
                 <View style={categiryRowItem}>
                 <Text numberOfLines={1}

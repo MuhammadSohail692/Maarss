@@ -25,6 +25,38 @@ export const productsContainer: ViewStyle = {
   paddingBottom: 110
 };
 
+export const orderStatusParent: ViewStyle = {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+flex:1,
+height:35,
+borderRadius:20
+};
+
+export const orderStatusViewOne: ViewStyle = {
+  flex: 1,
+  height:35,
+  borderRadius:20
+};
+
+export const orderStatusViewTwo: ViewStyle = {
+  flex: 1,
+  height:35,
+  borderRadius:20,
+  marginHorizontal:5
+};
+
+export const orderStatusViewThree: ViewStyle = {
+  flex: 1,
+  height:35,
+  borderRadius:20,
+  marginHorizontal:5
+};
+export const orderStatusViewFour: ViewStyle = {
+  flex: 1,
+  height:35,
+  borderRadius:20
+};
 
 export const cartContainer: ViewStyle = {
   flexDirection: 'column',
@@ -247,10 +279,10 @@ export const categiryRowItem: ViewStyle = {
   // alignContent: 'center',
 
   marginEnd: 0,
-  padding:8,
+  padding: 8,
   backgroundColor: '#ffffff',
   borderRadius: 10,
-  
+
   marginBottom: 8,
 };
 
@@ -259,7 +291,7 @@ export const historyRowItem: ViewStyle = {
   justifyContent: 'space-between',
   alignContent: 'center',
   alignItems: 'center',
-  padding:12,
+  padding: 12,
   backgroundColor: '#ffffff',
   borderRadius: 10,
   marginBottom: 8,
@@ -306,6 +338,11 @@ export const productListContainer: ViewStyle = {
 export const categoryListContainer: ViewStyle = {
   marginTop: 10,
 }
+
+export const orderHistoryListContainer: ViewStyle = {
+  marginTop: 40,
+}
+
 
 export const filterContainer: ViewStyle = {
   borderColor: '#745D8A',
@@ -396,16 +433,16 @@ export const registerContainer: ViewStyle = {
   flexDirection: 'column',
   padding: 20,
   height: Dimensions.get('window').height,
-  alignContent:'center',
-  alignItems:'center'
+  alignContent: 'center',
+  alignItems: 'center'
 };
 
 export const registerFildsContainer: ViewStyle = {
-  height: Dimensions.get('window').height*0.8,
+  height: Dimensions.get('window').height * 0.8,
   flexDirection: 'column',
-  justifyContent:'center',
-  alignContent:'center',
-  alignItems:'center'
+  justifyContent: 'center',
+  alignContent: 'center',
+  alignItems: 'center'
 };
 
 
@@ -419,6 +456,19 @@ export const inuputBoxContainer: ViewStyle =
   borderColor: '#ffffff',
   paddingHorizontal: 2,
   marginTop: 10
+}
+
+
+export const searchInuputContainer: ViewStyle =
+{
+  flexDirection: 'row',
+  alignItems: 'center',
+  borderWidth: 1,
+  backgroundColor: '#ffffff',
+  borderRadius: 10,
+  borderColor: '#ffffff',
+  paddingHorizontal: 2,
+  marginTop: 5
 }
 
 export const inuputBoxLoginRegisterContainer: ViewStyle =
@@ -442,46 +492,46 @@ export const orderNotesContainer: ViewStyle =
   borderRadius: 10,
   borderColor: '#ffffff',
   paddingHorizontal: 10,
-  height:150,
+  height: 150,
   marginTop: 10
 }
 export const userInputBox: ViewStyle = {
   flex: 1,
   paddingVertical: 8,
-  marginStart:10
+  marginStart: 10
 }
 
 
 export const registrationLoginContainer: ViewStyle = {
- flexDirection:'row',
- marginTop:20,
- justifyContent:'center',
- alignContent:'center',
- alignItems:'center'
+  flexDirection: 'row',
+  marginTop: 20,
+  justifyContent: 'center',
+  alignContent: 'center',
+  alignItems: 'center'
 };
 
 
 export const alreadyAccountContainer: ViewStyle = {
-  flexDirection:'row',
-  justifyContent:'flex-start',
-  alignContent:'center',
-  alignItems:'center',
-  marginBottom:15
- };
+  flexDirection: 'row',
+  justifyContent: 'flex-start',
+  alignContent: 'center',
+  alignItems: 'center',
+  marginBottom: 15
+};
 
 export const registrationLoginBtn: ViewStyle = {
   padding: 12,
   backgroundColor: '#3BB54A',
   width: 80,
   borderWidth: 1,
-  borderRadius:10,
-  borderColor:'#3BB54A',
-  alignContent:'center',
- alignItems:'center'
+  borderRadius: 10,
+  borderColor: '#3BB54A',
+  alignContent: 'center',
+  alignItems: 'center'
 };
 
 export const instructionContainer: ViewStyle = {
-  marginTop:15
+  marginTop: 15
 };
 
 
@@ -489,7 +539,7 @@ export const checkoutBtn: ViewStyle = {
   padding: 8,
   backgroundColor: '#3BB54A',
   width: 80,
-  borderRadius: 8,  
+  borderRadius: 8,
 };
 
 
@@ -503,16 +553,16 @@ export const billingContiner: ViewStyle = {
   justifyContent: 'space-between'
 }
 
-export const shipmentType:ViewStyle = {
-  padding:12,
-  backgroundColor:'#ffffff',
-  borderRadius:10
+export const shipmentType: ViewStyle = {
+  padding: 12,
+  backgroundColor: '#ffffff',
+  borderRadius: 10
 }
 
-export const billingDetailsType:ViewStyle = {
-  marginTop:10,
+export const billingDetailsType: ViewStyle = {
+  marginTop: 10,
 }
 
-export const subTotalContainer:ViewStyle ={
+export const subTotalContainer: ViewStyle = {
   flexDirection: 'row',
 }

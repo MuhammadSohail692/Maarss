@@ -28,7 +28,7 @@ export const registerData = createAsyncThunk('register-slice/registerData', asyn
     });
     return response.data as IRegisterResponse;
   } catch (error) {
-return rejectWithValue(error.response?.data ?? { message: 'An error occurred' });
+    return rejectWithValue(error.response?.data ?? { message: error.message === 'Network Error'? "Network error": 'An error occurred' });
   }
 });
 

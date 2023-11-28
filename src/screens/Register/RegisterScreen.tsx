@@ -9,14 +9,15 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-    Linking
+    Linking,
+    Alert
 } from 'react-native';
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { registerContainer, inuputBoxLoginRegisterContainer, userInputBox, settingHeaderContainer, registerFildsContainer, registrationLoginBtn, registrationLoginContainer, instructionContainer } from "@theme/view"
-import { $labelContainer, $userInputContainer, $contactUsHeaderContainer, $privacyPolicyText, $registerText } from '@theme/text'
-import { REGISTRATION_LABEL, REGISTER_LABEL, PRIVACY_POLICY_URL } from '@constants/app-constants'
+import { $labelContainer, $userInputContainer, $contactUsHeaderContainer, $privacyPolicyText } from '@theme/text'
+import { REGISTRATION_LABEL, REGISTER_LABEL, PRIVACY_POLICY_URL,NO_INTENRT_CONNECTION,CHECK_YOUR_INTERNET,OK } from '@constants/app-constants'
 import icEmail from '@assets/images/ic_email.png'
 import icPassword from '@assets/images/ic_password.png'
 import { ISettingUrl } from '@types/type'
@@ -26,6 +27,7 @@ import { showShortToast } from '@utils/Utilities'
 import Loader from '@utils/components/loader/Loader'
 import { BillingInfoNavigator } from '@constants/navigator/navigation-stack';
 import  AlertMessageDialog  from '@utils/components/AlertMessageDialog';
+import NetInfo from '@react-native-community/netinfo';
 
 const RegisterScreen = ({ navigation }) => {
     const isDarkMode = useColorScheme() === 'dark';
@@ -63,27 +65,49 @@ const RegisterScreen = ({ navigation }) => {
             showShortToast("Password field is required")
         }
         else {
-            setInitialLoading(true);
-            dispatch(registerData({ email: email, password: password })).then((responseOrError) => {
 
-                const response = responseOrError;
-
-                if (response != null && response.payload != null && response.payload.data != null && response.payload.data.status != null && response.payload.data.status == 400) {
-                    console.log("status", response.payload.data.status);
-                    console.log("Message", response.payload.message);
-                    openModal(true,response.payload.message)
-                    setInitialLoading(false);
+            NetInfo.fetch().then((state) => {
+                if (state.isConnected) {
+                    // Internet is connected, make API call
+                    setInitialLoading(true);
+                    dispatch(registerData({ email: email, password: password })).then((responseOrError) => {
+        
+                        const response = responseOrError;
+        
+                        
+                        if (response != null && response.payload != null && response.payload.message != null && response.payload.message =="Network error") 
+                          {
+                            console.log("Message", response.payload.message);
+                            openModal(true,response.payload.message)
+                            setInitialLoading(false);
+        
+                         }
+                       else if (response != null && response.payload != null && response.payload.data != null && response.payload.data.status != null && response.payload.data.status == 400) {
+                            console.log("status", response.payload.data.status);
+                            console.log("Message", response.payload.message);
+                            openModal(true,response.payload.message)
+                            setInitialLoading(false);
+                        } else {
+                            setInitialLoading(false);
+                            showShortToast("User register")
+        
+                            console.log('Registration successful:', responseOrError);
+                            navigation.goBack();
+                        }
+                    }).catch((error) => {
+                        console.error('Registration error:', error);
+                        setInitialLoading(false);
+                        showShortToast("Failed to register user")
+                    });
                 } else {
+                    // No internet connection, show a popup
+                    Alert.alert(
+                        NO_INTENRT_CONNECTION,
+                        CHECK_YOUR_INTERNET,
+                        [{ text: OK, onPress: () => console.log('OK Pressed') }]
+                    );
                     setInitialLoading(false);
-                    showShortToast("User register")
-
-                    console.log('Registration successful:', responseOrError);
-                    navigation.goBack();
                 }
-            }).catch((error) => {
-                console.error('Registration error:', error);
-                setInitialLoading(false);
-                showShortToast("Failed to register user")
             });
         }
     };

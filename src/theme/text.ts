@@ -190,3 +190,12 @@ export const $billingDetailLabel: TextStyle = {
   fontSize: 16,
   fontWeight: '700',
 }
+
+export const $statusBoxText:TextStyle= {
+  color: 'white',
+  textAlign: 'center',
+  textAlignVertical: 'center',
+  lineHeight:35,
+  fontSize:12,
+  fontWeight: '600',
+}

@@ -15,6 +15,7 @@ import {
 import ShopNow from '@components/shopNow/ShopNow'
 import BestSellingProducts from '@components/bestSellingProducts/BestSellingProducts'
 import NewArrivals from '@components/newArrivals/NewArrivals'
+import SearchProducts from '@components/searchProducts/SearchProducts'
 
 const HomeScreen = ({ navigation }) => {
 
@@ -36,6 +37,10 @@ const HomeScreen = ({ navigation }) => {
                 style={[backgroundStyle]}>
 
                 <View style={homeContainer}>
+
+                    {/* Search Products */}
+                    <SearchProducts navigation={navigation}/>
+
                     {/* Shop Now */}
                     <ShopNow navigation={navigation} />
 

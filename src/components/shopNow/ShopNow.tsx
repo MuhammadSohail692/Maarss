@@ -29,7 +29,7 @@ const RowItem = ({ id, title, desc, bgImage,navigation }: IShopNowCard) => {
                     style={{ color: "#FFFFEF", fontSize: 12, fontWeight: '500', }}>{desc}</Text>
                 <TouchableOpacity
                     onPress={() => {
-                        navigation.navigate(ProductNavigator,{ categoryId: id });
+                        navigation.navigate(ProductNavigator,{ categoryId: id,searchText: "" });
                     }}
                 >
                     <View style={shopNowBtn}>
@@ -70,12 +70,14 @@ const ShopNow = ({navigation}) => {
         <RowItem id={item.id} title={item.title} desc={item.desc} bgImage={item.bgImage} navigation={navigation} />
     );
     return (
+        <View style={{marginTop:18}}>
         <FlatList
             data={shopNowList ?? []}
             renderItem={renderItem}
             keyExtractor={(item) => item.id}
             showsVerticalScrollIndicator={false}
         />
+        </View>
     );
 };
 

@@ -11,22 +11,38 @@ const initialState: BestSellingProductRespose = {
   error: ""
 };
 
-export const fetchProductData = createAsyncThunk('product-slice/fetchProductData', async ({categoryId,pageNo,selectedOrderBy,order}) => {
+export const fetchProductData = createAsyncThunk('product-slice/fetchProductData', async ({categoryId,pageNo,selectedOrderBy,order,searchText}) => {
   try {
     console.log("orderby " + selectedOrderBy)
     console.log("order " + order)
     console.log("page " + pageNo)
+    console.log("searchText " + searchText)
 
-    const queryParams = {
-      'consumer_key': CONSUMER_KEY,
-      'consumer_secret': CONSUMER_SECRET,
-      'category':categoryId,
-      'orderby': selectedOrderBy,
-      'order': order,
-      'page':pageNo,
-      'per_page':'20',
-      'stock_status':'instock'
-    };
+    var queryParams = {}
+    if(searchText.length>0){
+       queryParams = {
+        'consumer_key': CONSUMER_KEY,
+        'consumer_secret': CONSUMER_SECRET,
+        'orderby': selectedOrderBy,
+        'order': order,
+        'page':pageNo,
+        'per_page':'20',
+        'stock_status':'instock',
+        'search':searchText
+      };
+    }else{
+      queryParams = {
+        'consumer_key': CONSUMER_KEY,
+        'consumer_secret': CONSUMER_SECRET,
+        'category':categoryId,
+        'orderby': selectedOrderBy,
+        'order': order,
+        'page':pageNo,
+        'per_page':'20',
+        'stock_status':'instock'
+      };
+    }
+    
     var response
     response = await axios.get(BASE_URL + PRODUCT_END_POINT,{
       params: queryParams,

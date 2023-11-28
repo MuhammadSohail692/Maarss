@@ -16,8 +16,8 @@ import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { useSelector, useDispatch } from 'react-redux';
-import { categiryRowItem, noRecordParentView, textPrompt, orderStatusContainer, categoryListContainer, settingHeaderContainer, historyRowItem, productsContainer, } from "@theme/view"
-import { $noRecordContainer, $contactUsHeaderContainer } from '@theme/text'
+import { categiryRowItem, noRecordParentView, textPrompt, orderStatusContainer, orderHistoryListContainer, settingHeaderContainer, historyRowItem, productsContainer, orderStatusViewOne, orderStatusViewTwo, orderStatusViewThree, orderStatusParent, orderStatusViewFour } from "@theme/view"
+import { $noRecordContainer, $contactUsHeaderContainer, $statusBoxText } from '@theme/text'
 import { IOrderHistoryCard } from '@types/type';
 import { IOrderResponse } from '@model/order/OrderModel';
 import { fetchOrderHistoryData, clearOrderHistoryData } from '@reducers/orderHistory/order-history-slice';
@@ -35,25 +35,30 @@ const OrderScreen = ({ route, navigation }) => {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
     const dispatch = useDispatch();
-    const loginScreenState = useSelector((state) => state.loginData)
+    const loginScreenState = useSelector((state) => state.loginUserInfo)
 
     const orderHistoryScreenState = useSelector((state) => state.orderHistoryData)
 
     const [page, setPage] = useState(1);
     const [initialLoading, setInitialLoading] = useState(true);
+    const [tabLoading, setTabLoading] = useState(false);
+    const [statusTab, setStatusTab] = useState("all");
     const [loadingMore, setLoadingMore] = useState(false);
+    var customerId = -1;
+    if(loginScreenState.data.length>0){
+         customerId =  loginScreenState.data[0].id
+    }
 
     useEffect(() => {
-        console.log("token " + loginScreenState.data.token)
+        
         if (initialLoading) {
             dispatch(clearOrderHistoryData());
-            // loginScreenState.data.token
-            dispatch(fetchOrderHistoryData({ customerId: "625", pageNo: page, status: "cancelled" })).then(() => {
+            dispatch(fetchOrderHistoryData({ customerId: customerId, pageNo: page, status: statusTab })).then(() => {
                 setInitialLoading(false);
             });
         }
         else if (!orderHistoryScreenState.loading) {
-            dispatch(fetchOrderHistoryData({ customerId: "625", pageNo: page, status: "cancelled" })).then(() => {
+            dispatch(fetchOrderHistoryData({ customerId: customerId, pageNo: page, status: statusTab })).then(() => {
                 setLoadingMore(false);
             });
         }
@@ -68,6 +73,17 @@ const OrderScreen = ({ route, navigation }) => {
         }
     };
 
+    const statusTabClicked = (value) => {
+        dispatch(clearOrderHistoryData());
+        setPage(1);
+        setStatusTab(value);
+        setTabLoading(true);
+        dispatch(fetchOrderHistoryData({ customerId: customerId, pageNo: 1, status: value })).then(() => {
+            setTabLoading(false);
+        });
+    };
+
+
     const RowItem = ({ orderId, status, total, navigation }: IOrderHistoryCard) => {
 
         return (
@@ -80,7 +96,7 @@ const OrderScreen = ({ route, navigation }) => {
                     <Text numberOfLines={1}
                         ellipsizeMode="tail"
                         style={{ color: Colors.black, fontSize: 13, fontWeight: '600', marginStart: 5, marginEnd: 5 }}>OrderId: {orderId}</Text>
-                    <View style={[orderStatusContainer, { backgroundColor: status == "cancelled" ? '#FF0000' : "#008000" }]}>
+                    <View style={[orderStatusContainer, { backgroundColor: status == "cancelled" ? '#FF0000' : status == "processing" ? "#ADD8E6" : status == "completed" ? "#008000" : "lightgrey" }]}>
                         <Text numberOfLines={1}
                             ellipsizeMode="tail"
                             style={{ color: Colors.white, fontSize: 11, fontWeight: '500', marginStart: 5, marginEnd: 5 }}>{status.toUpperCase()}</Text>
@@ -91,7 +107,7 @@ const OrderScreen = ({ route, navigation }) => {
     }
 
 
-    if (initialLoading) {
+    if (initialLoading || tabLoading) {
         // Show the initial loader in the center
         return (
             <View style={[textPrompt, { height: 260 }]}>
@@ -110,6 +126,7 @@ const OrderScreen = ({ route, navigation }) => {
         : IOrderResponse) => (
         <RowItem orderId={item.id} status={item.status} total={item.total} navigation={navigation} />
     );
+    
 
 
     return (
@@ -119,13 +136,38 @@ const OrderScreen = ({ route, navigation }) => {
                 backgroundColor={backgroundStyle.backgroundColor}
             />
             <View style={productsContainer}>
+                <View style={settingHeaderContainer}>
+                    <Text style={$contactUsHeaderContainer}>{ORDER_HISTORY_LABEL}</Text>
+                </View>
+
+                <View style={orderStatusParent}>
+
+                    <TouchableOpacity style={[orderStatusViewOne, { backgroundColor: statusTab == "all"?'#5A5A5A':"lightgrey" }]} onPress={() => statusTabClicked("all")}>
+                        <Text style={$statusBoxText}>All</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={[orderStatusViewTwo, { backgroundColor: statusTab == "processing"?'#ADD8E6':"lightgrey" }]} onPress={() => statusTabClicked("processing")}>
+                        <Text style={$statusBoxText}>Processing</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={[orderStatusViewThree, { backgroundColor: statusTab == "completed"?'#008000':"lightgrey" }]} onPress={() => statusTabClicked("completed")}>
+                        <Text style={$statusBoxText}>Completed</Text>
+                    </TouchableOpacity>
+                    
+                    
+                    <TouchableOpacity style={[orderStatusViewFour, { backgroundColor: statusTab == "cancelled"?'#FF0000':"lightgrey"  }]} onPress={() => statusTabClicked("cancelled")}>
+                        <Text style={$statusBoxText}>Cancelled</Text>
+                    </TouchableOpacity>
+                
+
+                </View>
                 {
+
                     orderHistoryScreenState.data.length > 0 ? (
-                        <View>
-                            <View style={settingHeaderContainer}>
-                                <Text style={$contactUsHeaderContainer}>{ORDER_HISTORY_LABEL}</Text>
-                            </View>
-                            <View style={categoryListContainer}>
+                        <View style={{ marginTop: 10 }}>
+
+
+                            <View style={orderHistoryListContainer}>
                                 <FlatList
                                     data={orderHistoryScreenState.data ?? []}
                                     renderItem={renderItem}

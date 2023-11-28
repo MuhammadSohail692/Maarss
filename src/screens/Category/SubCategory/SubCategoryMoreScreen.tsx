@@ -30,7 +30,7 @@ const RowItem = ({ categoryId, name, navigation }: ICategoryCard) => {
     return (
         <TouchableOpacity
             onPress={() => {
-                navigation.navigate(ProductNavigator,{ categoryId: categoryId });
+                navigation.navigate(ProductNavigator,{ categoryId: categoryId,searchText: "" });
             }}
         >
             <View style={categiryRowItem}>

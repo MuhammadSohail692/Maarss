@@ -158,7 +158,7 @@ const ProductScreen = ({ route, navigation }) => {
 
 
     const handleLoadMore = () => {
-        if (!productScreenState.loading) {
+        if (!productScreenState.loading && productScreenState.pageData.length > 0) {
             console.log("handleLoadMore")
             setPage(page + 1);
             setLoadingMore(true);

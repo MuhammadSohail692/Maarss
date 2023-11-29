@@ -18,7 +18,6 @@ const AlertMessageDialog = ({ visible, closeModal,message }) => {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              {/* <Text style={styles.modalText}>{message}</Text> */}
               <HTML source={{ html: message }} tagsStyles={htmlStyles} />
               <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
                 <Text style={styles.closeButtonText}>Close</Text>

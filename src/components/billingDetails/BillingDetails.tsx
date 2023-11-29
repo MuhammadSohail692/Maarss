@@ -36,7 +36,6 @@ const BillingDetails = ({ navigation }) => {
     
     // console.log("token "+loginInfoScreenState.data.token)
     useEffect(() => {
-
         if(loginUserInfoScreenState.data!=null && loginUserInfoScreenState.data.length>0){
         setName(loginUserInfoScreenState.data[0].username ? loginUserInfoScreenState.data[0].username:"")
         setEmail(loginUserInfoScreenState.data[0].email ? loginUserInfoScreenState.data[0].email:"")
@@ -44,7 +43,6 @@ const BillingDetails = ({ navigation }) => {
         setCity(loginUserInfoScreenState.data[0].shipping.city ? loginUserInfoScreenState.data[0].shipping.city:"")
         setCountry(loginUserInfoScreenState.data[0].shipping.country ? loginUserInfoScreenState.data[0].shipping.country:"")
         setPhone(loginUserInfoScreenState.data[0].shipping.phone ? loginUserInfoScreenState.data[0].shipping.phone:"")
-
         }
     }, [loginUserInfoScreenState]);
 

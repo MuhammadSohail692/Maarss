@@ -28,34 +28,34 @@ export const productsContainer: ViewStyle = {
 export const orderStatusParent: ViewStyle = {
   flexDirection: 'row',
   justifyContent: 'space-between',
-flex:1,
-height:35,
-borderRadius:20
+  flex: 1,
+  height: 35,
+  borderRadius: 20
 };
 
 export const orderStatusViewOne: ViewStyle = {
   flex: 1,
-  height:35,
-  borderRadius:20
+  height: 35,
+  borderRadius: 20
 };
 
 export const orderStatusViewTwo: ViewStyle = {
   flex: 1,
-  height:35,
-  borderRadius:20,
-  marginHorizontal:5
+  height: 35,
+  borderRadius: 20,
+  marginHorizontal: 5
 };
 
 export const orderStatusViewThree: ViewStyle = {
   flex: 1,
-  height:35,
-  borderRadius:20,
-  marginHorizontal:5
+  height: 35,
+  borderRadius: 20,
+  marginHorizontal: 5
 };
 export const orderStatusViewFour: ViewStyle = {
   flex: 1,
-  height:35,
-  borderRadius:20
+  height: 35,
+  borderRadius: 20
 };
 
 export const cartContainer: ViewStyle = {
@@ -158,13 +158,18 @@ export const shopNowBtn: ViewStyle = {
 };
 
 
+export const applyCouponBtn: ViewStyle = {
+  backgroundColor: '#3BB54A',
+  borderRadius: 10,
+  paddingVertical: 10,
+  paddingHorizontal: 10,
+};
+
 export const textPrompt: ViewStyle = {
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center'
 };
-
-
 
 export const bestProductRowItem: ViewStyle = {
   flexDirection: 'column',
@@ -471,6 +476,14 @@ export const searchInuputContainer: ViewStyle =
   marginTop: 5
 }
 
+
+export const searchInuputCouponContainer: ViewStyle =
+{
+  flexDirection: 'row',
+  alignItems: 'center',
+  marginTop: 5
+}
+
 export const inuputBoxLoginRegisterContainer: ViewStyle =
 {
   flexDirection: 'row',
@@ -499,6 +512,17 @@ export const userInputBox: ViewStyle = {
   flex: 1,
   paddingVertical: 8,
   marginStart: 10
+}
+
+export const userInputCouponBox: ViewStyle = {
+  flex: 1,
+  paddingVertical: 6,
+  marginEnd: 10,
+  borderWidth: 1,
+  backgroundColor: '#ffffff',
+  borderRadius: 10,
+  paddingHorizontal: 10,
+  borderColor: '#ffffff',
 }
 
 
@@ -556,7 +580,8 @@ export const billingContiner: ViewStyle = {
 export const shipmentType: ViewStyle = {
   padding: 12,
   backgroundColor: '#ffffff',
-  borderRadius: 10
+  borderRadius: 10,
+  marginTop: 15
 }
 
 export const billingDetailsType: ViewStyle = {

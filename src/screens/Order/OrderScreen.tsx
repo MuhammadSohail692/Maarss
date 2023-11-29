@@ -16,16 +16,13 @@ import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { useSelector, useDispatch } from 'react-redux';
-import { categiryRowItem, noRecordParentView, textPrompt, orderStatusContainer, orderHistoryListContainer, settingHeaderContainer, historyRowItem, productsContainer, orderStatusViewOne, orderStatusViewTwo, orderStatusViewThree, orderStatusParent, orderStatusViewFour } from "@theme/view"
+import { noRecordParentView, textPrompt, orderStatusContainer, orderHistoryListContainer, settingHeaderContainer, historyRowItem, productsContainer, orderStatusViewOne, orderStatusViewTwo, orderStatusViewThree, orderStatusParent, orderStatusViewFour } from "@theme/view"
 import { $noRecordContainer, $contactUsHeaderContainer, $statusBoxText } from '@theme/text'
 import { IOrderHistoryCard } from '@types/type';
 import { IOrderResponse } from '@model/order/OrderModel';
 import { fetchOrderHistoryData, clearOrderHistoryData } from '@reducers/orderHistory/order-history-slice';
-import { fetchSubCategoriesData } from '@reducers/subCategories/subcategories-slice';
-import { SubCategoryNavigator, ProductNavigator } from '@constants/navigator/navigation-stack';
+import { orderDetailHistoryNavigator } from '@constants/navigator/navigation-stack';
 import { LABEL_NO_RECORD_FOUND, LoaderColor, ORDER_HISTORY_LABEL } from '@constants/app-constants'
-import icForward from '@assets/images/ic_forward.png'
-
 
 const OrderScreen = ({ route, navigation }) => {
 
@@ -89,7 +86,7 @@ const OrderScreen = ({ route, navigation }) => {
         return (
             <TouchableOpacity
                 onPress={() => {
-                    // navigation.navigate(SubCategoryNavigator, { categoryId: categoryId });
+                    navigation.navigate(orderDetailHistoryNavigator, { orderId: orderId });
                 }}
             >
                 <View style={historyRowItem}>

@@ -2,13 +2,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { BASE_URL, PRODUCT_END_POINT,CONSUMER_KEY,CONSUMER_SECRET } from '@service/constants';
-import { BestSellingProductRespose } from '@types/BestSellingPrice';
-import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
+import { ProductResponse } from '@types/Products';
+import { IProductsModelResponse } from '@model/products/ProductsModel';
 
-const initialState: BestSellingProductRespose = {
+const initialState: ProductResponse = {
   data: [],
   loading: false,
-  error: ""
+  error: "",
+  pageData:[]
 };
 
 export const fetchProductData = createAsyncThunk('product-slice/fetchProductData', async ({categoryId,pageNo,selectedOrderBy,order,searchText}) => {
@@ -48,7 +49,7 @@ export const fetchProductData = createAsyncThunk('product-slice/fetchProductData
       params: queryParams,
     });
 
-    return response.data as IBestSellingProductRespose;
+    return response.data as IProductsModelResponse;
   } catch (error) {
     throw error;
   }
@@ -71,6 +72,7 @@ const productDataSlice = createSlice({
         state.error = "";
       })
       .addCase(fetchProductData.fulfilled, (state, action) => {
+        state.pageData = action.payload;
         state.data = state.data.concat(action.payload);
         state.loading = false;
       })

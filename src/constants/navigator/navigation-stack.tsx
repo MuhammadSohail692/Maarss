@@ -10,6 +10,7 @@ export const BillingInfoNavigator = "BillingInfo"
 export const SubCategoryNavigator = "SubCategory"
 export const SubCategoryMoreNavigator = "SubCategoryMore"
 export const orderHistoryNavigator = "OrderHistory"
+export const orderDetailHistoryNavigator = "orderDetail"
 
 //Bottom bar navigator
 export const HomeTabNavigator = "Home"

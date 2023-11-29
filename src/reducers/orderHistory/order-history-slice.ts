@@ -53,7 +53,6 @@ const orderHistoryDataDataSlice = createSlice({
   initialState,
   reducers: {
     clearOrderHistoryData: (state) => {
-        state.data = [];
         state.loading = false;
         state.error = "";
         state.data = [];

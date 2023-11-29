@@ -28,7 +28,7 @@ import { fetchShippingMethodData } from '@reducers/shipping/shipping-slice';
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
 
 
-const ShippingType = ({ navigation }) => {
+const ShippingType = ({ couponValue, navigation }) => {
 
     const shippingMethodScreenState = useSelector((state) => state.shippingMethod)
     const cartScreenState = useSelector((state) => state.cartData)
@@ -38,37 +38,58 @@ const ShippingType = ({ navigation }) => {
     const [selectedShippingPrice, setSelectedShippingPrice] = useState(0);
 
     var [totalAmount, setTotalAmount] = useState(0);
-    var [subTotal,setSubTotal] = useState(0)
+    var [subTotal, setSubTotal] = useState(0)
 
-    const cardItems:IBestSellingProductRespose[] = cartScreenState.data
+    const cardItems: IBestSellingProductRespose[] = cartScreenState.data
     const [initialLoading, setInitialLoading] = useState(true);
     const dispatch = useDispatch();
-    
+    console.log("couponValue ship " + JSON.stringify(couponValue))
+
     useEffect(() => {
-        let  subTotalInt =0
-        let  total =0
-        if(cardItems.length>0){
-        
+        let subTotalInt = 0
+        let total = 0
+
+        var subTotalAfterDiscount = 0
+        var discountAmount = 0
+        if (cardItems.length > 0) {
+
             for (let i = 0; i < cardItems.length; i++) {
                 var price = parseInt(cardItems[i].price);
                 subTotalInt += price;
             }
-             total = subTotalInt + parseInt(selectedShippingPrice)
-                // console.log("subTotal:"+subTotalInt)
-                // console.log("total:"+total)
 
-            setSubTotal(subTotalInt)
-            setTotalAmount(total)
+            if (couponValue != null && couponValue.length > 0) {
+                if (couponValue[0].discount_type == "percent") {
+
+                    var percentageValue = parseFloat(couponValue[0].amount)
+                    discountAmount = subTotalInt * (percentageValue / 100)
+                    subTotalAfterDiscount = subTotalInt - discountAmount
+                    total = subTotalAfterDiscount + parseInt(selectedShippingPrice)
+
+                    console.log("subTotal after discount:" + subTotalAfterDiscount)
+                    console.log("total after discount:" + total)
+
+                    setSubTotal(subTotalAfterDiscount)
+                    setTotalAmount(total)
+                }
+            } else {
+                total = subTotalInt + parseInt(selectedShippingPrice)
+                console.log("subTotal:" + subTotalInt)
+                console.log("total:" + total)
+
+                setSubTotal(subTotalInt)
+                setTotalAmount(total)
+            }
         }
-    }, [cartScreenState,selectedShippingPrice]);
+    }, [cartScreenState, selectedShippingPrice, couponValue]);
 
     useEffect(() => {
-        if(shippingMethodScreenState.data!=null && shippingMethodScreenState.data.length>0){
-        setSelectedShippingMethod(shippingMethodScreenState.data[0].id)
+        if (shippingMethodScreenState.data != null && shippingMethodScreenState.data.length > 0) {
+            setSelectedShippingMethod(shippingMethodScreenState.data[0].id)
         }
     }, [shippingMethodScreenState]);
 
-    
+
     useEffect(() => {
         dispatch(fetchShippingMethodData({ countryId: COUNTRY_ID })).then(() => {
             setInitialLoading(false);
@@ -195,13 +216,13 @@ const ShippingType = ({ navigation }) => {
                     </TouchableOpacity>
                 </View>
 
-                <Text style={[$billingInfoLabelContainer, { marginTop: 15 }]}>{SHIPPING_LABEL}</Text>
+                <Text style={[$billingInfoLabelContainer, { marginTop: 22 }]}>{SHIPPING_LABEL}</Text>
 
                 {
 
                     !initialLoading ? (
 
-                        <View style={{ marginTop: 12 }}>
+                        <View style={{ marginTop: 2}}>
                             {
                                 shippingMethodScreenState.error != "" ? (
                                     <View style={textPrompt}>
@@ -226,16 +247,16 @@ const ShippingType = ({ navigation }) => {
 
                 <View style={[billingContiner, { marginTop: 18 }]}>
                     <Text style={$billingInfoLabelContainer}>{SUBTOTAL_LABEL}</Text>
-                    <View style={[$billingInfoLabelContainer,subTotalContainer]}>
-                    <Text style={{ color: '#54595F', fontSize: 13, fontWeight: '500', textAlign: 'center' }}>RS.</Text>
-                    <Text style={{ color: '#54595F', fontSize: 13, fontWeight: '500', textAlign: 'center' }}>{subTotal}</Text>
+                    <View style={[$billingInfoLabelContainer, subTotalContainer]}>
+                        <Text style={{ color: '#54595F', fontSize: 13, fontWeight: '500', textAlign: 'center' }}>RS.</Text>
+                        <Text style={{ color: '#54595F', fontSize: 13, fontWeight: '500', textAlign: 'center' }}>{subTotal}</Text>
                     </View>
                 </View>
                 <View style={[billingContiner, { marginTop: 10 }]}>
                     <Text style={$billingInfoLabelContainer}>{TOTAL_LABEL}</Text>
-                    <View style={[$billingInfoLabelContainer,subTotalContainer]}>
-                    <Text style={{ color: '#54595F', fontSize: 13, fontWeight: '500', textAlign: 'center' }}>RS.</Text>
-                    <Text style={{ color: '#54595F', fontSize: 14, fontWeight: '500', textAlign: 'center' }}>{totalAmount}</Text>
+                    <View style={[$billingInfoLabelContainer, subTotalContainer]}>
+                        <Text style={{ color: '#54595F', fontSize: 13, fontWeight: '500', textAlign: 'center' }}>RS.</Text>
+                        <Text style={{ color: '#54595F', fontSize: 14, fontWeight: '500', textAlign: 'center' }}>{totalAmount}</Text>
                     </View>
                 </View>
             </View>

@@ -14,6 +14,8 @@ import categoriesDataReducer from '@reducers/categories/categories-slice'
 import subCategoriesDataReducer from '@reducers/subCategories/subcategories-slice'
 import subCategoriesMoreDataReducer from '@reducers/subCategories/subCategories-more-slice'
 import orderHistoryDataReducer from '@reducers/orderHistory/order-history-slice'
+import orderDetailDataReducer from '@reducers/orderDetail/order-detail-slice'
+import couponDataReducer from '@reducers/coupon/coupon-slice'
 
 import { combineReducers } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -32,7 +34,9 @@ const rootReducer = combineReducers({
   categoriesData:categoriesDataReducer,
   subCategoriesData:subCategoriesDataReducer,
   subCategoriesMoreData: subCategoriesMoreDataReducer,
-  orderHistoryData: orderHistoryDataReducer
+  orderHistoryData: orderHistoryDataReducer,
+  orderDetailData: orderDetailDataReducer,
+  couponData:couponDataReducer
 });
 
 const persistConfig = {

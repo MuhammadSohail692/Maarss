@@ -12,16 +12,14 @@ import {
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import ImageSlider from '@components/imageSlider/ImageSlider'
-import ProductDescription from '@components/productDescription/ProductDescription'
 import { useSelector, useDispatch } from 'react-redux';
-import {  NO_INTENRT_CONNECTION, CHECK_YOUR_INTERNET, OK,LoaderColor } from '@constants/app-constants'
-import NetInfo from '@react-native-community/netinfo';
+import {  LoaderColor } from '@constants/app-constants'
 import { textPrompt } from "@theme/view"
-import { fetchProductDetailData } from '@reducers/productDetail/product-detail-slice';
 import ShippingType from '@components/shippingType/ShippingType'
 import BillingDetails from '@components/billingDetails/BillingDetails'
+import Coupon from '@components/Coupon/Coupon'
 import { billingInfoContainer } from "@theme/view"
+import ScreenLoader from '@utils/components/loader/ScreenLoader'
 
 const BillingInfoScreen = ({route,navigation}) => {
 
@@ -34,8 +32,10 @@ const BillingInfoScreen = ({route,navigation}) => {
     const [initialLoading, setInitialLoading] = useState(false);
     const dispatch = useDispatch();
 
-    // const { productId } = route.params; 
+    const [couponValue, setCouponValue] = useState("");
+    const [isCouponValue, isCouponValueSet] = useState(false);
 
+    // const { productId } = route.params; 
 
     if (initialLoading) {
         // Show the initial loader in the center
@@ -52,6 +52,7 @@ const BillingInfoScreen = ({route,navigation}) => {
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                 backgroundColor={backgroundStyle.backgroundColor}
             />
+            <ScreenLoader loading={isCouponValue} />
 
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
@@ -59,11 +60,15 @@ const BillingInfoScreen = ({route,navigation}) => {
                 style={[backgroundStyle]}>
                 <View style={billingInfoContainer}>
 
+                {/* Coupon */}
+                <Coupon couponValue={couponValue} setCouponValue={setCouponValue} isCouponValueSet={isCouponValueSet}/>
+
                 {/* Shipping type */}
-                <ShippingType navigation={navigation}/>
+                <ShippingType couponValue={couponValue} navigation={navigation}/>
 
                 {/* {Billing Details} */}
                 <BillingDetails navigation={navigation}/>
+                
                 </View>
             </ScrollView>
         </SafeAreaView>

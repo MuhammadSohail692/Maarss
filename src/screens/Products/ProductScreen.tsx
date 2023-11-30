@@ -151,7 +151,9 @@ const ProductScreen = ({ route, navigation }) => {
             });
         }
         else if (!productScreenState.loading) {
-            dispatch(fetchProductData({ categoryId: categoryId, pageNo: page, selectedOrderBy: selectedFilterValue.id, order: selectedFilterValue.order, searchText: searchText }));
+            dispatch(fetchProductData({ categoryId: categoryId, pageNo: page, selectedOrderBy: selectedFilterValue.id, order: selectedFilterValue.order, searchText: searchText })).then(() => {
+                setLoadingMore(false);
+            });
         }
 
     }, [dispatch, page]);
@@ -231,6 +233,7 @@ const ProductScreen = ({ route, navigation }) => {
                                     ))}
                                 </View>
                             </Modal>
+
                             <View style={productListContainer}>
                                 <FlatList
                                     data={productScreenState.data ?? []}
@@ -249,6 +252,8 @@ const ProductScreen = ({ route, navigation }) => {
                                     )}
                                 />
                             </View>
+
+
                         </View>
 
                     ) : (

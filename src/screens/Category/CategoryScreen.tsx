@@ -25,7 +25,7 @@ import { fetchSubCategoriesData } from '@reducers/subCategories/subcategories-sl
 import { SubCategoryNavigator,ProductNavigator } from '@constants/navigator/navigation-stack';
 import { LABEL_NO_RECORD_FOUND, LoaderColor } from '@constants/app-constants'
 import icForward from '@assets/images/ic_forward.png'
-
+import ScreenLoader from '@utils/components/loader/ScreenLoader'
 
 const CategoryScreen = ({ route, navigation }) => {
 
@@ -42,6 +42,7 @@ const CategoryScreen = ({ route, navigation }) => {
     const [page, setPage] = useState(1);
     const [initialLoading, setInitialLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
+    const [categoryClicked, isCategoryClicked] = useState(false);
 
     const categoryId = 0
 
@@ -62,12 +63,10 @@ const CategoryScreen = ({ route, navigation }) => {
 
 
     const handleTapClicked = (value) => {
-        console.log("subCategoryDataid "+value)
+        isCategoryClicked(true)
         dispatch(fetchSubCategoriesData({categoryId: value, pageNo: 1}))
         .then((response) => {
-            // console.log("respnse data +"+ JSON.stringify(response.payload))
-            // setInitialLoading(false);
-            // console.log("data dd"+subCategoriesScreenState.pageData)
+            isCategoryClicked(false)
             if(response.payload!=null && response.payload.length>0){
                 navigation.navigate(SubCategoryNavigator, { categoryId: value });
             }else{
@@ -134,6 +133,8 @@ const CategoryScreen = ({ route, navigation }) => {
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                 backgroundColor={backgroundStyle.backgroundColor}
             />
+           <ScreenLoader loading={categoryClicked} />
+
             <View style={productsContainer}>
                 {
                     categoriesScreenState.data.length > 0 ? (

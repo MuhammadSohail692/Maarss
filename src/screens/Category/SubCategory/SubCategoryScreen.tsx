@@ -25,7 +25,7 @@ import { fetchSubCategoriesMoreData } from '@reducers/subCategories/subCategorie
 import { SubCategoryMoreNavigator,ProductNavigator } from '@constants/navigator/navigation-stack';
 import { LABEL_NO_RECORD_FOUND, LoaderColor } from '@constants/app-constants'
 import icForward from '@assets/images/ic_forward.png'
-
+import ScreenLoader from '@utils/components/loader/ScreenLoader'
 
 const SubCategoryScreen = ({ route, navigation }) => {
 
@@ -42,6 +42,7 @@ const SubCategoryScreen = ({ route, navigation }) => {
     const [page, setPage] = useState(1);
     const [initialLoading, setInitialLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
+    const [categoryClicked, isCategoryClicked] = useState(false);
 
     useEffect(() => {
         console.log("categoryId "+categoryId)
@@ -61,8 +62,10 @@ const SubCategoryScreen = ({ route, navigation }) => {
 
 
     const handleTapClicked = (value) => {
-        console.log("subCategorymoreDataid "+value)
+        isCategoryClicked(true)
         dispatch(fetchSubCategoriesMoreData({categoryId: value, pageNo: 1})).then((response) => {
+            isCategoryClicked(false)
+
             if(response.payload!=null && response.payload.length>0){                    
                 navigation.navigate(SubCategoryMoreNavigator, { categoryId: value });
             }else{
@@ -126,6 +129,8 @@ const SubCategoryScreen = ({ route, navigation }) => {
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                 backgroundColor={backgroundStyle.backgroundColor}
             />
+           <ScreenLoader loading={categoryClicked} />
+
             <View style={productsContainer}>
                 {
                     subCategoriesScreenState.data.length > 0 ? (

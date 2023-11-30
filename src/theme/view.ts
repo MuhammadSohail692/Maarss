@@ -176,13 +176,12 @@ export const bestProductRowItem: ViewStyle = {
   alignContent: 'center',
   alignItems: 'center',
   width: 200,
-  height: 260,
+  height: 250,
   marginEnd: 10,
   borderRadius: 10,
   borderWidth: 1,
   borderColor: "#D3D3D3",
 };
-
 
 
 export const pagination: ViewStyle = {
@@ -253,6 +252,16 @@ export const productDescViewColumnContainer: ViewStyle = {
 }
 
 export const addToCartBtn: ViewStyle = {
+  marginTop: 18,
+  padding: 12,
+  backgroundColor: '#3BB54A',
+  borderRadius: 10,
+  borderWidth: 1,
+  borderColor: "#D3D3D3",
+};
+
+
+export const confirmCheckoutBtn: ViewStyle = {
   marginTop: 18,
   padding: 12,
   backgroundColor: '#3BB54A',
@@ -590,4 +599,16 @@ export const billingDetailsType: ViewStyle = {
 
 export const subTotalContainer: ViewStyle = {
   flexDirection: 'row',
+}
+export const modalBackground:ViewStyle={
+  flex: 1,
+  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  justifyContent: 'center',
+  alignItems: 'center',
+}
+
+export const activityIndicatorWrapper:ViewStyle={
+  backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    padding: 20,
 }

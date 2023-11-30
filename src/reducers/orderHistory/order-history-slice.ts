@@ -15,7 +15,6 @@ const initialState: OrderResponse = {
 export const fetchOrderHistoryData = createAsyncThunk('order-history-slice/fetchOrderHistoryData', async ({customerId,pageNo,status}) => {
   try {
     console.log("customer " + customerId)
-    
 
     var queryParams = {}
     if(status=="all"){

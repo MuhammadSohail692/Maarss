@@ -19,7 +19,7 @@ import ShippingType from '@components/shippingType/ShippingType'
 import BillingDetails from '@components/billingDetails/BillingDetails'
 import Coupon from '@components/Coupon/Coupon'
 import { billingInfoContainer } from "@theme/view"
-import ScreenLoader from '@utils/components/loader/ScreenLoader'
+import BlurLoader from '@utils/components/loader/BlurLoader'
 
 const BillingInfoScreen = ({route,navigation}) => {
 
@@ -34,6 +34,8 @@ const BillingInfoScreen = ({route,navigation}) => {
 
     const [couponValue, setCouponValue] = useState("");
     const [isCouponValue, isCouponValueSet] = useState(false);
+    const [isConfirmCheckout, isConfirmCheckoutSet] = useState(false);
+
 
     // const { productId } = route.params; 
 
@@ -52,7 +54,8 @@ const BillingInfoScreen = ({route,navigation}) => {
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                 backgroundColor={backgroundStyle.backgroundColor}
             />
-            <ScreenLoader loading={isCouponValue} />
+            <BlurLoader loading={isCouponValue} />
+            <BlurLoader loading={isConfirmCheckout}/>
 
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
@@ -67,7 +70,7 @@ const BillingInfoScreen = ({route,navigation}) => {
                 <ShippingType couponValue={couponValue} navigation={navigation}/>
 
                 {/* {Billing Details} */}
-                <BillingDetails navigation={navigation}/>
+                <BillingDetails navigation={navigation}  isConfirmCheckoutSet={isConfirmCheckoutSet}/>
                 
                 </View>
             </ScrollView>

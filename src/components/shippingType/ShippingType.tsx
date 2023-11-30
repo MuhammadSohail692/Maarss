@@ -7,20 +7,9 @@ import {
     TouchableOpacity,
     ActivityIndicator
 } from 'react-native';
-import {
-    Colors,
-} from 'react-native/Libraries/NewAppScreen';
-import HTML from 'react-native-render-html';
 import { subTotalContainer, billingContiner, shipmentType, textPrompt } from '@theme/view'
 import { $billingInfoLabelContainer } from '@theme/text'
 import { IShippingTypeCard } from '@types/type';
-import { fetchfavouriteData } from '@reducers/favourite/favourite-slice'
-import { fetchCartData } from '@reducers/cart/cart-slice'
-import icFavourite from '@assets/images/ic_favourite.png'
-import icPlus from '@assets/images/ic_plus.png'
-import icMinus from '@assets/images/ic_minus.png'
-import icFavouriteFilled from '@assets/images/ic_favourite_filled.png'
-import { showShortToast } from '@utils/Utilities'
 import { SUBTOTAL_LABEL, SHIPPING_LABEL, TOTAL_LABEL, DELIVERY_LABEL, COUNTRY_ID, LoaderColor } from '@constants/app-constants'
 import { useSelector, useDispatch } from 'react-redux';
 import { IShippingResponse } from '@model/shipping/ShippingModel';

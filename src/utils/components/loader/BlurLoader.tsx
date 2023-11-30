@@ -2,20 +2,22 @@ import React from 'react';
 import { View, ActivityIndicator, StyleSheet, Modal } from 'react-native';
 import { textPrompt } from "@theme/view"
 import { LoaderColor } from '@constants/app-constants'
-import { modalBackground } from '@theme/view'
+import { modalBackground,activityIndicatorWrapper } from '@theme/view'
 
-const ScreenLoader = ({ loading }) => {
+const BlurLoader = ({ loading }) => {
     return (
         <Modal
             transparent={true}
             animationType="none"
             visible={loading}
             onRequestClose={() => { }}>
-                <View style={[textPrompt, { height: 260 }]}>
-                    <ActivityIndicator size="large" color={LoaderColor} />
+            <View style={modalBackground}>
+                <View style={activityIndicatorWrapper}>
+                        <ActivityIndicator size="large" color={LoaderColor} />
                 </View>
+            </View>
         </Modal>
     );
 };
 
-export default ScreenLoader;
+export default BlurLoader;

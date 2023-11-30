@@ -16,32 +16,34 @@ import subCategoriesMoreDataReducer from '@reducers/subCategories/subCategories-
 import orderHistoryDataReducer from '@reducers/orderHistory/order-history-slice'
 import orderDetailDataReducer from '@reducers/orderDetail/order-detail-slice'
 import couponDataReducer from '@reducers/coupon/coupon-slice'
+import orderPlaceDataReducer from '@reducers/orderPlace/order-place-slice'
 
 import { combineReducers } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const rootReducer = combineReducers({
   bestSellingProducts: bestSellingProductReducer,
-  newArrivalsData:newArrivalsDataReducer,
-  productDetail:productDetailScreenReducer,
-  favouriteData:favouriteReducer,
-  cartData:cartReducer,
+  newArrivalsData: newArrivalsDataReducer,
+  productDetail: productDetailScreenReducer,
+  favouriteData: favouriteReducer,
+  cartData: cartReducer,
   productData: productReducer,
-  registerData:registerReducer,
-  loginData:loginReducer,
-  shippingMethod:shippingMethodReducer,
+  registerData: registerReducer,
+  loginData: loginReducer,
+  shippingMethod: shippingMethodReducer,
   loginUserInfo: loginUserInfoReducer,
-  categoriesData:categoriesDataReducer,
-  subCategoriesData:subCategoriesDataReducer,
+  categoriesData: categoriesDataReducer,
+  subCategoriesData: subCategoriesDataReducer,
   subCategoriesMoreData: subCategoriesMoreDataReducer,
   orderHistoryData: orderHistoryDataReducer,
   orderDetailData: orderDetailDataReducer,
-  couponData:couponDataReducer
+  couponData: couponDataReducer,
+  orderPlaceData: orderPlaceDataReducer
 });
 
 const persistConfig = {
   key: 'root',
-  storage:AsyncStorage,
+  storage: AsyncStorage,
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)

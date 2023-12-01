@@ -43,6 +43,8 @@ export interface IOrderHistoryCard {
 }
 export interface IShippingTypeCard {
     id:number,
+    methodIdLabel:string,
+    methodTitle:string,
     title:string,
     price: string;
 }
@@ -67,6 +69,11 @@ export interface IProductColors{
 export interface IProductDetailColors{
     id:number,
     color:string
+}
+
+export interface ISelectedProductColor{
+    key:string,
+    value:string
 }
 
 

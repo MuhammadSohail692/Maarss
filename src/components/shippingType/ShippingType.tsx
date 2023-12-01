@@ -17,7 +17,7 @@ import { fetchShippingMethodData } from '@reducers/shipping/shipping-slice';
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
 
 
-const ShippingType = ({ couponValue, navigation }) => {
+const ShippingType = ({ setShipmentTypeValue,couponValue, navigation }) => {
 
     const shippingMethodScreenState = useSelector((state) => state.shippingMethod)
     const cartScreenState = useSelector((state) => state.cartData)
@@ -85,17 +85,22 @@ const ShippingType = ({ couponValue, navigation }) => {
         });
     }, []);
 
-    const handleShippingMethodSelection = (id, title, price) => {
-        console.log("ds" + id + title + price)
+    const handleShippingMethodSelection = (id,methodIdLabel, methodTitle,title, price) => {
+        console.log("value" + id +"\n"+ methodIdLabel+"\n"+ +methodTitle+title +"\n"+ price)
         setSelectedShippingMethod(id);
         setSelectedShippingPrice(price);
+        var shipmentValueObject = {
+            method_id: methodIdLabel,
+            method_title: methodTitle,
+            total: price
+        }
+        setShipmentTypeValue(shipmentValueObject);
     };
 
 
-    const RowItem = ({ id, title, price }: IShippingTypeCard) => {
-
+    const RowItem = ({ id,methodIdLabel,methodTitle, title, price }: IShippingTypeCard) => {
         return (
-            <TouchableOpacity onPress={() => handleShippingMethodSelection(id, title, price)}>
+            <TouchableOpacity onPress={() => handleShippingMethodSelection(id,methodIdLabel,methodTitle, title, price)}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
 
@@ -138,7 +143,7 @@ const ShippingType = ({ couponValue, navigation }) => {
         setDeliverySelectedValue(value);
     };
     const renderItem = ({ item }: IShippingResponse) => (
-        <RowItem id={item.id} title={item.title} price={item.settings.cost == null ? "0" : item.settings.cost.value} />
+        <RowItem id={item.id} methodIdLabel={item.method_id} methodTitle={item.method_title}  title={item.title} price={item.settings.cost == null ? "0" : item.settings.cost.value} />
     );
 
     return (

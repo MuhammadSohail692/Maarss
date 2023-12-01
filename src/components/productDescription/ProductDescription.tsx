@@ -13,23 +13,28 @@ import HTML from 'react-native-render-html';
 import { productDescContainer, productDescViewContainer, productDescViewColumnContainer, addToCartBtn } from '@theme/view'
 import { productDescViewRowContainer, productNameViewRowContainer, productQuantityContainer, plusMinusContainer, quantityConatiner } from "@theme/view"
 import { $productNameDetail, $productPrice, $productLabel, $productLabelValues, $plusMinusLabel, $quantityContainer } from '@theme/text'
-import { IProductColors, IProductDetailColors, IProductDetailSize } from '@types/type';
+import { IProductColors, IProductDetailColors, IProductDetailSize, ISelectedProductColor } from '@types/type';
 import { fetchfavouriteData } from '@reducers/favourite/favourite-slice'
-import {fetchCartData} from '@reducers/cart/cart-slice'
+import { fetchCartData } from '@reducers/cart/cart-slice'
+import { fetchSelectedProductsData } from '@reducers/selectedProducts/selected-products-slice'
 import icFavourite from '@assets/images/ic_favourite.png'
 import icPlus from '@assets/images/ic_plus.png'
 import icMinus from '@assets/images/ic_minus.png'
 import icFavouriteFilled from '@assets/images/ic_favourite_filled.png'
 import { useDispatch } from 'react-redux';
-import {showShortToast} from '@utils/Utilities'
+import { showShortToast } from '@utils/Utilities'
 
 const ProductDescription = ({ data, navigation }) => {
 
     const dispatch = useDispatch();
     const [setFavourite, setFavouriteSelected] = useState(false);
     const [setQuantity, setQuantityValue] = useState(1);
-    const [selectedColorItem, setSelectedColorItem] = useState(0);
-    const [selectedSizeItem, setSelectedSizeItem] = useState(0);
+    const [selectedColorItem, setSelectedColorItem] = useState(-1);
+    const [selectorColorValue, setSelectorColorValue] = useState("");
+    const [selectedSizeItem, setSelectedSizeItem] = useState(-1);
+
+    const [selectedProductItem, setSelectedProductItem] = useState("");
+
 
     var colorList: IProductDetailColors[] = [];
     var sizeList: IProductDetailSize[] = [];
@@ -45,6 +50,10 @@ const ProductDescription = ({ data, navigation }) => {
 
     var sizeAvailable: string[] = []
     var sizeLabel = ""
+
+    var selectedProductColor: ISelectedProductColor[] = [];
+    var colorAvaliableVariationIds: number[] = []
+
 
     if (data.categories.length > 0) {
         for (let i = 0; i < data.categories.length; i++) {
@@ -92,6 +101,9 @@ const ProductDescription = ({ data, navigation }) => {
             }
         }
     }
+    if (data.variations.length > 0) {
+        colorAvaliableVariationIds = data.variations
+    }
 
     colorAvaliable.forEach((color, index) => {
         const newItem: IProductDetailColors = {
@@ -102,13 +114,21 @@ const ProductDescription = ({ data, navigation }) => {
     });
 
 
-    sizeAvailable.forEach((color, index) => {
-        const newItem: IProductDetailSize = {
-            id: index,
-            size: color,
-        };
-        sizeList.push(newItem);
-    });
+    // sizeAvailable.forEach((color, index) => {
+    //     const newItem: IProductDetailSize = {
+    //         id: index,
+    //         size: color,
+    //     };
+    //     sizeList.push(newItem);
+    // });
+
+
+    var productsColorList = sizeAvailable.map((option, index) => ({
+        option,
+        variation: colorAvaliableVariationIds[index]
+    }));
+
+    console.log("productsColorList " + JSON.stringify(productsColorList))
 
     const RowColorItem = ({ id, colorName }: IProductColors) => {
         const isSelected = id === selectedColorItem;
@@ -117,13 +137,14 @@ const ProductDescription = ({ data, navigation }) => {
             <TouchableOpacity
                 onPress={() => {
                     setSelectedColorItem(id)
+                    setSelectorColorValue(colorName)
                 }}
             >
                 <Text style={{ color: isSelected ? Colors.white : Colors.black, fontSize: 12, marginEnd: 8, fontWeight: '600', padding: 10, backgroundColor: isSelected ? '#3BB54A' : '#ffffff' }}>{colorName}</Text>
             </TouchableOpacity>
         );
     }
-    
+
     const RowSizeItem = ({ id, size }: IProductDetailSize) => {
         const isSelected = id === selectedSizeItem;
 
@@ -143,10 +164,11 @@ const ProductDescription = ({ data, navigation }) => {
     );
 
     const renderSizeItem = ({ item }) => (
-        <RowSizeItem id={item.id} size={item.size} />
+        <RowSizeItem id={item.variation} size={item.option} />
     );
-  
+
     return (
+
         <View style={productDescContainer}>
 
             <View style={[productNameViewRowContainer]}>
@@ -216,12 +238,12 @@ const ProductDescription = ({ data, navigation }) => {
 
             }
             {
-                sizeList.length > 0 ? (
+                productsColorList.length > 0 ? (
                     <View style={[productDescViewColumnContainer]}>
                         <Text style={[$productLabel]}>{sizeLabel}:</Text>
                         <View style={{ marginTop: 10 }}>
                             <FlatList
-                                data={sizeList ?? []}
+                                data={productsColorList ?? []}
                                 renderItem={renderSizeItem}
                                 keyExtractor={(item) => item.id}
                                 horizontal
@@ -243,7 +265,7 @@ const ProductDescription = ({ data, navigation }) => {
                         }}
                     >
                         <View style={[plusMinusContainer]}>
-                        <Image source={ icMinus} style={{ width: 10, height: 10, resizeMode: 'contain'}} />
+                            <Image source={icMinus} style={{ width: 10, height: 10, resizeMode: 'contain' }} />
                         </View>
                     </TouchableOpacity>
 
@@ -254,7 +276,7 @@ const ProductDescription = ({ data, navigation }) => {
                         }}
                     >
                         <View style={[plusMinusContainer]}>
-                        <Image source={ icPlus} style={{ width: 10, height: 10, resizeMode: 'contain'}} />
+                            <Image source={icPlus} style={{ width: 10, height: 10, resizeMode: 'contain' }} />
                         </View>
                     </TouchableOpacity>
                 </View>
@@ -266,9 +288,32 @@ const ProductDescription = ({ data, navigation }) => {
             </View>
             <TouchableOpacity
                 onPress={() => {
-                    dispatch(fetchCartData({ cartItem: data })).then(() => {
-                        showShortToast("Item added to cart.")
-                    });
+
+                    if(selectedSizeItem==-1){
+                        showShortToast("Please select size")
+                    }else if(selectorColorValue == ""){
+                        showShortToast("Please select color")
+                    }else{
+                        const newItem: ISelectedProductColor = {
+                            key: 'Color',
+                            value: selectorColorValue,
+                        };
+                        selectedProductColor.push(newItem);
+    
+                        var selectedProductItems = {
+                            product_id: data.id,
+                            quantity: setQuantity,
+                            variation_id: selectedSizeItem,
+                            meta_data: selectedProductColor
+                        }
+                        // console.log("selectedProductItems " + JSON.stringify(selectedProductItems))
+    
+                        dispatch(fetchCartData({ cartItem: data })).then(() => {
+                            dispatch(fetchSelectedProductsData({ productItems: selectedProductItems })).then(() => {
+                                showShortToast("Item added to cart.")
+                            });
+                        });
+                    }
                 }}
             >
                 <View style={addToCartBtn}>
@@ -277,7 +322,6 @@ const ProductDescription = ({ data, navigation }) => {
                 </View>
             </TouchableOpacity>
         </View>
-
 
     );
 };

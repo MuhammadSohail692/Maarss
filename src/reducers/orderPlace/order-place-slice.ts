@@ -13,7 +13,7 @@ const initialState: ProductResponse = {
 };
 
 export const postOrderPlaceData = createAsyncThunk('order-place-slice/postOrderPlaceData', async (
-    { paymentMethod,paymentMethodTitle, name,address,city,country,email,phone,customerNote,couponCode,shippingLine }
+    { paymentMethod,paymentMethodTitle, name,address,city,country,email,phone,customerNote,couponCode,shippingLine,selectedProductItems }
     ) => {
     try {
         console.log("paymentMethod " + paymentMethod)
@@ -25,8 +25,10 @@ export const postOrderPlaceData = createAsyncThunk('order-place-slice/postOrderP
         console.log("email " + email)
         console.log("phone " + phone)
         console.log("customerNote " + customerNote)
-        console.log("couponCode " + couponCode)
-        console.log("shippingLine " + shippingLine)
+        console.log("couponCode " + JSON.stringify(couponCode))
+        console.log("shippingLine " + JSON.stringify(shippingLine))
+        console.log("selectedProductItems " + JSON.stringify(selectedProductItems))
+
 
         const requestData = {
             payment_method: paymentMethod,
@@ -55,19 +57,20 @@ export const postOrderPlaceData = createAsyncThunk('order-place-slice/postOrderP
                 postcode: "",
                 country: country
             },
-            line_items: [
-                {
-                    product_id: 23559,
-                    quantity: 2,
-                    variation_id: 23562,
-                    meta_data: [
-                        {
-                            key: "Color",
-                            value: "Red"
-                        }
-                    ]
-                }
-            ],
+            // line_items: [
+            //     {
+            //         product_id: 23559,
+            //         quantity: 2,
+            //         variation_id: 23562,
+            //         meta_data: [
+            //             {
+            //                 key: "Color",
+            //                 value: "Red"
+            //             }
+            //         ]
+            //     }
+            // ],
+            line_items: selectedProductItems,
             customer_note: customerNote,
             coupon_lines: [
                 {
@@ -75,31 +78,28 @@ export const postOrderPlaceData = createAsyncThunk('order-place-slice/postOrderP
                 }
               ],
             shipping_lines: [
-                {
-                    method_id: "flat_rate",
-                    method_title: "Flat Rate",
-                    total: "10.00"
-                }
+                shippingLine
             ]
         };
 
-        const queryParams = {
-            'consumer_key': CONSUMER_KEY,
-            'consumer_secret': CONSUMER_SECRET,
-        };
+        // const queryParams = {
+        //     'consumer_key': CONSUMER_KEY,
+        //     'consumer_secret': CONSUMER_SECRET,
+        // };
 
-        const config = {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            params: queryParams,
-        };
+        // const config = {
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     params: queryParams,
+        // };
 
-        var response
-        response = await axios.post(BASE_URL + ORDER_HISTORY_END_POINT, requestData, config);
+        // var response
+        // response = await axios.post(BASE_URL + ORDER_HISTORY_END_POINT, requestData, config);
 
 
-        return response.data as IProductsModelResponse;
+        // return response.data as IProductsModelResponse;
+        return ""
     } catch (error) {
         throw error;
     }

@@ -28,13 +28,13 @@ const BillingInfoScreen = ({route,navigation}) => {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
     
-    const productDetailScreenState = useSelector((state) => state.productDetail)
     const [initialLoading, setInitialLoading] = useState(false);
     const dispatch = useDispatch();
 
     const [couponValue, setCouponValue] = useState("");
     const [isCouponValue, isCouponValueSet] = useState(false);
     const [isConfirmCheckout, isConfirmCheckoutSet] = useState(false);
+    const [shipmentTypeValue, setShipmentTypeValue] = useState("");
 
 
     // const { productId } = route.params; 
@@ -67,10 +67,10 @@ const BillingInfoScreen = ({route,navigation}) => {
                 <Coupon couponValue={couponValue} setCouponValue={setCouponValue} isCouponValueSet={isCouponValueSet}/>
 
                 {/* Shipping type */}
-                <ShippingType couponValue={couponValue} navigation={navigation}/>
+                <ShippingType setShipmentTypeValue={setShipmentTypeValue} couponValue={couponValue} navigation={navigation}/>
 
                 {/* {Billing Details} */}
-                <BillingDetails navigation={navigation}  isConfirmCheckoutSet={isConfirmCheckoutSet}/>
+                <BillingDetails shipmentTypeValue={shipmentTypeValue} couponValue={couponValue} navigation={navigation}  isConfirmCheckoutSet={isConfirmCheckoutSet}/>
                 
                 </View>
             </ScrollView>

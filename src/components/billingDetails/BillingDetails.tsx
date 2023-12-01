@@ -14,9 +14,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { postOrderPlaceData } from '@reducers/orderPlace/order-place-slice';
 import { showShortToast } from '@utils/Utilities'
 
-const BillingDetails = ({ navigation,isConfirmCheckoutSet }) => {
+const BillingDetails = ({shipmentTypeValue, couponValue,navigation,isConfirmCheckoutSet }) => {
 
     const loginUserInfoScreenState = useSelector((state) => state.loginUserInfo)
+    const selectedProductsScreenState = useSelector((state) => state.selectedProductsData)
     const orderPlaceScreenState = useSelector((state) => state.orderPlaceData)
     // const loginInfoScreenState = useSelector((state) => state.loginData)
     const dispatch = useDispatch();
@@ -29,6 +30,8 @@ const BillingDetails = ({ navigation,isConfirmCheckoutSet }) => {
     const [city, setCity] = useState('');
     const [orderNotes, setOrderNotes] = useState('');
 
+    var selectedProductItems = selectedProductsScreenState.data
+    console.log("producst info "+selectedProductsScreenState.data)
     // console.log("token "+loginInfoScreenState.data.token)
     useEffect(() => {
         if (loginUserInfoScreenState.data != null && loginUserInfoScreenState.data.length > 0) {
@@ -36,7 +39,7 @@ const BillingDetails = ({ navigation,isConfirmCheckoutSet }) => {
             setEmail(loginUserInfoScreenState.data[0].email ? loginUserInfoScreenState.data[0].email : "")
             setAddress(loginUserInfoScreenState.data[0].shipping.address_1 ? loginUserInfoScreenState.data[0].shipping.address_1 : "")
             setCity(loginUserInfoScreenState.data[0].shipping.city ? loginUserInfoScreenState.data[0].shipping.city : "")
-            setCountry(loginUserInfoScreenState.data[0].shipping.country ? loginUserInfoScreenState.data[0].shipping.country : "")
+            // setCountry(loginUserInfoScreenState.data[0].shipping.country ? loginUserInfoScreenState.data[0].shipping.country : "")
             setPhone(loginUserInfoScreenState.data[0].shipping.phone ? loginUserInfoScreenState.data[0].shipping.phone : "")
         }
     }, [loginUserInfoScreenState]);
@@ -106,13 +109,13 @@ const BillingDetails = ({ navigation,isConfirmCheckoutSet }) => {
 
                 <TouchableOpacity
                     onPress={() => {
-    //                     isConfirmCheckoutSet(true)
-    //                     dispatch(postOrderPlaceData(
-    // { paymentMethod: "",paymentMethodTitle:"",name:name,address:address,city:city,country:country,email:email,phone:phone,
-    // customerNote:orderNotes,couponCode:"",shippingLine:""})).then(() => {
-    //                         showShortToast("Order place successfully.")
-    //                         isConfirmCheckoutSet(false)
-    //                     });
+                        isConfirmCheckoutSet(true)
+                        dispatch(postOrderPlaceData(
+    { paymentMethod: "",paymentMethodTitle:"",name:name,address:address,city:city,country:country,email:email,phone:phone,
+    customerNote:orderNotes,couponCode:couponValue,shippingLine:shipmentTypeValue,selectedProductItems:selectedProductItems})).then(() => {
+                            showShortToast("Order place successfully.")
+                            isConfirmCheckoutSet(false)
+                        });
                     }}
                 >
                     <View style={confirmCheckoutBtn}>

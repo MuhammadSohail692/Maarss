@@ -132,7 +132,6 @@ const SettingScreen = ({ navigation }) => {
                                     <TouchableOpacity onPress={() => {
                                          dispatch(clearUserLoginData());
                                          dispatch(clearUserInfoData())
-                                        //  navigation.navigate(DashboardNavigator);
                                          navigation.dispatch(
                                             CommonActions.reset({
                                                 index: 0,

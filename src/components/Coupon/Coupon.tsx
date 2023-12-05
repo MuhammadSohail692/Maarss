@@ -17,7 +17,7 @@ import { showShortToast } from '@utils/Utilities'
 import { clearCouponData, fetchCouponData } from '@reducers/coupon/coupon-slice'
 import NetInfo from '@react-native-community/netinfo';
 
-const Coupon = ({ couponValue, setCouponValue,isCouponValueSet }) => {
+const Coupon = ({couponCode,setCouponCode,  couponValue, setCouponValue,isCouponValueSet }) => {
 
     const [searchCoupon, setSearchCoupon] = useState("");
     const dispatch = useDispatch();
@@ -31,6 +31,7 @@ const Coupon = ({ couponValue, setCouponValue,isCouponValueSet }) => {
                     dispatch(fetchCouponData({ couponCode: searchCoupon })).then((response) => {
                         isCouponValueSet(false)
                         if (response.payload != null && response.payload.length > 0) {
+                            setCouponCode(searchCoupon)
                             setCouponValue(response.payload);
                         } else {
                             showShortToast(NO_COUPON_FOUND_LABEL)

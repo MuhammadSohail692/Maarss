@@ -42,11 +42,18 @@ export interface IOrderHistoryCard {
     navigation:any
 }
 export interface IShippingTypeCard {
-    id:number,
+    id:string,
     methodIdLabel:string,
     methodTitle:string,
     title:string,
     price: string;
+}
+
+export interface IShippingPaymentTypeCard {
+    id:string,
+    methodIdLabel:string,
+    methodTitle:string,
+    title:string,
 }
 
 export interface IProductDetailImage{

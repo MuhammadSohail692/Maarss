@@ -35,6 +35,9 @@ const BillingInfoScreen = ({route,navigation}) => {
     const [isCouponValue, isCouponValueSet] = useState(false);
     const [isConfirmCheckout, isConfirmCheckoutSet] = useState(false);
     const [shipmentTypeValue, setShipmentTypeValue] = useState("");
+    const [shipmentMethodValue,setShipmentMethodValue] =useState("")
+    const [couponCode, setCouponCode] = useState("");
+
 
 
     // const { productId } = route.params; 
@@ -64,13 +67,13 @@ const BillingInfoScreen = ({route,navigation}) => {
                 <View style={billingInfoContainer}>
 
                 {/* Coupon */}
-                <Coupon couponValue={couponValue} setCouponValue={setCouponValue} isCouponValueSet={isCouponValueSet}/>
+                <Coupon couponCode={couponCode} setCouponCode={setCouponCode} couponValue={couponValue} setCouponValue={setCouponValue} isCouponValueSet={isCouponValueSet}/>
 
                 {/* Shipping type */}
-                <ShippingType setShipmentTypeValue={setShipmentTypeValue} couponValue={couponValue} navigation={navigation}/>
+                <ShippingType setShipmentMethodValue={setShipmentMethodValue} setShipmentTypeValue={setShipmentTypeValue} couponValue={couponValue} navigation={navigation}/>
 
                 {/* {Billing Details} */}
-                <BillingDetails shipmentTypeValue={shipmentTypeValue} couponValue={couponValue} navigation={navigation}  isConfirmCheckoutSet={isConfirmCheckoutSet}/>
+                <BillingDetails shipmentMethodValue={shipmentMethodValue} shipmentTypeValue={shipmentTypeValue} couponCode={couponCode} navigation={navigation}  isConfirmCheckoutSet={isConfirmCheckoutSet}/>
                 
                 </View>
             </ScrollView>

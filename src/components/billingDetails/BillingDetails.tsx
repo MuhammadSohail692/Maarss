@@ -6,20 +6,23 @@ import {
     TextInput,
     TouchableOpacity
 } from 'react-native';
-import { billingDetailsType, inuputBoxContainer, userInputBox, orderNotesContainer, instructionContainer, alreadyAccountContainer, confirmCheckoutBtn } from '@theme/view'
+import { billingDetailsType, inuputBoxContainer, userInputBox, userOrderNotesInputBox,orderNotesContainer, instructionContainer, alreadyAccountContainer, confirmCheckoutBtn } from '@theme/view'
 import { $userInputContainer, $billingDetailLabel, $registerText } from '@theme/text'
 import { BILLING_DETAIL_LABEL, CONFIRM_CHECKOUT } from '@constants/app-constants'
-import { LoginNavigator } from '@constants/navigator/navigation-stack';
+import { LoginNavigator,DashboardNavigator } from '@constants/navigator/navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
 import { postOrderPlaceData } from '@reducers/orderPlace/order-place-slice';
+import { putUpdateOrderData } from '@reducers/updateOrder/update-order-slice'
 import { showShortToast } from '@utils/Utilities'
+import { CommonActions } from '@react-navigation/native';
 
-const BillingDetails = ({shipmentTypeValue, couponValue,navigation,isConfirmCheckoutSet }) => {
+const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, navigation, isConfirmCheckoutSet }) => {
 
     const loginUserInfoScreenState = useSelector((state) => state.loginUserInfo)
     const selectedProductsScreenState = useSelector((state) => state.selectedProductsData)
     const orderPlaceScreenState = useSelector((state) => state.orderPlaceData)
-    // const loginInfoScreenState = useSelector((state) => state.loginData)
+    const updateOrderScreenState = useSelector((state) => state.updateOrderData)
+
     const dispatch = useDispatch();
 
     const [name, setName] = useState('');
@@ -31,8 +34,7 @@ const BillingDetails = ({shipmentTypeValue, couponValue,navigation,isConfirmChec
     const [orderNotes, setOrderNotes] = useState('');
 
     var selectedProductItems = selectedProductsScreenState.data
-    console.log("producst info "+selectedProductsScreenState.data)
-    // console.log("token "+loginInfoScreenState.data.token)
+    console.log("shipmentMethodValue test " + JSON.stringify(shipmentMethodValue))
     useEffect(() => {
         if (loginUserInfoScreenState.data != null && loginUserInfoScreenState.data.length > 0) {
             setName(loginUserInfoScreenState.data[0].username ? loginUserInfoScreenState.data[0].username : "")
@@ -82,6 +84,7 @@ const BillingDetails = ({shipmentTypeValue, couponValue,navigation,isConfirmChec
                         style={[userInputBox, $userInputContainer]}
                         placeholder="Enter Phone*"
                         onChangeText={(text) => setPhone(text)}
+                        keyboardType={'numeric'}
                     >{phone}</TextInput>
                 </View>
                 {/* <View style={inuputBoxContainer}>
@@ -100,22 +103,79 @@ const BillingDetails = ({shipmentTypeValue, couponValue,navigation,isConfirmChec
                 </View>
                 <View style={orderNotesContainer}>
                     <TextInput
-                        style={[userInputBox, $userInputContainer]}
+                        style={[userOrderNotesInputBox, $userInputContainer]}
                         placeholder="Order notes(Optional)"
                         onChangeText={(text) => setOrderNotes(text)}
                         multiline={true}
+                        textAlignVertical="top"
+                        maxLength={100}
                     />
                 </View>
 
                 <TouchableOpacity
                     onPress={() => {
-                        isConfirmCheckoutSet(true)
-                        dispatch(postOrderPlaceData(
-    { paymentMethod: "",paymentMethodTitle:"",name:name,address:address,city:city,country:country,email:email,phone:phone,
-    customerNote:orderNotes,couponCode:couponValue,shippingLine:shipmentTypeValue,selectedProductItems:selectedProductItems})).then(() => {
-                            showShortToast("Order place successfully.")
-                            isConfirmCheckoutSet(false)
-                        });
+                        if (name.length == 0) {
+                            showShortToast("Name is required.")
+                        }
+                        else if (email.length == 0) {
+                            showShortToast("Email is required.")
+                        }
+                        else if (address.length == 0) {
+                            showShortToast("Address is required.")
+                        }
+                        else if (phone.length == 0) {
+                            showShortToast("Phone is required.")
+                        }
+                        else if (city.length == 0) {
+                            showShortToast("City is required.")
+                        } else {
+                            isConfirmCheckoutSet(true)
+                            dispatch(postOrderPlaceData(
+                                {
+                                    paymentMethod: shipmentMethodValue.payment_method, paymentMethodTitle: shipmentMethodValue.payment_method_title, name: name,
+                                    address: address, city: city, country: country, email: email, phone: phone,
+                                    customerNote: orderNotes, couponCode: couponCode, shippingLine: shipmentTypeValue, selectedProductItems: selectedProductItems
+                                })).then((response) => {
+                                    console.log("postOrderPlaceData " + JSON.stringify(response))
+
+                                    if (response.payload != null && response.payload != "") {
+                                        if (response.payload.id != null && response.payload.id != "") {
+                                            dispatch(putUpdateOrderData(
+                                                {
+                                                    customerId: loginUserInfoScreenState.data[0].id, orderId: response.payload.id,
+                                                })).then((response) => {
+                                                    if (response.payload != null && response.payload != "") {
+                                                        if (response.payload.id != null && response.payload.id != "") {
+                                                            isConfirmCheckoutSet(false)
+                                                            console.log("putUpdateOrderData " + JSON.stringify(response))
+                                                            showShortToast("Order place successfully.")
+                                                            isConfirmCheckoutSet(false)
+                                                            navigation.dispatch(
+                                                                CommonActions.reset({
+                                                                    index: 0,
+                                                                    routes: [{ name: DashboardNavigator }],
+                                                                })
+                                                            );
+                                                        }else {
+                                                            isConfirmCheckoutSet(false)
+                                                            showShortToast("An error occurred while place an order")
+                                                        }
+                                                    }else {
+                                                        isConfirmCheckoutSet(false)
+                                                        showShortToast("An error occurred while place an order")
+                                                    }
+                                                });
+                                        }
+                                        else {
+                                            isConfirmCheckoutSet(false)
+                                            showShortToast("An error occurred while place an order")
+                                        }
+                                    } else {
+                                        isConfirmCheckoutSet(false)
+                                        showShortToast("An error occurred while place an order")
+                                    }
+                                });
+                        }
                     }}
                 >
                     <View style={confirmCheckoutBtn}>

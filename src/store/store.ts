@@ -18,6 +18,7 @@ import orderDetailDataReducer from '@reducers/orderDetail/order-detail-slice'
 import couponDataReducer from '@reducers/coupon/coupon-slice'
 import orderPlaceDataReducer from '@reducers/orderPlace/order-place-slice'
 import selectedProductsDataReducer from '@reducers/selectedProducts/selected-products-slice'
+import updateOrderDataReducer from '@reducers/updateOrder/update-order-slice'
 
 import { combineReducers } from 'redux';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -40,7 +41,8 @@ const rootReducer = combineReducers({
   orderDetailData: orderDetailDataReducer,
   couponData: couponDataReducer,
   orderPlaceData: orderPlaceDataReducer,
-  selectedProductsData: selectedProductsDataReducer
+  selectedProductsData: selectedProductsDataReducer,
+  updateOrderData: updateOrderDataReducer
 });
 
 const persistConfig = {

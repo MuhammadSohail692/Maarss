@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { subTotalContainer, billingContiner, shipmentType, textPrompt } from '@theme/view'
 import { $billingInfoLabelContainer } from '@theme/text'
-import { IShippingTypeCard } from '@types/type';
+import { IShippingTypeCard,IShippingPaymentTypeCard } from '@types/type';
 import { SUBTOTAL_LABEL, SHIPPING_LABEL, TOTAL_LABEL, DELIVERY_LABEL, COUNTRY_ID, LoaderColor } from '@constants/app-constants'
 import { useSelector, useDispatch } from 'react-redux';
 import { IShippingResponse } from '@model/shipping/ShippingModel';
@@ -17,14 +17,15 @@ import { fetchShippingMethodData } from '@reducers/shipping/shipping-slice';
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
 
 
-const ShippingType = ({ setShipmentTypeValue,couponValue, navigation }) => {
+const ShippingType = ({setShipmentMethodValue, setShipmentTypeValue, couponValue, navigation }) => {
 
     const shippingMethodScreenState = useSelector((state) => state.shippingMethod)
     const cartScreenState = useSelector((state) => state.cartData)
 
-    const [deliverySelectedValue, setDeliverySelectedValue] = useState("Cash on delivery");
     const [selectedShippingMethod, setSelectedShippingMethod] = useState("");
     const [selectedShippingPrice, setSelectedShippingPrice] = useState(0);
+
+    const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
 
     var [totalAmount, setTotalAmount] = useState(0);
     var [subTotal, setSubTotal] = useState(0)
@@ -32,7 +33,22 @@ const ShippingType = ({ setShipmentTypeValue,couponValue, navigation }) => {
     const cardItems: IBestSellingProductRespose[] = cartScreenState.data
     const [initialLoading, setInitialLoading] = useState(true);
     const dispatch = useDispatch();
-    console.log("couponValue ship " + JSON.stringify(couponValue))
+    // console.log("couponValue ship " + JSON.stringify(couponValue))
+
+    const paymentTypesList = [
+        {
+          id: "1",
+          methodIdLabel: 'cod',
+          methodTitle: 'Cash on delivery',
+          title: 'Cash on delivery',
+        },
+        {
+          id: "2",
+          methodIdLabel: 'bacs',
+          methodTitle: 'Direct Bank Transfer',
+          title: 'Direct Bank Transfer',
+        },
+      ];
 
     useEffect(() => {
         let subTotalInt = 0
@@ -74,19 +90,35 @@ const ShippingType = ({ setShipmentTypeValue,couponValue, navigation }) => {
 
     useEffect(() => {
         if (shippingMethodScreenState.data != null && shippingMethodScreenState.data.length > 0) {
-            setSelectedShippingMethod(shippingMethodScreenState.data[0].id)
+            setSelectedShippingMethod(shippingMethodScreenState.data[0].id.toString())
+            
+        var shipmentValueObject = {
+            method_id: shippingMethodScreenState.data[0].method_id,
+            method_title: shippingMethodScreenState.data[0].method_title,
+            total: shippingMethodScreenState.data[0].settings.cost == null ? "0" : shippingMethodScreenState.data[0].settings.cost.value
+        }
+        setShipmentTypeValue(shipmentValueObject);
         }
     }, [shippingMethodScreenState]);
 
 
     useEffect(() => {
+        setSelectedPaymentMethod(paymentTypesList[0].id)
+
+        var paymentValueObject = {
+            payment_method: paymentTypesList[0].methodIdLabel,
+            payment_method_title: paymentTypesList[0].methodTitle,
+        }
+        console.log("paymentValueObject "+JSON.stringify(paymentValueObject))
+        setShipmentMethodValue(paymentValueObject);
+        
         dispatch(fetchShippingMethodData({ countryId: COUNTRY_ID })).then(() => {
             setInitialLoading(false);
         });
     }, []);
 
-    const handleShippingMethodSelection = (id,methodIdLabel, methodTitle,title, price) => {
-        console.log("value" + id +"\n"+ methodIdLabel+"\n"+ +methodTitle+title +"\n"+ price)
+    const handleShippingMethodSelection = (id, methodIdLabel, methodTitle, title, price) => {
+        console.log("value" + id + "\n" + methodIdLabel + "\n" + +methodTitle + title + "\n" + price)
         setSelectedShippingMethod(id);
         setSelectedShippingPrice(price);
         var shipmentValueObject = {
@@ -97,10 +129,57 @@ const ShippingType = ({ setShipmentTypeValue,couponValue, navigation }) => {
         setShipmentTypeValue(shipmentValueObject);
     };
 
+    const handlePaymentMethodSelection = (id, methodIdLabel, methodTitle, title) => {
+        console.log("value" + id + "\n" + methodIdLabel + "\n" + +methodTitle + title)
+        setSelectedPaymentMethod(id);
 
-    const RowItem = ({ id,methodIdLabel,methodTitle, title, price }: IShippingTypeCard) => {
+        var paymentValueObject = {
+            payment_method: methodIdLabel,
+            payment_method_title: methodTitle,
+        }
+        console.log("paymentValueObject "+JSON.stringify(paymentValueObject))
+        setShipmentMethodValue(paymentValueObject);
+    };
+
+
+    const RowPaymentTypeItem = ({ id, methodIdLabel, methodTitle, title }: IShippingPaymentTypeCard) => {
         return (
-            <TouchableOpacity onPress={() => handleShippingMethodSelection(id,methodIdLabel,methodTitle, title, price)}>
+            <TouchableOpacity onPress={() => handlePaymentMethodSelection(id, methodIdLabel, methodTitle, title)}>
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
+
+                        <View
+                            style={{
+                                height: 18,
+                                width: 18,
+                                borderRadius: 12,
+                                borderWidth: 2,
+                                borderColor: selectedPaymentMethod === id ? '#3BB54A' : 'black',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                        >
+                            {selectedPaymentMethod === id && (
+                                <View
+                                    style={{
+                                        height: 9,
+                                        width: 9,
+                                        borderRadius: 6,
+                                        backgroundColor: '#3BB54A',
+                                    }}
+                                />
+                            )}
+                        </View>
+                        <Text style={{ marginLeft: 8 }}>{title}</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
+        );
+    }
+
+    const RowItem = ({ id, methodIdLabel, methodTitle, title, price }: IShippingTypeCard) => {
+        return (
+            <TouchableOpacity onPress={() => handleShippingMethodSelection(id, methodIdLabel, methodTitle, title, price)}>
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
 
@@ -139,11 +218,12 @@ const ShippingType = ({ setShipmentTypeValue,couponValue, navigation }) => {
         );
     }
 
-    const handleDeliveryTypeClick = (value) => {
-        setDeliverySelectedValue(value);
-    };
+    const renderPaymentModelItem = ({ item }: IShippingPaymentTypeCard) => (
+        <RowPaymentTypeItem id={item.id} methodIdLabel={item.methodIdLabel} methodTitle={item.methodTitle} title={item.title} />
+    );
+
     const renderItem = ({ item }: IShippingResponse) => (
-        <RowItem id={item.id} methodIdLabel={item.method_id} methodTitle={item.method_title}  title={item.title} price={item.settings.cost == null ? "0" : item.settings.cost.value} />
+        <RowItem id={item.id.toString()} methodIdLabel={item.method_id} methodTitle={item.method_title} title={item.title} price={item.settings.cost == null ? "0" : item.settings.cost.value} />
     );
 
     return (
@@ -153,61 +233,14 @@ const ShippingType = ({ setShipmentTypeValue,couponValue, navigation }) => {
                 <Text style={[$billingInfoLabelContainer]}>{DELIVERY_LABEL}</Text>
 
                 <View style={{ marginTop: 12 }}>
-                    <TouchableOpacity onPress={() => handleDeliveryTypeClick('Cash on delivery')}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <View
-                                style={{
-                                    height: 18,
-                                    width: 18,
-                                    borderRadius: 12,
-                                    borderWidth: 2,
-                                    borderColor: deliverySelectedValue === 'Cash on delivery' ? '#3BB54A' : 'black',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                {deliverySelectedValue === 'Cash on delivery' && (
-                                    <View
-                                        style={{
-                                            height: 9,
-                                            width: 9,
-                                            borderRadius: 6,
-                                            backgroundColor: '#3BB54A',
-                                        }}
-                                    />
-                                )}
-                            </View>
-                            <Text style={{ marginLeft: 8 }}>Cash on delivery</Text>
-                        </View>
-                    </TouchableOpacity>
 
-                    <TouchableOpacity onPress={() => handleDeliveryTypeClick('Direct bank trasnfer')}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 10 }}>
-                            <View
-                                style={{
-                                    height: 18,
-                                    width: 18,
-                                    borderRadius: 12,
-                                    borderWidth: 2,
-                                    borderColor: deliverySelectedValue === 'Direct bank trasnfer' ? '#3BB54A' : 'black',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                }}
-                            >
-                                {deliverySelectedValue === 'Direct bank trasnfer' && (
-                                    <View
-                                        style={{
-                                            height: 9,
-                                            width: 9,
-                                            borderRadius: 6,
-                                            backgroundColor: '#3BB54A',
-                                        }}
-                                    />
-                                )}
-                            </View>
-                            <Text style={{ marginLeft: 8 }}>Direct bank trasnfer</Text>
-                        </View>
-                    </TouchableOpacity>
+                    <FlatList
+                        data={paymentTypesList}
+                        renderItem={renderPaymentModelItem}
+                        keyExtractor={(item) => item.id}
+                        showsVerticalScrollIndicator={false}
+                    />
+
                 </View>
 
                 <Text style={[$billingInfoLabelContainer, { marginTop: 22 }]}>{SHIPPING_LABEL}</Text>
@@ -216,7 +249,7 @@ const ShippingType = ({ setShipmentTypeValue,couponValue, navigation }) => {
 
                     !initialLoading ? (
 
-                        <View style={{ marginTop: 2}}>
+                        <View style={{ marginTop: 2 }}>
                             {
                                 shippingMethodScreenState.error != "" ? (
                                     <View style={textPrompt}>

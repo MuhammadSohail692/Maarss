@@ -523,6 +523,13 @@ export const userInputBox: ViewStyle = {
   marginStart: 10
 }
 
+export const userOrderNotesInputBox: ViewStyle = {
+  flex: 1,
+  paddingVertical: 8,
+  marginStart: 10,
+  height: 150,
+}
+
 export const userInputCouponBox: ViewStyle = {
   flex: 1,
   paddingVertical: 6,

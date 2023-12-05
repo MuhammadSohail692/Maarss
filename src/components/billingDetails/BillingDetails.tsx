@@ -6,10 +6,10 @@ import {
     TextInput,
     TouchableOpacity
 } from 'react-native';
-import { billingDetailsType, inuputBoxContainer, userInputBox, userOrderNotesInputBox,orderNotesContainer, instructionContainer, alreadyAccountContainer, confirmCheckoutBtn } from '@theme/view'
+import { billingDetailsType, inuputBoxContainer, userInputBox, userOrderNotesInputBox, orderNotesContainer, instructionContainer, alreadyAccountContainer, confirmCheckoutBtn } from '@theme/view'
 import { $userInputContainer, $billingDetailLabel, $registerText } from '@theme/text'
 import { BILLING_DETAIL_LABEL, CONFIRM_CHECKOUT } from '@constants/app-constants'
-import { LoginNavigator,DashboardNavigator } from '@constants/navigator/navigation-stack';
+import { LoginNavigator, DashboardNavigator } from '@constants/navigator/navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
 import { postOrderPlaceData } from '@reducers/orderPlace/order-place-slice';
 import { putUpdateOrderData } from '@reducers/updateOrder/update-order-slice'
@@ -20,8 +20,6 @@ const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, na
 
     const loginUserInfoScreenState = useSelector((state) => state.loginUserInfo)
     const selectedProductsScreenState = useSelector((state) => state.selectedProductsData)
-    const orderPlaceScreenState = useSelector((state) => state.orderPlaceData)
-    const updateOrderScreenState = useSelector((state) => state.updateOrderData)
 
     const dispatch = useDispatch();
 
@@ -138,41 +136,51 @@ const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, na
                                 })).then((response) => {
                                     console.log("postOrderPlaceData " + JSON.stringify(response))
 
-                                    if (response.payload != null && response.payload != "") {
-                                        if (response.payload.id != null && response.payload.id != "") {
-                                            dispatch(putUpdateOrderData(
-                                                {
-                                                    customerId: loginUserInfoScreenState.data[0].id, orderId: response.payload.id,
-                                                })).then((response) => {
-                                                    if (response.payload != null && response.payload != "") {
-                                                        if (response.payload.id != null && response.payload.id != "") {
-                                                            isConfirmCheckoutSet(false)
-                                                            console.log("putUpdateOrderData " + JSON.stringify(response))
-                                                            showShortToast("Order place successfully.")
-                                                            isConfirmCheckoutSet(false)
-                                                            navigation.dispatch(
-                                                                CommonActions.reset({
-                                                                    index: 0,
-                                                                    routes: [{ name: DashboardNavigator }],
-                                                                })
-                                                            );
-                                                        }else {
+                                    if (loginUserInfoScreenState.data != null && loginUserInfoScreenState.data.length > 0 && loginUserInfoScreenState.data[0].id != null) {
+                                        if (response.payload != null && response.payload != "") {
+                                            if (response.payload.id != null && response.payload.id != "") {
+                                                dispatch(putUpdateOrderData(
+                                                    {
+                                                        customerId: loginUserInfoScreenState.data[0].id, orderId: response.payload.id,
+                                                    })).then((response) => {
+                                                        if (response.payload != null && response.payload != "") {
+                                                            if (response.payload.id != null && response.payload.id != "") {
+                                                                isConfirmCheckoutSet(false)
+                                                                console.log("putUpdateOrderData " + JSON.stringify(response))
+                                                                showShortToast("Order place successfully.")
+                                                                navigation.dispatch(
+                                                                    CommonActions.reset({
+                                                                        index: 0,
+                                                                        routes: [{ name: DashboardNavigator }],
+                                                                    })
+                                                                );
+                                                            } else {
+                                                                isConfirmCheckoutSet(false)
+                                                                showShortToast("An error occurred while place an order")
+                                                            }
+                                                        } else {
                                                             isConfirmCheckoutSet(false)
                                                             showShortToast("An error occurred while place an order")
                                                         }
-                                                    }else {
-                                                        isConfirmCheckoutSet(false)
-                                                        showShortToast("An error occurred while place an order")
-                                                    }
-                                                });
-                                        }
-                                        else {
+                                                    });
+                                            }
+                                            else {
+                                                isConfirmCheckoutSet(false)
+                                                showShortToast("An error occurred while place an order")
+                                            }
+                                        } else {
                                             isConfirmCheckoutSet(false)
                                             showShortToast("An error occurred while place an order")
                                         }
                                     } else {
                                         isConfirmCheckoutSet(false)
-                                        showShortToast("An error occurred while place an order")
+                                        showShortToast("Order place successfully.")
+                                        navigation.dispatch(
+                                            CommonActions.reset({
+                                                index: 0,
+                                                routes: [{ name: DashboardNavigator }],
+                                            })
+                                        );
                                     }
                                 });
                         }

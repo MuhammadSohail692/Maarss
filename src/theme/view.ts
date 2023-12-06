@@ -7,13 +7,27 @@ import {
 export const homeContainer: ViewStyle = {
   flexDirection: 'column',
   padding: 20,
-  paddingBottom: 75,
 };
+
+export const scrollContainer: ViewStyle = {
+  paddingBottom: 65,
+};
+
+export const flatListCartContainer: ViewStyle = {
+  paddingBottom: 60,
+};
+
+export const favFlatListCartContainer: ViewStyle = {
+  paddingBottom: 120,
+};
+export const orderHistoryFlatListCartContainer: ViewStyle = {
+  paddingBottom: 105,
+};
+
 
 export const favouriteContainer: ViewStyle = {
   flexDirection: 'column',
   padding: 15,
-  paddingBottom: 105,
   height: Dimensions.get('window').height,
 };
 
@@ -22,7 +36,15 @@ export const productsContainer: ViewStyle = {
   paddingStart: 18,
   paddingEnd: 18,
   paddingTop: 15,
-  paddingBottom: 110
+  paddingBottom: 120
+};
+
+export const parentContainer: ViewStyle = {
+  flexDirection: 'column',
+  paddingStart: 18,
+  paddingEnd: 18,
+  paddingTop: 15,
+  paddingBottom: 15
 };
 
 export const orderStatusParent: ViewStyle = {
@@ -218,6 +240,8 @@ export const productDescViewRowContainer: ViewStyle = {
   marginTop: 10,
   flexDirection: 'row',
   marginEnd: 10,
+  alignContent:'center',
+  alignItems:'center'
 }
 
 export const productQuantityContainer: ViewStyle = {
@@ -287,16 +311,10 @@ export const categiryRowItem: ViewStyle = {
   justifyContent: 'space-between',
   alignContent: 'center',
   alignItems: 'center',
-  // justifyContent: 'space-between',
-
-  // alignItems: 'center',
-  // alignContent: 'center',
-
   marginEnd: 0,
   padding: 8,
   backgroundColor: '#ffffff',
   borderRadius: 10,
-
   marginBottom: 8,
 };
 
@@ -482,7 +500,7 @@ export const searchInuputContainer: ViewStyle =
   borderRadius: 10,
   borderColor: '#ffffff',
   paddingHorizontal: 2,
-  marginTop: 5
+  marginTop: 22
 }
 
 
@@ -526,7 +544,6 @@ export const userInputBox: ViewStyle = {
 export const userOrderNotesInputBox: ViewStyle = {
   flex: 1,
   paddingVertical: 8,
-  marginStart: 10,
   height: 150,
 }
 
@@ -618,4 +635,8 @@ export const activityIndicatorWrapper:ViewStyle={
   backgroundColor: '#FFFFFF',
     borderRadius: 10,
     padding: 20,
+}
+
+export const orderHistoryItemsContainer:ViewStyle ={
+marginTop:20
 }

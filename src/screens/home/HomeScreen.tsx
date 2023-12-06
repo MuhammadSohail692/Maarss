@@ -3,10 +3,8 @@ import {
     SafeAreaView,
     ScrollView,
     StatusBar,
-    Text,
     useColorScheme,
-    View,
-    ActivityIndicator
+    View
 } from 'react-native';
 import { homeContainer } from "@theme/view"
 import {
@@ -16,6 +14,7 @@ import ShopNow from '@components/shopNow/ShopNow'
 import BestSellingProducts from '@components/bestSellingProducts/BestSellingProducts'
 import NewArrivals from '@components/newArrivals/NewArrivals'
 import SearchProducts from '@components/searchProducts/SearchProducts'
+import { scrollContainer } from "@theme/view"
 
 const HomeScreen = ({ navigation }) => {
 
@@ -34,10 +33,13 @@ const HomeScreen = ({ navigation }) => {
             <ScrollView
                 contentInsetAdjustmentBehavior="automatic"
                 showsVerticalScrollIndicator={false}
-                style={[backgroundStyle]}>
+                style={[backgroundStyle]}
+                contentContainerStyle={scrollContainer}
+                >
 
                 <View style={homeContainer}>
 
+                    
                     {/* Search Products */}
                     <SearchProducts navigation={navigation}/>
 

@@ -16,7 +16,7 @@ import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { useSelector, useDispatch } from 'react-redux';
-import { categiryRowItem, noRecordParentView, textPrompt,forwardCategoryContainer,categoryListContainer,filterBottomContainer,filterBottomContent, productsContainer ,productsHeaderContainer,productListContainer } from "@theme/view"
+import { categiryRowItem, noRecordParentView, textPrompt,forwardCategoryContainer,categoryListContainer, parentContainer } from "@theme/view"
 import { $noRecordContainer } from '@theme/text'
 import { ICategoryCard } from '@types/type';
 import { ICategoriesResponse } from '@model/categories/CategoriesModel';
@@ -131,7 +131,7 @@ const SubCategoryScreen = ({ route, navigation }) => {
             />
            <ScreenLoader loading={categoryClicked} />
 
-            <View style={productsContainer}>
+            <View style={parentContainer}>
                 {
                     subCategoriesScreenState.data.length > 0 ? (
                         <View>

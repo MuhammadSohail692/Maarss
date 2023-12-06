@@ -15,6 +15,7 @@ import { IBestSellingProductCard } from '@types/type';
 import { LABEL_IMAGE_NOT_FOUND, FAVOURITE_LABEL, LABEL_NO_RECORD_FOUND } from '@constants/app-constants'
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
 import { ProductDetailNavigator } from '@constants/navigator/navigation-stack';
+import { favFlatListCartContainer } from "@theme/view"
 
 const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSellingProductCard) => {
     var categoriesList = [];
@@ -96,6 +97,7 @@ const FavouriteListing = ({ favouriteList, navigation }) => {
                         <FlatList
                             data={favouriteList ?? []}
                             renderItem={renderItem}
+                            contentContainerStyle={favFlatListCartContainer}
                             keyExtractor={(item) => item.id}
                             showsVerticalScrollIndicator={false}
                         />

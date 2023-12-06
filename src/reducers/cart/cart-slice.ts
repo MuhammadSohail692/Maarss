@@ -21,6 +21,11 @@ const cartDataSlice = createSlice({
   name: 'cartData',
   initialState,
   reducers: {
+    clearCartData: (state) => {
+      state.data = [];
+      state.loading = false;
+      state.error = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -39,4 +44,6 @@ const cartDataSlice = createSlice({
   },
 });
 
+
+export const { clearCartData } = cartDataSlice.actions;
 export default cartDataSlice.reducer;

@@ -16,7 +16,7 @@ import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { useSelector, useDispatch } from 'react-redux';
-import { categiryRowItem, noRecordParentView, textPrompt,forwardCategoryContainer,categoryListContainer,filterBottomContainer,filterBottomContent, productsContainer ,productsHeaderContainer,productListContainer } from "@theme/view"
+import { categiryRowItem, noRecordParentView, textPrompt,forwardCategoryContainer,categoryListContainer, parentContainer } from "@theme/view"
 import { $noRecordContainer } from '@theme/text'
 import { ICategoryCard } from '@types/type';
 import { ICategoriesResponse } from '@model/categories/CategoriesModel';
@@ -26,6 +26,7 @@ import { SubCategoryNavigator,ProductNavigator } from '@constants/navigator/navi
 import { LABEL_NO_RECORD_FOUND, LoaderColor } from '@constants/app-constants'
 import icForward from '@assets/images/ic_forward.png'
 import ScreenLoader from '@utils/components/loader/ScreenLoader'
+import {scrollContainer} from '@theme/view'
 
 const CategoryScreen = ({ route, navigation }) => {
 
@@ -135,7 +136,7 @@ const CategoryScreen = ({ route, navigation }) => {
             />
            <ScreenLoader loading={categoryClicked} />
 
-            <View style={productsContainer}>
+            <View style={parentContainer}>
                 {
                     categoriesScreenState.data.length > 0 ? (
                         <View>
@@ -144,6 +145,7 @@ const CategoryScreen = ({ route, navigation }) => {
                             <FlatList
                                 data={categoriesScreenState.data ?? []}
                                 renderItem={renderItem}
+                                contentContainerStyle={scrollContainer}
                                 keyExtractor={(item) => item.id}
                                 showsVerticalScrollIndicator={false}
                                 nestedScrollEnabled={true}

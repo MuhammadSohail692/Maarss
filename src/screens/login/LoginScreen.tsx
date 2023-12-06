@@ -24,7 +24,7 @@ import { loginData } from '@reducers/login/login-slice';
 import {fetchLoginUserInfoData} from '@reducers/loginUserInfo/login-user-Info-slice'
 import { showShortToast } from '@utils/Utilities'
 import Loader from '@utils/components/loader/Loader'
-import { RegisterNavigator,BillingInfoNavigator } from '@constants/navigator/navigation-stack';
+import { RegisterNavigator } from '@constants/navigator/navigation-stack';
 import  AlertMessageDialog  from '@utils/components/AlertMessageDialog';
 import NetInfo from '@react-native-community/netinfo';
 

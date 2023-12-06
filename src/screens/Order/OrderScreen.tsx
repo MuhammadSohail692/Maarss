@@ -16,13 +16,14 @@ import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { useSelector, useDispatch } from 'react-redux';
-import { noRecordParentView, textPrompt, orderStatusContainer, orderHistoryListContainer, settingHeaderContainer, historyRowItem, productsContainer, orderStatusViewOne, orderStatusViewTwo, orderStatusViewThree, orderStatusParent, orderStatusViewFour } from "@theme/view"
+import { noRecordParentView, textPrompt, orderStatusContainer, orderHistoryListContainer, settingHeaderContainer, historyRowItem, parentContainer, orderStatusViewOne, orderStatusViewTwo, orderStatusViewThree, orderStatusParent, orderStatusViewFour } from "@theme/view"
 import { $noRecordContainer, $contactUsHeaderContainer, $statusBoxText } from '@theme/text'
 import { IOrderHistoryCard } from '@types/type';
 import { IOrderResponse } from '@model/order/OrderModel';
 import { fetchOrderHistoryData, clearOrderHistoryData } from '@reducers/orderHistory/order-history-slice';
 import { orderDetailHistoryNavigator } from '@constants/navigator/navigation-stack';
 import { LABEL_NO_RECORD_FOUND, LoaderColor, ORDER_HISTORY_LABEL } from '@constants/app-constants'
+import { orderHistoryFlatListCartContainer } from "@theme/view"
 
 const OrderScreen = ({ route, navigation }) => {
 
@@ -42,12 +43,12 @@ const OrderScreen = ({ route, navigation }) => {
     const [statusTab, setStatusTab] = useState("all");
     const [loadingMore, setLoadingMore] = useState(false);
     var customerId = -1;
-    if(loginScreenState.data.length>0){
-         customerId =  loginScreenState.data[0].id
+    if (loginScreenState.data.length > 0) {
+        customerId = loginScreenState.data[0].id
     }
 
     useEffect(() => {
-        
+
         if (initialLoading) {
             dispatch(clearOrderHistoryData());
             dispatch(fetchOrderHistoryData({ customerId: customerId, pageNo: page, status: statusTab })).then(() => {
@@ -99,6 +100,7 @@ const OrderScreen = ({ route, navigation }) => {
                             style={{ color: Colors.white, fontSize: 11, fontWeight: '500', marginStart: 5, marginEnd: 5 }}>{status.toUpperCase()}</Text>
                     </View>
                 </View>
+
             </TouchableOpacity>
         );
     }
@@ -123,7 +125,7 @@ const OrderScreen = ({ route, navigation }) => {
         : IOrderResponse) => (
         <RowItem orderId={item.id} status={item.status} total={item.total} navigation={navigation} />
     );
-    
+
 
 
     return (
@@ -132,30 +134,30 @@ const OrderScreen = ({ route, navigation }) => {
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                 backgroundColor={backgroundStyle.backgroundColor}
             />
-            <View style={productsContainer}>
+            <View style={parentContainer}>
                 <View style={settingHeaderContainer}>
                     <Text style={$contactUsHeaderContainer}>{ORDER_HISTORY_LABEL}</Text>
                 </View>
 
                 <View style={orderStatusParent}>
 
-                    <TouchableOpacity style={[orderStatusViewOne, { backgroundColor: statusTab == "all"?'#5A5A5A':"lightgrey" }]} onPress={() => statusTabClicked("all")}>
+                    <TouchableOpacity style={[orderStatusViewOne, { backgroundColor: statusTab == "all" ? '#5A5A5A' : "lightgrey" }]} onPress={() => statusTabClicked("all")}>
                         <Text style={$statusBoxText}>All</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[orderStatusViewTwo, { backgroundColor: statusTab == "processing"?'#ADD8E6':"lightgrey" }]} onPress={() => statusTabClicked("processing")}>
+                    <TouchableOpacity style={[orderStatusViewTwo, { backgroundColor: statusTab == "processing" ? '#ADD8E6' : "lightgrey" }]} onPress={() => statusTabClicked("processing")}>
                         <Text style={$statusBoxText}>Processing</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={[orderStatusViewThree, { backgroundColor: statusTab == "completed"?'#008000':"lightgrey" }]} onPress={() => statusTabClicked("completed")}>
+                    <TouchableOpacity style={[orderStatusViewThree, { backgroundColor: statusTab == "completed" ? '#008000' : "lightgrey" }]} onPress={() => statusTabClicked("completed")}>
                         <Text style={$statusBoxText}>Completed</Text>
                     </TouchableOpacity>
-                    
-                    
-                    <TouchableOpacity style={[orderStatusViewFour, { backgroundColor: statusTab == "cancelled"?'#FF0000':"lightgrey"  }]} onPress={() => statusTabClicked("cancelled")}>
+
+
+                    <TouchableOpacity style={[orderStatusViewFour, { backgroundColor: statusTab == "cancelled" ? '#FF0000' : "lightgrey" }]} onPress={() => statusTabClicked("cancelled")}>
                         <Text style={$statusBoxText}>Cancelled</Text>
                     </TouchableOpacity>
-                
+
 
                 </View>
                 {
@@ -168,6 +170,7 @@ const OrderScreen = ({ route, navigation }) => {
                                 <FlatList
                                     data={orderHistoryScreenState.data ?? []}
                                     renderItem={renderItem}
+                                    contentContainerStyle={orderHistoryFlatListCartContainer}
                                     keyExtractor={(item) => item.id}
                                     showsVerticalScrollIndicator={false}
                                     nestedScrollEnabled={true}

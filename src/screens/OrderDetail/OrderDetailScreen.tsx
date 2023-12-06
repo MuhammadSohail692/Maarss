@@ -8,20 +8,54 @@ import {
     View,
     ActivityIndicator,
     Image,
-    Dimensions
+    FlatList,
+    Dimensions,
+    TouchableOpacity
 } from 'react-native';
 import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
-import ProductDescription from '@components/productDescription/ProductDescription'
 import { useSelector, useDispatch } from 'react-redux';
-import { NO_INTENRT_CONNECTION, CHECK_YOUR_INTERNET, OK, LoaderColor } from '@constants/app-constants'
-import NetInfo from '@react-native-community/netinfo';
-import { productDescContainer, productDescViewContainer, textPrompt, productDescViewColumnContainer, addToCartBtn } from '@theme/view'
-import { productDescViewRowContainer, productNameViewRowContainer, productQuantityContainer, plusMinusContainer, quantityConatiner } from "@theme/view"
-import { $productNameDetail, $productPrice, $productLabel, $productLabelValues, $plusMinusLabel, $quantityContainer } from '@theme/text'
-
+import { LoaderColor,LABEL_IMAGE_NOT_FOUND } from '@constants/app-constants'
+import { productDescContainer, productDescViewContainer, textPrompt,bestfavoriteRowItem,orderHistoryItemsContainer } from '@theme/view'
+import { productDescViewRowContainer } from "@theme/view"
+import { $productPrice, $productLabel, $productLabelValues } from '@theme/text'
 import { fetchOrderDetailData } from '@reducers/orderDetail/order-detail-slice';
+import { IOrderDetailResponse } from '@model/orderDetail/OrderDetailModel';
+import { IOrderHistoryItemCard } from '@types/type';
+
+const RowItem = ({ prodId, name, price, image,quantity,sku }: IOrderHistoryItemCard) => {
+
+    return (
+            <View style={bestfavoriteRowItem}>
+                <View style={{ flex: 1 }}>
+                    <Image source={{ uri: image }} style={{
+                        height: 100, resizeMode: 'contain',
+
+                        borderTopLeftRadius: 10, borderBottomLeftRadius: 10
+                    }} alt={LABEL_IMAGE_NOT_FOUND} />
+                </View>
+                <View style={{ flex: 2 }}>
+                    <Text numberOfLines={2}
+                        ellipsizeMode="tail"
+                        style={{ color: Colors.black, fontSize: 13, fontWeight: '600', marginTop: 2, marginStart: 12, marginEnd: 5 }}>{name}</Text>
+                    <Text
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={{ color: '#A9A9A9', fontSize: 12, fontWeight: '600', marginTop: 2, marginStart: 12 }}>Rs.{price}</Text>
+                     <Text
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={{ color: '#A9A9A9', fontSize: 12, fontWeight: '600', marginTop: 2, marginStart: 12 }}>Quantity: {quantity}</Text>
+              <Text
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={{ color: '#A9A9A9', fontSize: 12, fontWeight: '600', marginTop: 2, marginStart: 12 }}>Sku: {sku}</Text>
+              
+                </View>
+            </View>
+    );
+}
 
 const OrderDetailScreen = ({ route, navigation }) => {
 
@@ -53,6 +87,11 @@ const OrderDetailScreen = ({ route, navigation }) => {
         );
     }
 
+    const renderItem = ({ item }
+        : IOrderDetailResponse) => (
+        <RowItem prodId={item.product_id} name={item.name} price={item.price} image={item.image.src} quantity={item.quantity} sku={item.sku}/>
+    );
+
     return (
         <SafeAreaView style={backgroundStyle} >
             <StatusBar
@@ -65,27 +104,13 @@ const OrderDetailScreen = ({ route, navigation }) => {
                 showsVerticalScrollIndicator={false}
                 style={[backgroundStyle]}>
 
-                {
-                    orderDetailScreenState.data.line_items.length > 0 ? (
-                        <View>
-                            <Image
-                                source={{ uri: orderDetailScreenState.data.line_items[0].image.src }}
-                                style={{ width, height, resizeMode: 'contain' }}
-                            />
-                        </View>
-                    ) :
-                        (<View></View>)
-                }
-
                 <View style={[productDescContainer]}>
-
-                    <Text style={[$productPrice, productDescViewContainer]}>Rs.{orderDetailScreenState.data.total}</Text>
 
                     <View style={[productDescViewRowContainer]}>
                         <Text style={[$productLabel]}>Order Id: </Text>
                         <Text style={[$productLabelValues]}>{orderDetailScreenState.data.id}</Text>
                     </View>
-
+                    
                     <View style={[productDescViewRowContainer]}>
                         <Text style={[$productLabel]}>Status: </Text>
                         <Text style={[$productLabelValues]}>{orderDetailScreenState.data.status}</Text>
@@ -117,33 +142,31 @@ const OrderDetailScreen = ({ route, navigation }) => {
                         <Text style={[$productLabelValues]}>{orderDetailScreenState.data.billing.phone}</Text>
                     </View>
 
-                    {
-                        orderDetailScreenState.data.line_items.length > 0 ? (
-                            <View>
-                                <View style={[productDescViewRowContainer]}>
-                                    <Text style={[$productLabel]}>Product Name: </Text>
-                                    <Text style={[$productLabelValues]}>{orderDetailScreenState.data.line_items[0].name}</Text>
-                                </View>
-
-                                <View style={[productDescViewRowContainer]}>
-                                    <Text style={[$productLabel]}>Quantity: </Text>
-                                    <Text style={[$productLabelValues]}>{orderDetailScreenState.data.line_items[0].quantity}</Text>
-                                </View>
-                                <View style={[productDescViewRowContainer]}>
-                                    <Text style={[$productLabel]}>Sku: </Text>
-                                    <Text style={[$productLabelValues]}>{orderDetailScreenState.data.line_items[0].sku}</Text>
-                                </View>
-                            </View>
-
-                        ) :
-                            (<View></View>)
-                    }
 
                     <View style={[productDescViewRowContainer]}>
                         <Text style={[$productLabel]}>Payment Method: </Text>
                         <Text style={[$productLabelValues]}>{orderDetailScreenState.data.payment_method_title}</Text>
                     </View>
+                    
+                    <View style={[productDescViewRowContainer]}>
+                        <Text style={[$productLabel]}>Subtotal: </Text>
+                        <Text style={[$productLabelValues]}>Rs.{orderDetailScreenState.data.total}</Text>
+                    </View>
 
+                    {
+                    orderDetailScreenState.data.line_items.length > 0 ? (
+                        <View style={orderHistoryItemsContainer}>
+                        <FlatList
+                                    data={orderDetailScreenState.data.line_items ?? []}
+                                    renderItem={renderItem}
+                                    keyExtractor={(item) => item.id}
+                                    showsVerticalScrollIndicator={false}
+                                    nestedScrollEnabled={false}
+                                />
+                                </View>
+                    ) :
+                        (<View></View>)
+                }
 
                 </View>
             </ScrollView>

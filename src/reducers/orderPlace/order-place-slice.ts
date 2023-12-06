@@ -12,7 +12,7 @@ const initialState: PlaceOrderResponse = {
 };
 
 export const postOrderPlaceData = createAsyncThunk('order-place-slice/postOrderPlaceData', async (
-    { paymentMethod,paymentMethodTitle, name,address,city,country,email,phone,customerNote,couponCode,shippingLine,selectedProductItems }
+    { paymentMethod,paymentMethodTitle, name,address,city,country,email,phone,customerNote,couponCode,shippingLine,selectedProductItems },{ rejectWithValue }
     ) => {
     try {
         console.log("paymentMethod " + paymentMethod)
@@ -29,7 +29,7 @@ export const postOrderPlaceData = createAsyncThunk('order-place-slice/postOrderP
         console.log("selectedProductItems " + JSON.stringify(selectedProductItems))
 
         var requestData;
-        if(couponCode.lenght>0){
+        if(couponCode!=""){
             requestData = {
                 payment_method: paymentMethod,
                 payment_method_title: paymentMethodTitle,
@@ -104,6 +104,7 @@ export const postOrderPlaceData = createAsyncThunk('order-place-slice/postOrderP
                 ]
             };
         }
+        console.log("requestData "+JSON.stringify(requestData))
 
 
         const queryParams = {
@@ -120,11 +121,12 @@ export const postOrderPlaceData = createAsyncThunk('order-place-slice/postOrderP
 
         var response
         response = await axios.post(BASE_URL + ORDER_HISTORY_END_POINT, requestData, config);
-
-
-        return response.data as IPlaceOrderModelResponse;
+        
+        return  response.data as IPlaceOrderModelResponse;
     } catch (error) {
-        throw error;
+        // throw error;
+        return rejectWithValue(error.response?.data ?? { message: error.message === 'Network Error'? "Network error": 'An error occurred' });
+
     }
 });
 
@@ -145,7 +147,6 @@ const orderPlaceDataSlice = createSlice({
             })
             .addCase(postOrderPlaceData.rejected, (state, action) => {
                 state.loading = false;
-                console.log("action.error "+action.error)
                 state.error = action.error.message ?? "Unable to server at the moment";
             });
     },

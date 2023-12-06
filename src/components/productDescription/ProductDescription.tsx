@@ -55,54 +55,62 @@ const ProductDescription = ({ data, navigation }) => {
     var colorAvaliableVariationIds: number[] = []
 
 
-    if (data.categories.length > 0) {
-        for (let i = 0; i < data.categories.length; i++) {
-            categoriesStr += data.categories[i].name;
+    if (data.categories != null) {
+        if (data.categories.length > 0) {
+            for (let i = 0; i < data.categories.length; i++) {
+                categoriesStr += data.categories[i].name;
 
-            if (data.categories.length - 1 != i) {
-                categoriesStr += ", ";
+                if (data.categories.length - 1 != i) {
+                    categoriesStr += ", ";
+                }
             }
-        }
-        categoriesList.push(
-            <View style={{ marginRight: 3 }}>
-                <Text
-                    style={$productLabelValues}>{categoriesStr}</Text>
-            </View>
-        )
-    }
-
-    if (data.tags.length > 0) {
-
-        for (let i = 0; i < data.tags.length; i++) {
-            tagsStr += data.tags[i].name;
-
-            if (data.tags.length - 1 != i) {
-                tagsStr += ", ";
-            }
-        }
-        tagsList.push(
-            <View style={{ marginRight: 3 }}>
-                <Text
-                    style={$productLabelValues}>{tagsStr}</Text>
-            </View>
-        )
-    }
-
-
-    if (data.attributes.length > 0) {
-        for (let i = 0; i < data.attributes.length; i++) {
-            if (data.attributes[i].position == 0) {
-                colorLabel = data.attributes[i].name
-                colorAvaliable = data.attributes[i].options
-            }
-            if (data.attributes[i].position == 1) {
-                sizeLabel = data.attributes[i].name
-                sizeAvailable = data.attributes[i].options
-            }
+            categoriesList.push(
+                <View style={{ marginRight: 3 }}>
+                    <Text
+                        style={$productLabelValues}>{categoriesStr}</Text>
+                </View>
+            )
         }
     }
-    if (data.variations.length > 0) {
-        colorAvaliableVariationIds = data.variations
+
+    if (data.tags != null) {
+        if (data.tags.length > 0) {
+
+            for (let i = 0; i < data.tags.length; i++) {
+                tagsStr += data.tags[i].name;
+
+                if (data.tags.length - 1 != i) {
+                    tagsStr += ", ";
+                }
+            }
+            tagsList.push(
+                <View style={{ marginRight: 3 }}>
+                    <Text
+                        style={$productLabelValues}>{tagsStr}</Text>
+                </View>
+            )
+        }
+    }
+
+    if (data.attributes != null) {
+        if (data.attributes.length > 0) {
+            for (let i = 0; i < data.attributes.length; i++) {
+                if (data.attributes[i].position == 0) {
+                    colorLabel = data.attributes[i].name
+                    colorAvaliable = data.attributes[i].options
+                }
+                if (data.attributes[i].position == 1) {
+                    sizeLabel = data.attributes[i].name
+                    sizeAvailable = data.attributes[i].options
+                }
+            }
+        }
+    }
+
+    if (data.variations != null) {
+        if (data.variations.length > 0) {
+            colorAvaliableVariationIds = data.variations
+        }
     }
 
     colorAvaliable.forEach((color, index) => {
@@ -289,25 +297,25 @@ const ProductDescription = ({ data, navigation }) => {
             <TouchableOpacity
                 onPress={() => {
 
-                    if(selectedSizeItem==-1){
+                    if (selectedSizeItem == -1) {
                         showShortToast("Please select size")
-                    }else if(selectorColorValue == ""){
+                    } else if (selectorColorValue == "") {
                         showShortToast("Please select color")
-                    }else{
+                    } else {
                         const newItem: ISelectedProductColor = {
                             key: 'Color',
                             value: selectorColorValue,
                         };
                         selectedProductColor.push(newItem);
-    
+
                         var selectedProductItems = {
                             product_id: data.id,
                             quantity: setQuantity,
                             variation_id: selectedSizeItem,
                             meta_data: selectedProductColor
                         }
-                        // console.log("selectedProductItems " + JSON.stringify(selectedProductItems))
-    
+
+                        console.log("selectedProductItems " + JSON.stringify(selectedProductItems))
                         dispatch(fetchCartData({ cartItem: data })).then(() => {
                             dispatch(fetchSelectedProductsData({ productItems: selectedProductItems })).then(() => {
                                 showShortToast("Item added to cart.")

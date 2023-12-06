@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
     View,
-    Text,
+    Image,
     TextInput
 } from 'react-native';
 import { searchInuputContainer,userInputBox } from "@theme/view"
 import {$userInputContainer} from '@theme/text'
 import { ProductNavigator} from '@constants/navigator/navigation-stack';
-
-
+import { APP_LOGO_URL,LABEL_IMAGE_NOT_FOUND } from '@constants/app-constants'
 
 const SearchProducts = ({ navigation }) => {
 
@@ -23,6 +22,10 @@ const SearchProducts = ({ navigation }) => {
     
     return (
         <View >
+            <Image source={{ uri: APP_LOGO_URL }} style={{
+                        height: 50,
+                        resizeMode: 'contain',
+                    }} alt={LABEL_IMAGE_NOT_FOUND} />
             <View style={searchInuputContainer}>
                             <TextInput
                                 style={[userInputBox, $userInputContainer]}

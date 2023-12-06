@@ -21,6 +21,11 @@ const selectedProductsDataSlice = createSlice({
   name: 'selectedProductsData',
   initialState,
   reducers: {
+    clearProductItemsData: (state) => {
+      state.data = [];
+      state.loading = false;
+      state.error = "";
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -40,4 +45,5 @@ const selectedProductsDataSlice = createSlice({
   },
 });
 
+export const { clearProductItemsData } = selectedProductsDataSlice.actions;
 export default selectedProductsDataSlice.reducer;

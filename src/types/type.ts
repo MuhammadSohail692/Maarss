@@ -29,6 +29,15 @@ export interface IBestSellingProductCard {
     image:Image[],
     navigation:any
 }
+
+export interface IOrderHistoryItemCard {
+    prodId:number,
+    name:string,
+    price: number;
+    image:string,
+    quantity:number,
+    sku:string
+}
 export interface ICategoryCard {
     categoryId:number,
     name:string,

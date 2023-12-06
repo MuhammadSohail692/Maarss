@@ -11,7 +11,7 @@ const initialState: PlaceOrderResponse = {
   error: "",
 };
 
-export const putUpdateOrderData = createAsyncThunk('update-order-slice/putUpdateOrderData', async ({customerId,orderId,}) => {
+export const putUpdateOrderData = createAsyncThunk('update-order-slice/putUpdateOrderData', async ({customerId,orderId}) => {
   try {
     console.log("orderId " + orderId)
     console.log("customerId "+customerId)
@@ -51,6 +51,7 @@ const updateOrderDataSlice = createSlice({
       })
       .addCase(putUpdateOrderData.rejected, (state, action) => {
         state.loading = false;
+        console.log("action.error "+JSON.stringify(action.error))
         state.error = action.error.message ?? "Unable to server at the moment";
       });
   },

@@ -14,7 +14,7 @@ import { SUBTOTAL_LABEL, SHIPPING_LABEL, TOTAL_LABEL, DELIVERY_LABEL, COUNTRY_ID
 import { useSelector, useDispatch } from 'react-redux';
 import { IShippingResponse } from '@model/shipping/ShippingModel';
 import { fetchShippingMethodData } from '@reducers/shipping/shipping-slice';
-import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
+import { ICartResponse } from '@model/cart/CartModel';
 
 
 const ShippingType = ({setShipmentMethodValue, setShipmentTypeValue, couponValue, navigation }) => {
@@ -30,10 +30,9 @@ const ShippingType = ({setShipmentMethodValue, setShipmentTypeValue, couponValue
     var [totalAmount, setTotalAmount] = useState(0);
     var [subTotal, setSubTotal] = useState(0)
 
-    const cardItems: IBestSellingProductRespose[] = cartScreenState.data
+    const cardItems: ICartResponse[] = cartScreenState.data
     const [initialLoading, setInitialLoading] = useState(true);
     const dispatch = useDispatch();
-    // console.log("couponValue ship " + JSON.stringify(couponValue))
 
     const paymentTypesList = [
         {
@@ -57,9 +56,14 @@ const ShippingType = ({setShipmentMethodValue, setShipmentTypeValue, couponValue
         var subTotalAfterDiscount = 0
         var discountAmount = 0
         if (cardItems.length > 0) {
-
             for (let i = 0; i < cardItems.length; i++) {
-                var price = parseInt(cardItems[i].price);
+                var price;
+                if(cardItems[i].stock_quantity!=null){
+                price = parseInt(cardItems[i].price) * cardItems[i].stock_quantity;
+                }
+                else{
+                price = parseInt(cardItems[i].price);
+                }
                 subTotalInt += price;
             }
 

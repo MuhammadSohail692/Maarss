@@ -11,13 +11,13 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import { bestfavoriteRowItem, noRecordParentView, headerContiner, checkoutBtn, headerCartContiner } from "@theme/view"
 import { $favouriteLabelContainer, $noRecordContainer } from '@theme/text'
-import { IBestSellingProductCard } from '@types/type';
+import { ICartProductsCard } from '@types/type';
 import { LABEL_IMAGE_NOT_FOUND, CART_LABEL, LABEL_NO_RECORD_FOUND } from '@constants/app-constants'
 import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
 import { ProductDetailNavigator, LoginNavigator, BillingInfoNavigator } from '@constants/navigator/navigation-stack';
 import { flatListCartContainer } from "@theme/view"
 
-const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSellingProductCard) => {
+const RowItem = ({ prodId, name, price, categories, image,quantity, navigation }: ICartProductsCard) => {
     var categoriesList = [];
     var categoriesStr = "";
     var productImg = "";
@@ -45,11 +45,6 @@ const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSe
     }
 
     return (
-        <TouchableOpacity
-            onPress={() => {
-                navigation.navigate(ProductDetailNavigator, { productId: prodId });
-            }}
-        >
             <View style={bestfavoriteRowItem}>
                 <View style={{ flex: 1 }}>
                     <Image source={{ uri: productImg }} style={{
@@ -58,7 +53,7 @@ const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSe
                         borderTopLeftRadius: 10, borderBottomLeftRadius: 10
                     }} alt={LABEL_IMAGE_NOT_FOUND} />
                 </View>
-                <View style={{ flex: 2 }}>
+                <View style={{ flex: 2,padding:5}}>
                     {
                         categoriesList.length > 0 ? (
                             <View style={{ marginStart: 12 }}>
@@ -73,9 +68,13 @@ const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSe
                         numberOfLines={1}
                         ellipsizeMode="tail"
                         style={{ color: '#A9A9A9', fontSize: 12, fontWeight: '600', marginTop: 5, marginStart: 12 }}>Rs.{price}</Text>
+                          <Text
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                        style={{ color: '#A9A9A9', fontSize: 12, fontWeight: '600', marginTop: 5, marginStart: 12 }}>Quantity: {quantity}</Text>
+            
                 </View>
             </View>
-        </TouchableOpacity>
     );
 }
 
@@ -84,7 +83,7 @@ const CartListing = ({ cartList, navigation }) => {
 
     const renderItem = ({ item }
         : IBestSellingProductRespose) => (
-        <RowItem prodId={item.id} name={item.name} price={item.price} categories={item.categories} image={item.images} navigation={navigation} />
+        <RowItem prodId={item.id} name={item.name} price={item.price} categories={item.categories} image={item.images} quantity={item.stock_quantity} navigation={navigation} />
     );
     return (
         <View>

@@ -6,6 +6,7 @@ export interface IBestSellingProductRespose {
     categories: Category[];
     images:     Image[];
     _links:     Links;
+    stock_quantity: any
 }
 
 export interface Links {

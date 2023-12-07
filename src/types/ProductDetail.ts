@@ -15,6 +15,7 @@ export type Root = {
     short_description: string;
     stock_status:      string;
     attributes:        Attribute[];
+    stock_quantity: any
 }
 
 export type Attribute ={

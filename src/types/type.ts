@@ -30,6 +30,16 @@ export interface IBestSellingProductCard {
     navigation:any
 }
 
+export interface ICartProductsCard {
+    prodId:number,
+    name:string,
+    price: string;
+    categories:Category[],
+    image:Image[],
+    quantity:any,
+    navigation:any
+}
+
 export interface IOrderHistoryItemCard {
     prodId:number,
     name:string,

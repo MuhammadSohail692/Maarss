@@ -15,14 +15,15 @@ import { productDescViewRowContainer, productNameViewRowContainer, productQuanti
 import { $productNameDetail, $productPrice, $productLabel, $productLabelValues, $plusMinusLabel, $quantityContainer } from '@theme/text'
 import { IProductColors, IProductDetailColors, IProductDetailSize, ISelectedProductColor } from '@types/type';
 import { fetchfavouriteData } from '@reducers/favourite/favourite-slice'
-import { fetchCartData } from '@reducers/cart/cart-slice'
+import { fetchCartData, updateCartItemQuantity } from '@reducers/cart/cart-slice'
 import { fetchSelectedProductsData } from '@reducers/selectedProducts/selected-products-slice'
 import icFavourite from '@assets/images/ic_favourite.png'
 import icPlus from '@assets/images/ic_plus.png'
 import icMinus from '@assets/images/ic_minus.png'
 import icFavouriteFilled from '@assets/images/ic_favourite_filled.png'
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { showShortToast } from '@utils/Utilities'
+import { ADD_TO_CART_LABEL } from '@constants/app-constants'
 
 const ProductDescription = ({ data, navigation }) => {
 
@@ -33,11 +34,9 @@ const ProductDescription = ({ data, navigation }) => {
     const [selectorColorValue, setSelectorColorValue] = useState("");
     const [selectedSizeItem, setSelectedSizeItem] = useState(-1);
 
-    const [selectedProductItem, setSelectedProductItem] = useState("");
-
+    const cartScreenState = useSelector((state) => state.cartData)
 
     var colorList: IProductDetailColors[] = [];
-    var sizeList: IProductDetailSize[] = [];
 
     var categoriesList = [];
     var categoriesStr = "";
@@ -120,15 +119,6 @@ const ProductDescription = ({ data, navigation }) => {
         };
         colorList.push(newItem);
     });
-
-
-    // sizeAvailable.forEach((color, index) => {
-    //     const newItem: IProductDetailSize = {
-    //         id: index,
-    //         size: color,
-    //     };
-    //     sizeList.push(newItem);
-    // });
 
 
     var productsColorList = sizeAvailable.map((option, index) => ({
@@ -296,31 +286,46 @@ const ProductDescription = ({ data, navigation }) => {
             </View>
             <TouchableOpacity
                 onPress={() => {
-
+                    console.log("colorAvaliable" + colorAvaliable)
                     if (selectedSizeItem == -1) {
                         showShortToast("Please select size")
-                    } else if (selectorColorValue == "") {
+                    } else if (colorAvaliable.length > 0 && selectorColorValue == "") {
                         showShortToast("Please select color")
+
                     } else {
-                        const newItem: ISelectedProductColor = {
-                            key: 'Color',
-                            value: selectorColorValue,
-                        };
-                        selectedProductColor.push(newItem);
+                        var selectedProductItems = {}
+                        if (colorAvaliable.length > 0) {
+                            const newItem: ISelectedProductColor = {
+                                key: 'Color',
+                                value: selectorColorValue,
+                            };
+                            selectedProductColor.push(newItem);
 
-                        var selectedProductItems = {
-                            product_id: data.id,
-                            quantity: setQuantity,
-                            variation_id: selectedSizeItem,
-                            meta_data: selectedProductColor
+                            selectedProductItems = {
+                                product_id: data.id,
+                                quantity: setQuantity,
+                                variation_id: selectedSizeItem,
+                                meta_data: selectedProductColor
+                            }
+                        } else {
+                            selectedProductItems = {
+                                product_id: data.id,
+                                quantity: setQuantity,
+                                variation_id: selectedSizeItem,
+                            }
                         }
-
                         console.log("selectedProductItems " + JSON.stringify(selectedProductItems))
+
                         dispatch(fetchCartData({ cartItem: data })).then(() => {
+                            console.log("data.id "+JSON.stringify(data.id))
+                            console.log("setQuantity "+setQuantity)
+
+                            dispatch(updateCartItemQuantity({ productId: data.id, newQuantity: setQuantity }));
                             dispatch(fetchSelectedProductsData({ productItems: selectedProductItems })).then(() => {
-                                showShortToast("Item added to cart.")
-                            });
+                                        showShortToast(ADD_TO_CART_LABEL)
+                                    });
                         });
+
                     }
                 }}
             >

@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { billingDetailsType, inuputBoxContainer, userInputBox, userOrderNotesInputBox, orderNotesContainer, instructionContainer, alreadyAccountContainer, confirmCheckoutBtn } from '@theme/view'
 import { $userInputContainer, $billingDetailLabel, $registerText } from '@theme/text'
-import { BILLING_DETAIL_LABEL, CONFIRM_CHECKOUT, CHECK_YOUR_INTERNET, NO_INTENRT_CONNECTION, OK, ORDER_PLACE_SUCCESSFULLY_MESSAGE, ERROR_OCCURRED } from '@constants/app-constants'
+import { BILLING_DETAIL_LABEL, CONFIRM_CHECKOUT, CHECK_YOUR_INTERNET, NO_INTENRT_CONNECTION,YOUR_ORDER_ID_LABEL, OK, ORDER_PLACE_SUCCESSFULLY_MESSAGE, ERROR_OCCURRED } from '@constants/app-constants'
 import { LoginNavigator, DashboardNavigator } from '@constants/navigator/navigation-stack';
 import { useSelector, useDispatch } from 'react-redux';
 import { postOrderPlaceData } from '@reducers/orderPlace/order-place-slice';
@@ -27,6 +27,7 @@ const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, na
     const selectedProductsScreenState = useSelector((state) => state.selectedProductsData)
 
     const dispatch = useDispatch();
+    console.log("selectedProductsScreenState.data "+JSON.stringify(selectedProductsScreenState.data))
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');

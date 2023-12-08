@@ -78,7 +78,7 @@ const ProductDetailScreen = ({route,navigation}) => {
 
                 
                 {/* Product desc */}
-                <ProductDescription data={productDetailScreenState.data ?? []} navigation={navigation}/>
+                <ProductDescription isDarkMode={isDarkMode} data={productDetailScreenState.data ?? []} navigation={navigation}/>
             </ScrollView>
         </SafeAreaView>
     );

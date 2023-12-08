@@ -28,11 +28,6 @@ const cartDataSlice = createSlice({
     },
     updateCartItemQuantity: (state, action) => {
       const { productId, newQuantity } = action.payload;
-      // const existingItem = state.data.find(item => item.id === productId);
-      // if (existingItem) {
-      //   existingItem.stock_quantity = newQuantity;
-      // }
-       // Find the index of the item to be updated in the state.data array
        const itemIndex = state.data.findIndex(item => item.id === productId);
 
        if (itemIndex !== -1) {
@@ -49,6 +44,15 @@ const cartDataSlice = createSlice({
          // Update the state with the new array
          state.data = newData;
         } 
+    },
+    removeCartItemById: (state, action) => {
+      const { productId } = action.payload;
+
+      const productIndex = state.data.findIndex(product => product.id === productId);
+
+      if (productIndex !== -1) {
+        state.data.splice(productIndex, 1);
+      }
     },
   },
   extraReducers: (builder) => {
@@ -69,5 +73,5 @@ const cartDataSlice = createSlice({
 });
 
 
-export const { clearCartData,updateCartItemQuantity } = cartDataSlice.actions;
+export const { clearCartData,updateCartItemQuantity,removeCartItemById } = cartDataSlice.actions;
 export default cartDataSlice.reducer;

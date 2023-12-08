@@ -114,7 +114,12 @@ const ProductScreen = ({ route, navigation }) => {
     const { categoryId, searchText } = route.params;
     console.log("prodcts " + categoryId)
     console.log("searchText " + searchText)
-
+    const textStylesFilter = {
+        color:  Colors.black ,
+    };
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const filterList = [
         {
             id: 'date',
@@ -214,7 +219,7 @@ const ProductScreen = ({ route, navigation }) => {
                     productScreenState.data.length > 0 ? (
                         <View>
                             <View style={productsHeaderContainer}>
-                                <Text style={$productsLabelContainer}>{PRODUCTS_LABEL}</Text>
+                                <Text style={[$productsLabelContainer,textStyles]}>{PRODUCTS_LABEL}</Text>
 
                                 <TouchableOpacity onPress={toggleModal}>
                                     <View style={filterContainer}>
@@ -228,7 +233,7 @@ const ProductScreen = ({ route, navigation }) => {
                                 <View style={filterBottomContent}>
                                     {filterList.map((item) => (
                                         <TouchableOpacity key={item.id} onPress={() => handleSelect(item)}>
-                                            <Text style={rowFilterContainer}>{item.title}</Text>
+                                            <Text style={[rowFilterContainer,textStylesFilter]}>{item.title}</Text>
                                         </TouchableOpacity>
                                     ))}
                                 </View>

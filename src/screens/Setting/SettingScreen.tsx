@@ -31,6 +31,9 @@ const SettingScreen = ({ navigation }) => {
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const dispatch = useDispatch();
     const loginScreenState = useSelector((state) => state.loginData)
 
@@ -65,14 +68,14 @@ const SettingScreen = ({ navigation }) => {
 
                 <View style={settingContainer}>
                     <View style={settingHeaderContainer}>
-                        <Text style={$contactUsHeaderContainer}>{SETTING_LABEL}</Text>
+                        <Text style={[$contactUsHeaderContainer,textStyles]}>{SETTING_LABEL}</Text>
                     </View>
                     <TouchableOpacity onPress={() => {
                         handleLinkPress(CONTACT_US_URL)
 
                     }}>
                         <View style={settingItemContainer}>
-                            <Text style={$labelContainer}>{CONTACT_US_LABEL}</Text>
+                            <Text style={[$labelContainer,textStyles]}>{CONTACT_US_LABEL}</Text>
                             <View style={forwardContainer}>
                                 <Image source={icForward} style={{ width: 13, height: 13, resizeMode: 'contain', tintColor: 'white' }} />
                             </View>
@@ -83,7 +86,7 @@ const SettingScreen = ({ navigation }) => {
                         handleLinkPress(PRIVACY_POLICY_URL)
                     }}>
                         <View style={settingItemContainer}>
-                            <Text style={$labelContainer}>{PRIVACY_POLICY_LABEL}</Text>
+                            <Text style={[$labelContainer,textStyles]}>{PRIVACY_POLICY_LABEL}</Text>
                             <View style={forwardContainer}>
                                 <Image source={icForward} style={{ width: 13, height: 13, resizeMode: 'contain', tintColor: 'white' }} />
                             </View>
@@ -94,7 +97,7 @@ const SettingScreen = ({ navigation }) => {
                         handleLinkPress(TERMS_AND_CONDITION_URL)
                     }}>
                         <View style={settingItemContainer}>
-                            <Text style={$labelContainer}>{TERMS_AND_CONDITION_LABEL}</Text>
+                            <Text style={[$labelContainer,textStyles]}>{TERMS_AND_CONDITION_LABEL}</Text>
                             <View style={forwardContainer}>
                                 <Image source={icForward} style={{ width: 13, height: 13, resizeMode: 'contain', tintColor: 'white' }} />
                             </View>
@@ -105,7 +108,7 @@ const SettingScreen = ({ navigation }) => {
                         handleLinkPress(CUSTOMER_HELP_URL)
                     }}>
                         <View style={settingItemContainer}>
-                            <Text style={$labelContainer}>{CUSTOMER_HELP_LABEL}</Text>
+                            <Text style={[$labelContainer,textStyles]}>{CUSTOMER_HELP_LABEL}</Text>
                             <View style={forwardContainer}>
                                 <Image source={icForward} style={{ width: 13, height: 13, resizeMode: 'contain', tintColor: 'white' }} />
                             </View>
@@ -122,7 +125,7 @@ const SettingScreen = ({ navigation }) => {
                                         navigation.navigate(orderHistoryNavigator);
                                     }}>
                                         <View style={settingItemContainer}>
-                                            <Text style={$labelContainer}>{ORDER_HISTORY_LABEL}</Text>
+                                            <Text style={[$labelContainer,textStyles]}>{ORDER_HISTORY_LABEL}</Text>
                                             <View style={forwardContainer}>
                                                 <Image source={icForward} style={{ width: 13, height: 13, resizeMode: 'contain', tintColor: 'white' }} />
                                             </View>
@@ -140,7 +143,7 @@ const SettingScreen = ({ navigation }) => {
                                         );
                                     }}>
                                         <View style={settingItemContainer}>
-                                            <Text style={$labelContainer}>{LOGOUT_LABEL}</Text>
+                                            <Text style={[$labelContainer,textStyles]}>{LOGOUT_LABEL}</Text>
                                             <View style={forwardContainer}>
                                                 <Image source={icForward} style={{ width: 13, height: 13, resizeMode: 'contain', tintColor: 'white' }} />
                                             </View>
@@ -157,7 +160,7 @@ const SettingScreen = ({ navigation }) => {
                     }
 
 
-                    <Text style={$followUsContainer}>{FOLLOW_US_LABEL}</Text>
+                    <Text style={[$followUsContainer,textStyles]}>{FOLLOW_US_LABEL}</Text>
                     <View style={socialIconContainer}>
                         <TouchableOpacity onPress={() => {
                             handleLinkPress(FACEBOOK_URL)

@@ -192,7 +192,7 @@ export const $billingDetailLabel: TextStyle = {
 }
 
 export const $statusBoxText:TextStyle= {
-  color: 'white',
+  color: 'black',
   textAlign: 'center',
   textAlignVertical: 'center',
   lineHeight:35,

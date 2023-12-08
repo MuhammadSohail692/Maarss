@@ -47,7 +47,7 @@ const CartScreen = ({navigation}) => {
             />
                 <View style={cartContainer}>
                 {/* Cart Listing */}
-                <CartListing cartList={cartScreenState.data ?? []} navigation={navigation}/>
+                <CartListing isDarkMode={isDarkMode} cartList={cartScreenState.data ?? []} navigation={navigation}/>
                 </View>
         </SafeAreaView>
     );

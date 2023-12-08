@@ -34,6 +34,9 @@ const LoginScreen = ({ navigation }) => {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
 
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const [initialLoading, setInitialLoading] = useState(false);
     const dispatch = useDispatch();
 
@@ -124,7 +127,7 @@ const LoginScreen = ({ navigation }) => {
 
                 <View style={registerContainer}>
                     <View style={settingHeaderContainer}>
-                        <Text style={$contactUsHeaderContainer}>{LOGIN_SCREEN_LABEL}</Text>
+                        <Text style={[$contactUsHeaderContainer,textStyles]}>{LOGIN_SCREEN_LABEL}</Text>
                     </View>
 
                     <View style={registerFildsContainer}>
@@ -165,15 +168,15 @@ const LoginScreen = ({ navigation }) => {
                         >
                             <View style={registrationLoginContainer}>
                                 <Text
-                                    style={[{ color: '#ffffff', fontSize: 12, fontWeight: '800', textAlign: 'center' }, registrationLoginBtn]}>{LOGIN_LABEL}</Text>
+                                    style={[{ color: '#ffffff', fontSize: 12, fontWeight: '800', textAlign: 'center' }, registrationLoginBtn,textStyles]}>{LOGIN_LABEL}</Text>
                             </View>
                         </TouchableOpacity>
 
                         <View style={registrationLoginContainer}>
-                            <Text style={instructionContainer}>Don't have your account? </Text>
+                            <Text style={[instructionContainer]}>Don't have your account? </Text>
                             <Text style={instructionContainer}><TouchableOpacity onPress={() => {
                                 navigation.navigate(RegisterNavigator);
-                            }}><Text style={$registerText}>Register</Text></TouchableOpacity></Text>
+                            }}><Text style={[$registerText]}>Register</Text></TouchableOpacity></Text>
                         </View>
                     </View>
                     <AlertMessageDialog visible={modalVisible} closeModal={closeModal} message={infoMessage} />

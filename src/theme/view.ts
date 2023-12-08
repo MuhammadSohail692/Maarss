@@ -44,8 +44,18 @@ export const parentContainer: ViewStyle = {
   paddingStart: 18,
   paddingEnd: 18,
   paddingTop: 15,
-  paddingBottom: 15
+  paddingBottom: 15,
 };
+
+export const categoryContainer: ViewStyle = {
+  flexDirection: 'column',
+  paddingStart: 18,
+  paddingEnd: 18,
+  paddingTop: 15,
+  paddingBottom: 15,
+  height: Dimensions.get('window').height,
+};
+
 
 export const orderStatusParent: ViewStyle = {
   flexDirection: 'row',
@@ -225,6 +235,13 @@ export const fullScreenView: ViewStyle = {
 
 export const productDescContainer: ViewStyle = {
   padding: 20
+}
+
+export const orderDetailContainer: ViewStyle = {
+  flexDirection: 'column',
+  padding: 20,
+  flex:1,
+  height: Dimensions.get('window').height,
 }
 
 export const billingInfoContainer: ViewStyle = {
@@ -407,7 +424,7 @@ export const filterBottomContainer: ViewStyle = {
 export const settingContainer: ViewStyle = {
   flexDirection: 'column',
   padding: 20,
-  paddingBottom: 75,
+  height: Dimensions.get('window').height,
 };
 
 export const forwardContainer: ViewStyle = {
@@ -638,5 +655,6 @@ export const activityIndicatorWrapper:ViewStyle={
 }
 
 export const orderHistoryItemsContainer:ViewStyle ={
-marginTop:20
+marginTop:20,
+flex:1
 }

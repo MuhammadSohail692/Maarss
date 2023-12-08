@@ -34,7 +34,9 @@ const RegisterScreen = ({ navigation }) => {
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
-
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const [initialLoading, setInitialLoading] = useState(false);
     const dispatch = useDispatch();
 
@@ -127,7 +129,7 @@ const RegisterScreen = ({ navigation }) => {
 
                 <View style={registerContainer}>
                     <View style={settingHeaderContainer}>
-                        <Text style={$contactUsHeaderContainer}>{REGISTRATION_LABEL}</Text>
+                        <Text style={[$contactUsHeaderContainer,textStyles]}>{REGISTRATION_LABEL}</Text>
                     </View>
 
                     <View style={registerFildsContainer}>

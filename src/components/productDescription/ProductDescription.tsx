@@ -25,9 +25,13 @@ import { useDispatch,useSelector } from 'react-redux';
 import { showShortToast } from '@utils/Utilities'
 import { ADD_TO_CART_LABEL } from '@constants/app-constants'
 
-const ProductDescription = ({ data, navigation }) => {
+const ProductDescription = ({isDarkMode, data, navigation }) => {
 
     const dispatch = useDispatch();
+    
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const [setFavourite, setFavouriteSelected] = useState(false);
     const [setQuantity, setQuantityValue] = useState(1);
     const [selectedColorItem, setSelectedColorItem] = useState(-1);
@@ -94,11 +98,11 @@ const ProductDescription = ({ data, navigation }) => {
     if (data.attributes != null) {
         if (data.attributes.length > 0) {
             for (let i = 0; i < data.attributes.length; i++) {
-                if (data.attributes[i].position == 0) {
+                if (data.attributes[i].name == "color") {
                     colorLabel = data.attributes[i].name
                     colorAvaliable = data.attributes[i].options
                 }
-                if (data.attributes[i].position == 1) {
+               else if (data.attributes[i].name == "Size") {
                     sizeLabel = data.attributes[i].name
                     sizeAvailable = data.attributes[i].options
                 }
@@ -171,7 +175,7 @@ const ProductDescription = ({ data, navigation }) => {
 
             <View style={[productNameViewRowContainer]}>
 
-                <Text style={$productNameDetail}>{data.name}</Text>
+                <Text style={[$productNameDetail,textStyles]}>{data.name}</Text>
 
                 <TouchableOpacity
                     onPress={() => {
@@ -180,30 +184,30 @@ const ProductDescription = ({ data, navigation }) => {
                         });
                     }}
                 >
-                    <Image source={setFavourite ? icFavouriteFilled : icFavourite} style={{ width: 20, height: 20, resizeMode: 'contain', tintColor: setFavourite ? '#FF0000' : '#000000' }} />
+                    <Image source={setFavourite ? icFavouriteFilled : icFavourite} style={{ width: 20, height: 20, resizeMode: 'contain', tintColor: setFavourite ? '#FF0000' : textStyles.color, }} />
                 </TouchableOpacity>
             </View>
-            <Text style={[$productPrice, productDescViewContainer]}>Rs.{data.price}</Text>
+            <Text style={[$productPrice, productDescViewContainer,textStyles]}>Rs.{data.price}</Text>
 
             <View style={[productDescViewRowContainer]}>
-                <Text style={[$productLabel]}>SKU: </Text>
-                <Text style={[$productLabelValues]}>{data.sku}</Text>
+                <Text style={[$productLabel,textStyles]}>SKU: </Text>
+                <Text style={[$productLabelValues,]}>{data.sku}</Text>
             </View>
             <View style={[productDescViewRowContainer]}>
-                <Text style={[$productLabel]}>Stock: </Text>
+                <Text style={[$productLabel,textStyles]}>Stock: </Text>
                 <Text style={[$productLabelValues]}>{data.stock_status}</Text>
             </View>
 
             {
                 data.weight != "" ? (
                     <View style={[productDescViewRowContainer]}>
-                        <Text style={[$productLabel]}>Weight: </Text>
+                        <Text style={[$productLabel,textStyles]}>Weight: </Text>
                         <Text style={[$productLabelValues]}>{data.weight}</Text>
                     </View>) : <View></View>
             }
 
             <View style={[productDescViewRowContainer]}>
-                <Text style={[$productLabel]}>Categories: </Text>
+                <Text style={[$productLabel,textStyles]}>Categories: </Text>
                 {
                     categoriesList.length > 0 ? (
                         categoriesList
@@ -213,7 +217,7 @@ const ProductDescription = ({ data, navigation }) => {
             {
                 tagsList.length > 0 ? (
                     <View style={[productDescViewRowContainer]}>
-                        <Text style={[$productLabel]}>Tags: </Text>
+                        <Text style={[$productLabel,textStyles]}>Tags: </Text>
                         {tagsList}
                     </View>) : (<View></View>)
             }
@@ -238,12 +242,12 @@ const ProductDescription = ({ data, navigation }) => {
             {
                 productsColorList.length > 0 ? (
                     <View style={[productDescViewColumnContainer]}>
-                        <Text style={[$productLabel]}>{sizeLabel}:</Text>
+                        <Text style={[$productLabel,textStyles]}>{sizeLabel}:</Text>
                         <View style={{ marginTop: 10 }}>
                             <FlatList
                                 data={productsColorList ?? []}
                                 renderItem={renderSizeItem}
-                                keyExtractor={(item) => item.id}
+                                keyExtractor={(item) => item.variation}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
                             />
@@ -252,7 +256,7 @@ const ProductDescription = ({ data, navigation }) => {
 
             }
             <View style={quantityConatiner}>
-                <Text style={[$productLabel]}>Quantity: </Text>
+                <Text style={[$productLabel,textStyles]}>Quantity: </Text>
                 <View style={[productQuantityContainer]}>
                     <TouchableOpacity
                         onPress={() => {
@@ -267,7 +271,7 @@ const ProductDescription = ({ data, navigation }) => {
                         </View>
                     </TouchableOpacity>
 
-                    <Text style={[$quantityContainer]}>{setQuantity}</Text>
+                    <Text style={[$quantityContainer,textStyles]}>{setQuantity}</Text>
                     <TouchableOpacity
                         onPress={() => {
                             setQuantityValue(setQuantity + 1)
@@ -281,12 +285,13 @@ const ProductDescription = ({ data, navigation }) => {
             </View>
 
             <View style={[productDescViewContainer]}>
-                <Text style={[$productLabel]}>Description:</Text>
-                <HTML source={{ html: data.description }} />
+                <Text style={[$productLabel,textStyles]}>Description:</Text>
+                <HTML source={{ html: data.description}} />
             </View>
             <TouchableOpacity
                 onPress={() => {
                     console.log("colorAvaliable" + colorAvaliable)
+                    console.log("selectedSizeItem "+selectedSizeItem)
                     if (selectedSizeItem == -1) {
                         showShortToast("Please select size")
                     } else if (colorAvaliable.length > 0 && selectorColorValue == "") {

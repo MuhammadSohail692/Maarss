@@ -16,7 +16,7 @@ import {
     Colors,
 } from 'react-native/Libraries/NewAppScreen';
 import { useSelector, useDispatch } from 'react-redux';
-import { categiryRowItem, noRecordParentView, textPrompt,forwardCategoryContainer,categoryListContainer, parentContainer } from "@theme/view"
+import { categiryRowItem, noRecordParentView, textPrompt,forwardCategoryContainer,categoryListContainer, categoryContainer } from "@theme/view"
 import { $noRecordContainer } from '@theme/text'
 import { ICategoryCard } from '@types/type';
 import { ICategoriesResponse } from '@model/categories/CategoriesModel';
@@ -136,7 +136,7 @@ const CategoryScreen = ({ route, navigation }) => {
             />
            <ScreenLoader loading={categoryClicked} />
 
-            <View style={parentContainer}>
+            <View style={categoryContainer}>
                 {
                     categoriesScreenState.data.length > 0 ? (
                         <View>
@@ -148,7 +148,6 @@ const CategoryScreen = ({ route, navigation }) => {
                                 contentContainerStyle={scrollContainer}
                                 keyExtractor={(item) => item.id}
                                 showsVerticalScrollIndicator={false}
-                                nestedScrollEnabled={true}
                                 onEndReached={handleLoadMore}
                                 onEndReachedThreshold={0.1} // Adjust as needed
                                 ListFooterComponent={() => (

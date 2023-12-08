@@ -80,8 +80,12 @@ const RowItem = ({ prodId, name, price, categories, image, navigation }: IBestSe
 }
 
 
-const FavouriteListing = ({ favouriteList, navigation }) => {
+const FavouriteListing = ({ isDarkMode,favouriteList, navigation }) => {
 
+    
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const renderItem = ({ item }
         : IBestSellingProductRespose) => (
         <RowItem prodId={item.id} name={item.name} price={item.price} categories={item.categories} image={item.images} navigation={navigation} />
@@ -89,7 +93,7 @@ const FavouriteListing = ({ favouriteList, navigation }) => {
     return (
         <View>
             <View style={[headerContiner]}>
-            <Text style={$favouriteLabelContainer}>{FAVOURITE_LABEL}</Text>
+            <Text style={[$favouriteLabelContainer,textStyles]}>{FAVOURITE_LABEL}</Text>
             </View>
             {
                 favouriteList.length > 0 ? (
@@ -105,7 +109,7 @@ const FavouriteListing = ({ favouriteList, navigation }) => {
 
                 ) : (
                 <View style={[ noRecordParentView]}>
-                <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
+                <Text style={[$noRecordContainer,textStyles]}>{LABEL_NO_RECORD_FOUND}</Text>
                 </View>)
             }
 

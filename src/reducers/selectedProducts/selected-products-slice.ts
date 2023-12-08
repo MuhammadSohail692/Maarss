@@ -26,6 +26,16 @@ const selectedProductsDataSlice = createSlice({
       state.loading = false;
       state.error = "";
     },
+
+    removeProductsInfoById: (state, action) => {
+      const { productId } = action.payload;
+
+      const productIndex = state.data.findIndex(product => product.product_id === productId);
+
+      if (productIndex !== -1) {
+        state.data.splice(productIndex, 1);
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -45,5 +55,5 @@ const selectedProductsDataSlice = createSlice({
   },
 });
 
-export const { clearProductItemsData } = selectedProductsDataSlice.actions;
+export const { clearProductItemsData,removeProductsInfoById } = selectedProductsDataSlice.actions;
 export default selectedProductsDataSlice.reducer;

@@ -48,7 +48,7 @@ const FavouriteScreen = ({navigation}) => {
             />
                 <View style={favouriteContainer}>
                 {/* Favourite Listing */}
-                <FavouriteListing favouriteList={favouriteScreenState.data ?? []} navigation={navigation}/>
+                <FavouriteListing isDarkMode={isDarkMode} favouriteList={favouriteScreenState.data ?? []} navigation={navigation}/>
                 </View>
         </SafeAreaView>
     );

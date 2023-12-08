@@ -32,6 +32,10 @@ const OrderScreen = ({ route, navigation }) => {
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
+    
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const dispatch = useDispatch();
     const loginScreenState = useSelector((state) => state.loginUserInfo)
 
@@ -136,7 +140,7 @@ const OrderScreen = ({ route, navigation }) => {
             />
             <View style={parentContainer}>
                 <View style={settingHeaderContainer}>
-                    <Text style={$contactUsHeaderContainer}>{ORDER_HISTORY_LABEL}</Text>
+                    <Text style={[$contactUsHeaderContainer,textStyles]}>{ORDER_HISTORY_LABEL}</Text>
                 </View>
 
                 <View style={orderStatusParent}>
@@ -189,7 +193,7 @@ const OrderScreen = ({ route, navigation }) => {
 
                     ) : (
                         <View style={[noRecordParentView]}>
-                            <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
+                            <Text style={[$noRecordContainer,textStyles]}>{LABEL_NO_RECORD_FOUND}</Text>
                         </View>)
                 }
             </View>

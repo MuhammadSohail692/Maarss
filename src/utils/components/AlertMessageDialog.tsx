@@ -1,12 +1,24 @@
 import React from 'react';
-import { View,Text, TouchableOpacity, StyleSheet, Modal } from 'react-native';
+import { View,Text, TouchableOpacity, StyleSheet, Modal,useColorScheme } from 'react-native';
 import HTML from 'react-native-render-html';
+import {
+  Colors,
+} from 'react-native/Libraries/NewAppScreen';
 
 const AlertMessageDialog = ({ visible, closeModal,message }) => {
+  const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  const textStyles = {
+      color: isDarkMode ? Colors.light : Colors.dark,
+  };
+   
     const htmlStyles = {
         p: {
           marginBottom: 15,
-          color: 'black',
+          color: textStyles.color,
         },
       };
     return (
@@ -17,10 +29,10 @@ const AlertMessageDialog = ({ visible, closeModal,message }) => {
           onRequestClose={closeModal}
         >
           <View style={styles.centeredView}>
-            <View style={styles.modalView}>
+            <View style={[styles.modalView,backgroundStyle]}>
               <HTML source={{ html: message }} tagsStyles={htmlStyles} />
               <TouchableOpacity onPress={closeModal} style={styles.closeButton}>
-                <Text style={styles.closeButtonText}>Close</Text>
+                <Text style={[styles.closeButtonText,textStyles]}>Close</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -43,7 +55,6 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalView: {
-      backgroundColor: 'white',
       borderRadius: 10,
       padding: 20,
       alignItems: 'center',

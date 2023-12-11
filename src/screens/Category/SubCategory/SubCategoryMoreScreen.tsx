@@ -53,6 +53,10 @@ const SubCategoryMoreScreen = ({ route, navigation }) => {
     const backgroundStyle = {
         backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
     };
+    
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const { categoryId } = route.params;
 
     const dispatch = useDispatch();
@@ -98,7 +102,7 @@ const SubCategoryMoreScreen = ({ route, navigation }) => {
     }
     if(subCategoriesMoreScreenState.error != ""){
         return(  <View style={textPrompt}>
-                <Text>Error: {subCategoriesMoreScreenState.error}</Text>
+                <Text style={textStyles}>Error: {subCategoriesMoreScreenState.error}</Text>
             </View>
         );
     }
@@ -141,7 +145,7 @@ const SubCategoryMoreScreen = ({ route, navigation }) => {
 
                     ) : (
                         <View style={[noRecordParentView]}>
-                            <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
+                            <Text style={[$noRecordContainer,textStyles]}>{LABEL_NO_RECORD_FOUND}</Text>
                         </View>)
                 }
             </View>

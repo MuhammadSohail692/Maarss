@@ -4,7 +4,8 @@ import {
     Text,
     Alert,
     TextInput,
-    TouchableOpacity
+    TouchableOpacity,
+    useColorScheme
 } from 'react-native';
 import { billingDetailsType, inuputBoxContainer, userInputBox, userOrderNotesInputBox, orderNotesContainer, instructionContainer, alreadyAccountContainer, confirmCheckoutBtn } from '@theme/view'
 import { $userInputContainer, $billingDetailLabel, $registerText } from '@theme/text'
@@ -20,9 +21,21 @@ import OrderPlaceDialog from '@utils/components/dialog/OrderPlaceDialog';
 import { clearCartData } from '@reducers/cart/cart-slice';
 import { clearProductItemsData } from '@reducers/selectedProducts/selected-products-slice';
 import  AlertMessageDialog  from '@utils/components/AlertMessageDialog';
-
+import {
+    Colors,
+} from 'react-native/Libraries/NewAppScreen';
 const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, navigation, isConfirmCheckoutSet }) => {
 
+    
+    const isDarkMode = useColorScheme() === 'dark';
+    
+    const textStyles = {
+        color: isDarkMode ? "#111111" : "#111111",
+    };
+    
+    const textLabelStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const loginUserInfoScreenState = useSelector((state) => state.loginUserInfo)
     const selectedProductsScreenState = useSelector((state) => state.selectedProductsData)
 
@@ -80,18 +93,19 @@ const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, na
     return (
         <View style={billingDetailsType}>
             <View style={alreadyAccountContainer}>
-                <Text style={instructionContainer}>Already have an account? </Text>
+                <Text style={[instructionContainer,textLabelStyles]}>Already have an account? </Text>
                 <Text style={instructionContainer}><TouchableOpacity onPress={() => {
                     navigation.navigate(LoginNavigator);
                 }}><Text style={$registerText}>Login</Text></TouchableOpacity></Text>
             </View>
 
-            <Text style={[$billingDetailLabel]}>{BILLING_DETAIL_LABEL}</Text>
+            <Text style={[$billingDetailLabel,textLabelStyles]}>{BILLING_DETAIL_LABEL}</Text>
 
             <View style={inuputBoxContainer}>
                 <TextInput
                     style={[userInputBox, $userInputContainer]}
                     placeholder="Enter Name*"
+                    placeholderTextColor={textStyles.color}
                     onChangeText={(text) => setName(text)}
                 >{name}</TextInput>
             </View>
@@ -99,6 +113,7 @@ const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, na
                 <TextInput
                     style={[userInputBox, $userInputContainer]}
                     placeholder="Enter Email*"
+                    placeholderTextColor={textStyles.color}
                     onChangeText={(text) => setEmail(text)}
                 >{email}</TextInput>
             </View>
@@ -106,6 +121,7 @@ const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, na
                 <TextInput
                     style={[userInputBox, $userInputContainer]}
                     placeholder="Enter Address*"
+                    placeholderTextColor={textStyles.color}
                     onChangeText={(text) => setAddress(text)}
                 >{address}</TextInput>
             </View>
@@ -113,6 +129,7 @@ const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, na
                 <TextInput
                     style={[userInputBox, $userInputContainer]}
                     placeholder="Enter Phone*"
+                    placeholderTextColor={textStyles.color}
                     onChangeText={(text) => setPhone(text)}
                     keyboardType={'numeric'}
                 >{phone}</TextInput>
@@ -128,6 +145,7 @@ const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, na
                 <TextInput
                     style={[userInputBox, $userInputContainer]}
                     placeholder="Enter City*"
+                    placeholderTextColor={textStyles.color}
                     onChangeText={(text) => setCity(text)}
                 >{city}</TextInput>
             </View>
@@ -135,6 +153,7 @@ const BillingDetails = ({ shipmentMethodValue, shipmentTypeValue, couponCode, na
                 <TextInput
                     style={[userOrderNotesInputBox, $userInputContainer]}
                     placeholder="Order notes(Optional)"
+                    placeholderTextColor={textStyles.color}
                     onChangeText={(text) => setOrderNotes(text)}
                     multiline={true}
                     textAlignVertical="top"

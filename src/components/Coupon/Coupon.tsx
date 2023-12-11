@@ -4,21 +4,27 @@ import {
     Text,
     TouchableOpacity,
     TextInput,
+    useColorScheme,
     Alert
 } from 'react-native';
 import { userInputCouponBox, searchInuputCouponContainer, applyCouponBtn } from '@theme/view'
 import { $userInputContainer } from '@theme/text'
 import { NO_COUPON_FOUND_LABEL,NO_INTENRT_CONNECTION,CHECK_YOUR_INTERNET,OK } from '@constants/app-constants'
-import { IShippingResponse } from '@model/shipping/ShippingModel';
-import { fetchShippingMethodData } from '@reducers/shipping/shipping-slice';
-import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/BestSellingProductModel';
-import { useSelector, useDispatch } from 'react-redux';
+import {  useDispatch } from 'react-redux';
 import { showShortToast } from '@utils/Utilities'
 import { clearCouponData, fetchCouponData } from '@reducers/coupon/coupon-slice'
 import NetInfo from '@react-native-community/netinfo';
+import {
+    Colors,
+} from 'react-native/Libraries/NewAppScreen';
 
 const Coupon = ({couponCode,setCouponCode,  couponValue, setCouponValue,isCouponValueSet }) => {
 
+    const isDarkMode = useColorScheme() === 'dark';
+    
+    const textStyles = {
+        color: isDarkMode ? "#111111" : "#111111",
+    };
     const [searchCoupon, setSearchCoupon] = useState("");
     const dispatch = useDispatch();
 
@@ -58,8 +64,9 @@ const Coupon = ({couponCode,setCouponCode,  couponValue, setCouponValue,isCoupon
 
             <View style={searchInuputCouponContainer}>
                 <TextInput
-                    style={[userInputCouponBox, $userInputContainer]}
+                    style={[userInputCouponBox, $userInputContainer,textStyles]}
                     placeholder="Coupon code"
+                    placeholderTextColor={textStyles.color}
                     onChangeText={(text) => setSearchCoupon(text)}
                     value={searchCoupon}
                 />
@@ -68,7 +75,7 @@ const Coupon = ({couponCode,setCouponCode,  couponValue, setCouponValue,isCoupon
                 >
                     <View style={applyCouponBtn}>
                         <Text
-                            style={{ color: '#ffffff', fontSize: 12, fontWeight: '500', textAlign: 'center' }}>Apply Coupon</Text>
+                            style={{ color: textStyles.color, fontSize: 12, fontWeight: '500', textAlign: 'center' }}>Apply Coupon</Text>
                     </View>
                 </TouchableOpacity>
             </View>

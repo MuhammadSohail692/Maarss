@@ -263,7 +263,7 @@ const ProductScreen = ({ route, navigation }) => {
 
                     ) : (
                         <View style={[noRecordParentView]}>
-                            <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
+                            <Text style={[$noRecordContainer,textStyles]}>{LABEL_NO_RECORD_FOUND}</Text>
                         </View>)
                 }
             </View>

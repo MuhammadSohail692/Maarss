@@ -44,7 +44,10 @@ const CategoryScreen = ({ route, navigation }) => {
     const [initialLoading, setInitialLoading] = useState(true);
     const [loadingMore, setLoadingMore] = useState(false);
     const [categoryClicked, isCategoryClicked] = useState(false);
-
+    
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
     const categoryId = 0
 
     useEffect(() => {
@@ -117,7 +120,7 @@ const CategoryScreen = ({ route, navigation }) => {
     }
     if(categoriesScreenState.error != ""){
         return(  <View style={textPrompt}>
-                <Text>Error: {categoriesScreenState.error}</Text>
+                <Text style={textStyles}>Error: {categoriesScreenState.error}</Text>
             </View>
         );
     }
@@ -136,7 +139,7 @@ const CategoryScreen = ({ route, navigation }) => {
             />
            <ScreenLoader loading={categoryClicked} />
 
-            <View style={categoryContainer}>
+            <View style={[categoryContainer,{backgroundColor:backgroundStyle.backgroundColor}]}>
                 {
                     categoriesScreenState.data.length > 0 ? (
                         <View>
@@ -163,7 +166,7 @@ const CategoryScreen = ({ route, navigation }) => {
 
                     ) : (
                         <View style={[noRecordParentView]}>
-                            <Text style={[$noRecordContainer]}>{LABEL_NO_RECORD_FOUND}</Text>
+                            <Text style={[$noRecordContainer,textStyles]}>{LABEL_NO_RECORD_FOUND}</Text>
                         </View>)
                 }
             </View>

@@ -5,6 +5,7 @@ import {
     Image,
     FlatList,
     TouchableOpacity,
+    useColorScheme,
     ActivityIndicator
 } from 'react-native';
 import { subTotalContainer, billingContiner, shipmentType, textPrompt } from '@theme/view'
@@ -16,9 +17,13 @@ import { IShippingResponse } from '@model/shipping/ShippingModel';
 import { fetchShippingMethodData } from '@reducers/shipping/shipping-slice';
 import { ICartResponse } from '@model/cart/CartModel';
 
-
 const ShippingType = ({setShipmentMethodValue, setShipmentTypeValue, couponValue, navigation }) => {
 
+    
+    const isDarkMode = useColorScheme() === 'dark';
+    const textStyles = {
+        color: isDarkMode ? "#111111" : "#111111",
+    };
     const shippingMethodScreenState = useSelector((state) => state.shippingMethod)
     const cartScreenState = useSelector((state) => state.cartData)
 
@@ -174,7 +179,7 @@ const ShippingType = ({setShipmentMethodValue, setShipmentTypeValue, couponValue
                                 />
                             )}
                         </View>
-                        <Text style={{ marginLeft: 8 }}>{title}</Text>
+                        <Text style={{ marginLeft: 8,color:textStyles.color }}>{title}</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -209,7 +214,7 @@ const ShippingType = ({setShipmentMethodValue, setShipmentTypeValue, couponValue
                                 />
                             )}
                         </View>
-                        <Text style={{ marginLeft: 8 }}>{title}</Text>
+                        <Text style={{ marginLeft: 8,color:textStyles.color }}>{title}</Text>
                     </View>
                     {
                         price != "0" ? (

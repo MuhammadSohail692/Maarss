@@ -1,13 +1,25 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Modal, Image, ViewComponent } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Modal, Image, useColorScheme } from 'react-native';
 import HTML from 'react-native-render-html';
 import icClose from '@assets/images/ic_close.png'
-
+import {
+    Colors,
+  } from 'react-native/Libraries/NewAppScreen';
+  
 const OrderPlaceDialog = ({ visible, closeModal, message }) => {
+    const isDarkMode = useColorScheme() === 'dark';
+  const backgroundStyle = {
+      backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+  };
+
+  const textStyles = {
+      color: isDarkMode ? Colors.light : Colors.dark,
+  };
+   
     const htmlStyles = {
         p: {
             marginBottom: 10,
-            color: 'black',
+            color: textStyles.color,
         },
     };
     return (
@@ -18,7 +30,7 @@ const OrderPlaceDialog = ({ visible, closeModal, message }) => {
             onRequestClose={closeModal}
         >
             <View style={styles.centeredView}>
-                <View style={styles.modalView}>
+                <View style={[styles.modalView,backgroundStyle]}>
                     <View style={styles.closeContainer}>
                     <TouchableOpacity onPress={closeModal}>
 
@@ -28,7 +40,8 @@ const OrderPlaceDialog = ({ visible, closeModal, message }) => {
                             width: 18,
                             height: 18,
                             padding: 8,
-                            marginBottom:18
+                            marginBottom:18,
+                            tintColor:textStyles.color
                         }}
                     />
                     </TouchableOpacity>
@@ -55,7 +68,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     modalView: {
-        backgroundColor: 'white',
         borderRadius: 10,
         padding: 10,
         paddingBottom:12,

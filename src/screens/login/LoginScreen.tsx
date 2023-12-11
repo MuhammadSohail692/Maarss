@@ -142,6 +142,7 @@ const LoginScreen = ({ navigation }) => {
                             <TextInput
                                 style={[userInputBox, $userInputContainer]}
                                 placeholder="Email Address"
+                                placeholderTextColor='#111111'
                                 onChangeText={(text) => setEmail(text)}
                             />
                         </View>
@@ -157,6 +158,7 @@ const LoginScreen = ({ navigation }) => {
                             <TextInput
                                 style={[userInputBox, $userInputContainer]}
                                 placeholder="Password"
+                                placeholderTextColor="#111111"
                                 onChangeText={(text) => setPassword(text)}
                                 secureTextEntry={true} // This hides the entered text for a password field
                             />

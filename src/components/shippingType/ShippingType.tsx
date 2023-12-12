@@ -46,12 +46,12 @@ const ShippingType = ({setShipmentMethodValue, setShipmentTypeValue, couponValue
           methodTitle: 'Cash on delivery',
           title: 'Cash on delivery',
         },
-        {
-          id: "2",
-          methodIdLabel: 'bacs',
-          methodTitle: 'Direct Bank Transfer',
-          title: 'Direct Bank Transfer',
-        },
+        // {
+        //   id: "2",
+        //   methodIdLabel: 'bacs',
+        //   methodTitle: 'Direct Bank Transfer',
+        //   title: 'Direct Bank Transfer',
+        // },
       ];
 
     useEffect(() => {

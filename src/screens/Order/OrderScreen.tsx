@@ -138,7 +138,7 @@ const OrderScreen = ({ route, navigation }) => {
                 barStyle={isDarkMode ? 'light-content' : 'dark-content'}
                 backgroundColor={backgroundStyle.backgroundColor}
             />
-            <View style={parentContainer}>
+            <View style={[parentContainer,{backgroundColor:backgroundStyle.backgroundColor}]}>
                 <View style={settingHeaderContainer}>
                     <Text style={[$contactUsHeaderContainer,textStyles]}>{ORDER_HISTORY_LABEL}</Text>
                 </View>
@@ -164,8 +164,9 @@ const OrderScreen = ({ route, navigation }) => {
 
 
                 </View>
-                {
-
+                
+                <View >
+        {
                     orderHistoryScreenState.data.length > 0 ? (
                         <View style={{ marginTop: 10 }}>
 
@@ -196,6 +197,7 @@ const OrderScreen = ({ route, navigation }) => {
                             <Text style={[$noRecordContainer,textStyles]}>{LABEL_NO_RECORD_FOUND}</Text>
                         </View>)
                 }
+                </View>
             </View>
         </SafeAreaView>
     );

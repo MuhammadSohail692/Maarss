@@ -390,6 +390,8 @@ export const categoryListContainer: ViewStyle = {
 
 export const orderHistoryListContainer: ViewStyle = {
   marginTop: 40,
+  height: Dimensions.get('window').height,
+
 }
 
 

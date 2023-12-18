@@ -5,6 +5,7 @@ import {
     Image,
     FlatList,
     ActivityIndicator,
+    useColorScheme,
     TouchableOpacity
 } from 'react-native';
 import {
@@ -20,6 +21,35 @@ import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/
 import { fetchBestSellingProductsData } from '@reducers/home/best-selling-products-slice';
 import { ProductDetailNavigator} from '@constants/navigator/navigation-stack';
 
+
+const BestSellingProducts = ({ navigation }) => {
+
+    
+    const isDarkMode = useColorScheme() === 'dark';
+
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
+    const bestSellingPriceScreenState = useSelector((state) => state.bestSellingProducts)
+    const [initialLoading, setInitialLoading] = useState(true);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchBestSellingProductsData()).then(() => {
+            setInitialLoading(false);
+        });
+    }, []);
+
+    
+    if (initialLoading) {
+        // Show the initial loader in the center
+        return (
+            <View style={[textPrompt, { height: 260 }]}>
+                <ActivityIndicator size="large" color={LoaderColor} />
+            </View>
+        );
+    }
+    
 const RowItem = ({prodId, name, price, categories, image,navigation }: IBestSellingProductCard) => {
     var categoriesList = [];
     var categoriesStr = "";
@@ -69,7 +99,7 @@ const RowItem = ({prodId, name, price, categories, image,navigation }: IBestSell
                 }
                 <Text numberOfLines={2}
                     ellipsizeMode="tail"
-                    style={{ color: Colors.black, fontSize: 13, fontWeight: '600', marginTop: 5, marginStart: 5, marginEnd: 5, textAlign: 'center' }}>{name}</Text>
+                    style={{ color: textStyles.color, fontSize: 13, fontWeight: '600', marginTop: 5, marginStart: 5, marginEnd: 5, textAlign: 'center' }}>{name}</Text>
                 <Text
                     numberOfLines={1}
                     ellipsizeMode="tail"
@@ -80,28 +110,6 @@ const RowItem = ({prodId, name, price, categories, image,navigation }: IBestSell
     );
 }
 
-
-const BestSellingProducts = ({ navigation }) => {
-
-    const bestSellingPriceScreenState = useSelector((state) => state.bestSellingProducts)
-    const [initialLoading, setInitialLoading] = useState(true);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(fetchBestSellingProductsData()).then(() => {
-            setInitialLoading(false);
-        });
-    }, []);
-
-    if (initialLoading) {
-        // Show the initial loader in the center
-        return (
-            <View style={[textPrompt, { height: 260 }]}>
-                <ActivityIndicator size="large" color={LoaderColor} />
-            </View>
-        );
-    }
-
     const renderItem = ({ item }
         : IBestSellingProductRespose) => (
         <RowItem prodId={item.id} name={item.name} price={item.price} categories={item.categories} image={item.images} navigation={navigation} />
@@ -109,7 +117,7 @@ const BestSellingProducts = ({ navigation }) => {
     return (
         <View >
             <Text
-                style={$bestSellingProductContainer}>{BEST_SELLING_PRODUCTS}</Text>
+                style={[$bestSellingProductContainer,textStyles]}>{BEST_SELLING_PRODUCTS}</Text>
             <View style={{ marginTop: 10 }}>
                 <FlatList
                     data={bestSellingPriceScreenState.data ?? []}

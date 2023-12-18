@@ -5,7 +5,7 @@ import {
     Image,
     FlatList,
     ActivityIndicator,
-    ScrollView,
+    useColorScheme,
     TouchableOpacity,
     Alert
 } from 'react-native';
@@ -22,11 +22,51 @@ import { IBestSellingProductRespose } from '@model/home/bestSellingProductModel/
 import { fetchNewArrivalsData } from '@reducers/home/new-arrivals-slice';
 import { ProductDetailNavigator} from '@constants/navigator/navigation-stack';
 
+const NewArrivals = ({ navigation }) => {
+
+    const isDarkMode = useColorScheme() === 'dark';
+
+    const textStyles = {
+        color: isDarkMode ? Colors.light : Colors.dark,
+    };
+    const newArrivalsScreenState = useSelector((state) => state.newArrivalsData)
+    const [initialLoading, setInitialLoading] = useState(true);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        NetInfo.fetch().then((state) => {
+            if (state.isConnected) {
+                // Internet is connected, make API call
+                dispatch(fetchNewArrivalsData()).then(() => {
+                    setInitialLoading(false);
+                });
+            } else {
+                // No internet connection, show a popup
+                Alert.alert(
+                    NO_INTENRT_CONNECTION,
+                    CHECK_YOUR_INTERNET,
+                    [{ text: OK, onPress: () => console.log('OK Pressed') }]
+                );
+                setInitialLoading(false); // Set loading to false so that the loader disappears
+            }
+        });
+    }, []);
+
+    if (initialLoading) {
+        // Show the initial loader in the center
+        return (
+            <View style={[textPrompt, { height: 260 }]}>
+                <ActivityIndicator size="large" color={LoaderColor} />
+            </View>
+        );
+    }
+
+    
 const RowItem = ({prodId, name, price, categories, image,navigation }: IBestSellingProductCard) => {
     var categoriesList = [];
     var categoriesStr = "";
     var productImg = "";
-
+   
     if (categories.length > 0) {
 
         for (let i = 0; i < categories.length; i++) {
@@ -71,7 +111,7 @@ const RowItem = ({prodId, name, price, categories, image,navigation }: IBestSell
                 }
                 <Text numberOfLines={2}
                     ellipsizeMode="tail"
-                    style={{ color: Colors.black, fontSize: 13, fontWeight: '600', marginTop: 5, marginStart: 5, marginEnd: 5, textAlign: 'center' }}>{name}</Text>
+                    style={{ color: textStyles.color, fontSize: 13, fontWeight: '600', marginTop: 5, marginStart: 5, marginEnd: 5, textAlign: 'center' }}>{name}</Text>
                 <Text
                     numberOfLines={1}
                     ellipsizeMode="tail"
@@ -82,41 +122,6 @@ const RowItem = ({prodId, name, price, categories, image,navigation }: IBestSell
     );
 }
 
-
-const NewArrivals = ({ navigation }) => {
-
-    const newArrivalsScreenState = useSelector((state) => state.newArrivalsData)
-    const [initialLoading, setInitialLoading] = useState(true);
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        NetInfo.fetch().then((state) => {
-            if (state.isConnected) {
-                // Internet is connected, make API call
-                dispatch(fetchNewArrivalsData()).then(() => {
-                    setInitialLoading(false);
-                });
-            } else {
-                // No internet connection, show a popup
-                Alert.alert(
-                    NO_INTENRT_CONNECTION,
-                    CHECK_YOUR_INTERNET,
-                    [{ text: OK, onPress: () => console.log('OK Pressed') }]
-                );
-                setInitialLoading(false); // Set loading to false so that the loader disappears
-            }
-        });
-    }, []);
-
-    if (initialLoading) {
-        // Show the initial loader in the center
-        return (
-            <View style={[textPrompt, { height: 260 }]}>
-                <ActivityIndicator size="large" color={LoaderColor} />
-            </View>
-        );
-    }
-
     const renderItem = ({ item }
         : IBestSellingProductRespose) => (
         <RowItem prodId={item.id} name={item.name} price={item.price} categories={item.categories} image={item.images} navigation={navigation}/>
@@ -124,7 +129,7 @@ const NewArrivals = ({ navigation }) => {
     return (
         <View >
             <Text
-                style={$newArrivalContainer}>{NEW_ARRIVALS}</Text>
+                style={[$newArrivalContainer,textStyles]}>{NEW_ARRIVALS}</Text>
             <View style={{ marginTop: 10 }}>
                 <FlatList
                     data={newArrivalsScreenState.data ?? []}
